@@ -1,0 +1,139 @@
+/* =========================================================
+   קו — Design Tokens  (v1.1)
+   כל הערכים הגלובליים של האפליקציה יושבים כאן בלבד.
+   שינוי של טוקן אחד משנה את כל המסכים. אין ערכים קשיחים
+   (צבע / מרווח / רדיוס / פונט) בקבצי CSS אחרים.
+   ========================================================= */
+
+:root {
+  /* ---------- 1. צבע ---------- */
+  /* בסיס — אפור קריר עם נטייה כחלחלה, מתיישב עם האקסנט */
+  --color-canvas:        #EEF0F5;
+  --color-canvas-deep:   #E3E7EF;
+  --color-surface:       #FFFFFF;
+  --color-surface-sunken:#F4F6FA;
+
+  /* דיו — אף פעם לא שחור מלא */
+  --color-ink:           #12151C;
+  --color-ink-2:         #464F60;
+  --color-ink-3:         #79839A;
+
+  /* קווים */
+  --color-line:          #DDE2EC;
+  --color-line-strong:   #C4CBDA;
+
+  /* אקסנט — כחול קובלט עמוק. פעולה ראשית, הודעה יוצאת, פריט פעיל */
+  --color-accent:        #22399E;
+  --color-accent-hover:  #172978;
+  --color-accent-wash:   #E8EBF7;
+  --color-on-accent:     #FFFFFF;
+
+  /* הדגשה — ענבר. שמור אך ורק למה שדורש תשומת לב: הודעות שלא נקראו */
+  --color-highlight:     #C2740A;
+  --color-highlight-wash:#FCF1DE;
+
+  /* מצבים */
+  --color-danger:        #C0362B;
+  --color-danger-hover:  #9C271E;
+  --color-danger-wash:   #FCEBE8;
+  --color-warn:          #96690F;
+  --color-warn-wash:     #FAF1DE;
+
+  /* שכבות */
+  --color-scrim:         rgba(18, 21, 28, 0.48);
+  --color-hover:         rgba(18, 21, 28, 0.045);
+  --color-focus-ring:    rgba(34, 57, 158, 0.26);
+
+  /* פלטת מונוגרמות — נבחרת לפי מזהה, לא אקראית */
+  --avatar-1: #22399E;
+  --avatar-2: #2D6FA8;
+  --avatar-3: #A85B1B;
+  --avatar-4: #6D3E9E;
+  --avatar-5: #16786A;
+
+  /* ---------- 2. טיפוגרפיה ---------- */
+  /* משפחה אחת לכל המערכת. ההיררכיה נבנית ממשקל, גודל וצבע — לא מפונט נוסף. */
+  --font-ui: 'Rubik', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* סולם טיפוגרפי — 8 מדרגות בלבד */
+  --fs-micro: 11px;
+  --fs-xs:    12px;
+  --fs-sm:    13px;
+  --fs-base:  15px;
+  --fs-md:    17px;
+  --fs-lg:    20px;
+  --fs-xl:    28px;
+  --fs-2xl:   40px;
+
+  --lh-tight: 1.2;
+  --lh-snug:  1.35;
+  --lh-body:  1.55;
+
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semi:    600;
+  --fw-bold:    700;
+
+  --tracking-tight: -0.02em;
+  --tracking-wide:  0.06em;
+
+  /* ---------- 3. מרווחים — סולם של 4 ---------- */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* ---------- 4. רדיוס ---------- */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   22px;
+  --radius-full: 999px;
+  --radius-tail: 5px;
+
+  /* ---------- 5. צללים ---------- */
+  --shadow-1:    0 1px 2px rgba(18, 21, 28, 0.06);
+  --shadow-card: 0 1px 2px rgba(18, 21, 28, 0.05), 0 6px 16px rgba(18, 21, 28, 0.06);
+  --shadow-lift: 0 2px 4px rgba(18, 21, 28, 0.06), 0 12px 28px rgba(18, 21, 28, 0.10);
+  --shadow-2:    0 8px 24px rgba(18, 21, 28, 0.10);
+  --shadow-bar:  0 -6px 20px rgba(18, 21, 28, 0.06);
+  --shadow-pop:  0 24px 56px rgba(18, 21, 28, 0.22);
+
+  /* ---------- 6. גדלים קבועים ---------- */
+  --size-control:    48px;
+  --size-control-sm: 36px;
+  --size-composer:   52px;  /* שורת הכתיבה — גבוהה מכל שדה אחר במערכת */
+  --size-avatar:     44px;
+  --size-avatar-sm:  32px;
+  --size-avatar-lg:  48px;
+  --size-icon:       20px;
+  --size-topbar:     64px;
+  --size-chat-head:  76px;
+  --size-rail:       352px;
+  --size-gutter:     60px;
+  --size-form:       396px;
+  --size-thread-max: 940px;
+
+  --border-width: 1px;
+  --border-width-strong: 1.5px;
+  --border-active: 3px;
+
+  /* ---------- 7. תנועה ---------- */
+  --dur-1: 120ms;
+  --dur-2: 200ms;
+  --dur-3: 320ms;
+  --ease:  cubic-bezier(0.2, 0.7, 0.3, 1);
+
+  /* ---------- 8. שכבות ---------- */
+  --z-rail:   10;
+  --z-topbar: 20;
+  --z-menu:   30;
+  --z-dialog: 40;
+  --z-toast:  50;
+}

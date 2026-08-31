@@ -1,0 +1,62 @@
+.Header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 24px;
+  position: relative;
+}
+
+.Header > h1 {
+  font-size: 26px;
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.03em;
+  filter: drop-shadow(0 0 12px rgba(124, 58, 237, 0.5));
+}
+
+.Header > .links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  left: 24px;
+}
+
+.Header > .links a {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  transition: var(--transition);
+  letter-spacing: 0.01em;
+}
+
+.Header > .links a:hover,
+.Header > .links a.active {
+  color: var(--text-primary);
+  border-color: var(--border-accent);
+  background: var(--primary-glow);
+}
+
+.Header > .links span {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.Header > .links button {
+  padding: 7px 16px;
+  font-size: 13px;
+  border-radius: 6px;
+}

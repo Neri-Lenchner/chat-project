@@ -1,0 +1,120 @@
+/* Auth — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* =========================================================
+   א. מסכי כניסה — הרשמה והתחברות
+   פריסה: טופס בצד ההתחלה (ימין), פאנל שיחה חיה בצד השני.
+   ========================================================= */
+.auth {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.86fr);
+}
+
+.auth__form-side {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  padding: var(--sp-10) var(--sp-8);
+  background: var(--color-surface);
+}
+
+.auth__form { width: 100%; max-width: var(--size-form); }
+
+.auth__brand { margin-bottom: var(--sp-10); }
+
+.auth__title { font-size: var(--fs-xl); margin-bottom: var(--sp-2); }
+
+.auth__lede { color: var(--color-ink-2); margin-bottom: var(--sp-8); }
+
+.form__actions { margin-top: var(--sp-8); }
+
+.form__alt {
+  margin-top: var(--sp-5);
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--color-ink-2);
+}
+
+/* פאנל התצוגה — האלמנט החתימתי: פס זמן אנכי עם שעות במונו */
+.auth__panel {
+  position: relative;
+  overflow: hidden;
+  padding: var(--sp-12) var(--sp-10);
+  background: var(--color-canvas-deep);
+  display: grid;
+  align-content: center;
+  gap: var(--sp-8);
+  border-inline-start: var(--border-width) solid var(--color-line);
+}
+
+.auth__panel::before {
+  /* רשת עדינה בהשראת לוח חיוג */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at center, var(--color-line-strong) 1px, transparent 1.2px);
+  background-size: 26px 26px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.auth__panel > * { position: relative; }
+
+.auth__headline {
+  font-size: var(--fs-2xl);
+  line-height: 1.1;
+  max-width: 12ch;
+}
+
+.auth__headline em {
+  font-style: normal;
+  color: var(--color-accent);
+}
+
+.auth__note {
+  font-size: var(--fs-xs);
+  color: var(--color-ink-3);
+  max-width: 34ch;
+  line-height: var(--lh-snug);
+}
+
+.preview {
+  --size-gutter: 46px;
+  padding: var(--sp-5);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-2);
+  max-width: 420px;
+}
+
+.preview .msg { animation: kav-msg-in var(--dur-3) var(--ease) backwards; }
+
+.preview .msg:nth-child(1) { animation-delay: 160ms; }
+
+.preview .msg:nth-child(2) { animation-delay: 420ms; }
+
+.preview .msg:nth-child(3) { animation-delay: 700ms; }
+
+@media (max-width: 900px) {
+  .auth { grid-template-columns: minmax(0, 1fr); }
+  .auth__panel { display: none; }
+  .auth__form-side { align-content: start; padding: var(--sp-8) var(--sp-5); }
+  .auth__brand { margin-bottom: var(--sp-8); }
+}
+
+/* ---------- תוספות פריסה לטפסים ולתצוגה המקדימה ---------- */
+.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+
+@media (max-width: 520px) {
+  .form__row { grid-template-columns: 1fr; }
+}
+
+/* בתוך פאנל התצוגה הרקע לבן, ולכן המסכה של פס הזמן משתנה בהתאם */
+.preview .msg__time { background: var(--color-surface); }
+
+.preview .day__cap { box-shadow: 0 0 0 4px var(--color-surface); }
+
+.preview .bubble { font-size: var(--fs-sm); }

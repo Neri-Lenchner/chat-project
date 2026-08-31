@@ -1,0 +1,77 @@
+/* Button — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* ---------- כפתורים ---------- */
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-ink);
+  --btn-bd: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  height: var(--size-control);
+  padding-inline: var(--sp-5);
+  border: var(--border-width) solid var(--btn-bd);
+  border-radius: var(--radius-md);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+  white-space: nowrap;
+  transition: background var(--dur-1) var(--ease),
+              border-color var(--dur-1) var(--ease),
+              color var(--dur-1) var(--ease),
+              transform var(--dur-1) var(--ease);
+}
+
+.btn:active { transform: translateY(1px); }
+
+.btn[disabled], .btn[aria-disabled='true'] { opacity: 0.55; pointer-events: none; }
+
+.btn--primary { --btn-bg: var(--color-accent); --btn-fg: var(--color-on-accent); box-shadow: var(--shadow-1); }
+
+.btn--primary:hover { --btn-bg: var(--color-accent-hover); }
+
+.btn--secondary { --btn-bg: var(--color-surface); --btn-fg: var(--color-ink); --btn-bd: var(--color-line-strong); }
+
+.btn--secondary:hover { --btn-bg: var(--color-surface-sunken); }
+
+.btn--ghost { --btn-fg: var(--color-ink-2); }
+
+.btn--ghost:hover { --btn-bg: var(--color-hover); --btn-fg: var(--color-ink); }
+
+.btn--danger { --btn-bg: var(--color-danger); --btn-fg: #FFFFFF; }
+
+.btn--danger:hover { --btn-bg: var(--color-danger-hover); }
+
+.btn--block { width: 100%; }
+
+.btn--sm { height: var(--size-control-sm); padding-inline: var(--sp-3); font-size: var(--fs-sm); }
+
+.btn--icon {
+  width: var(--size-control-sm);
+  height: var(--size-control-sm);
+  padding: 0;
+  border-radius: var(--radius-md);
+  color: var(--color-ink-2);
+}
+
+.btn--icon:hover { background: var(--color-hover); color: var(--color-ink); }
+
+.btn--round {
+  width: var(--size-control);
+  height: var(--size-control);
+  padding: 0;
+  border-radius: var(--radius-full);
+}
+
+/* טעינה בתוך כפתור */
+.btn__spinner { display: none; }
+
+.btn.is-loading { pointer-events: none; }
+
+.btn.is-loading .btn__label, .btn.is-loading .icon:not(.spinner) { opacity: 0.35; }
+
+.btn.is-loading .btn__spinner { display: inline-flex; }

@@ -1,0 +1,2468 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>הרשמה · קו</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+/* ===== css/tokens.css ===== */
+/* =========================================================
+   קו — Design Tokens  (v1.1)
+   כל הערכים הגלובליים של האפליקציה יושבים כאן בלבד.
+   שינוי של טוקן אחד משנה את כל המסכים. אין ערכים קשיחים
+   (צבע / מרווח / רדיוס / פונט) בקבצי CSS אחרים.
+   ========================================================= */
+
+:root {
+  /* ---------- 1. צבע ---------- */
+  /* בסיס — אפור קריר עם נטייה כחלחלה, מתיישב עם האקסנט */
+  --color-canvas:        #EEF0F5;
+  --color-canvas-deep:   #E3E7EF;
+  --color-surface:       #FFFFFF;
+  --color-surface-sunken:#F4F6FA;
+
+  /* דיו — אף פעם לא שחור מלא */
+  --color-ink:           #12151C;
+  --color-ink-2:         #464F60;
+  --color-ink-3:         #79839A;
+
+  /* קווים */
+  --color-line:          #DDE2EC;
+  --color-line-strong:   #C4CBDA;
+
+  /* אקסנט — כחול קובלט עמוק. פעולה ראשית, הודעה יוצאת, פריט פעיל */
+  --color-accent:        #22399E;
+  --color-accent-hover:  #172978;
+  --color-accent-wash:   #E8EBF7;
+  --color-on-accent:     #FFFFFF;
+
+  /* הדגשה — ענבר. שמור אך ורק למה שדורש תשומת לב: הודעות שלא נקראו */
+  --color-highlight:     #C2740A;
+  --color-highlight-wash:#FCF1DE;
+
+  /* מצבים */
+  --color-danger:        #C0362B;
+  --color-danger-hover:  #9C271E;
+  --color-danger-wash:   #FCEBE8;
+  --color-warn:          #96690F;
+  --color-warn-wash:     #FAF1DE;
+
+  /* שכבות */
+  --color-scrim:         rgba(18, 21, 28, 0.48);
+  --color-hover:         rgba(18, 21, 28, 0.045);
+  --color-focus-ring:    rgba(34, 57, 158, 0.26);
+
+  /* פלטת מונוגרמות — נבחרת לפי מזהה, לא אקראית */
+  --avatar-1: #22399E;
+  --avatar-2: #2D6FA8;
+  --avatar-3: #A85B1B;
+  --avatar-4: #6D3E9E;
+  --avatar-5: #16786A;
+
+  /* ---------- 2. טיפוגרפיה ---------- */
+  /* משפחה אחת לכל המערכת. ההיררכיה נבנית ממשקל, גודל וצבע — לא מפונט נוסף. */
+  --font-ui: 'Rubik', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* סולם טיפוגרפי — 8 מדרגות בלבד */
+  --fs-micro: 11px;
+  --fs-xs:    12px;
+  --fs-sm:    13px;
+  --fs-base:  15px;
+  --fs-md:    17px;
+  --fs-lg:    20px;
+  --fs-xl:    28px;
+  --fs-2xl:   40px;
+
+  --lh-tight: 1.2;
+  --lh-snug:  1.35;
+  --lh-body:  1.55;
+
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semi:    600;
+  --fw-bold:    700;
+
+  --tracking-tight: -0.02em;
+  --tracking-wide:  0.06em;
+
+  /* ---------- 3. מרווחים — סולם של 4 ---------- */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* ---------- 4. רדיוס ---------- */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   22px;
+  --radius-full: 999px;
+  --radius-tail: 5px;
+
+  /* ---------- 5. צללים ---------- */
+  --shadow-1:    0 1px 2px rgba(18, 21, 28, 0.06);
+  --shadow-card: 0 1px 2px rgba(18, 21, 28, 0.05), 0 6px 16px rgba(18, 21, 28, 0.06);
+  --shadow-lift: 0 2px 4px rgba(18, 21, 28, 0.06), 0 12px 28px rgba(18, 21, 28, 0.10);
+  --shadow-2:    0 8px 24px rgba(18, 21, 28, 0.10);
+  --shadow-bar:  0 -6px 20px rgba(18, 21, 28, 0.06);
+  --shadow-pop:  0 24px 56px rgba(18, 21, 28, 0.22);
+
+  /* ---------- 6. גדלים קבועים ---------- */
+  --size-control:    48px;
+  --size-control-sm: 36px;
+  --size-composer:   52px;  /* שורת הכתיבה — גבוהה מכל שדה אחר במערכת */
+  --size-avatar:     44px;
+  --size-avatar-sm:  32px;
+  --size-avatar-lg:  48px;
+  --size-icon:       20px;
+  --size-topbar:     64px;
+  --size-chat-head:  76px;
+  --size-rail:       352px;
+  --size-gutter:     60px;
+  --size-form:       396px;
+  --size-thread-max: 940px;
+
+  --border-width: 1px;
+  --border-width-strong: 1.5px;
+  --border-active: 3px;
+
+  /* ---------- 7. תנועה ---------- */
+  --dur-1: 120ms;
+  --dur-2: 200ms;
+  --dur-3: 320ms;
+  --ease:  cubic-bezier(0.2, 0.7, 0.3, 1);
+
+  /* ---------- 8. שכבות ---------- */
+  --z-rail:   10;
+  --z-topbar: 20;
+  --z-menu:   30;
+  --z-dialog: 40;
+  --z-toast:  50;
+}
+
+
+/* ===== css/base.css ===== */
+/* =========================================================
+   קו — Base
+   איפוס, ברירות מחדל טיפוגרפיות, מיקוד, כלי עזר.
+   ========================================================= */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-ui);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+p  { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+}
+a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+
+button, input, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+button { cursor: pointer; }
+
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--color-accent-wash);
+  color: var(--color-ink);
+}
+
+/* גלילה — דקה ושקטה */
+* { scrollbar-width: thin; scrollbar-color: var(--color-line-strong) transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb {
+  background: var(--color-line-strong);
+  border: 3px solid transparent;
+  background-clip: content-box;
+  border-radius: var(--radius-full);
+}
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* ---------- כלי עזר ---------- */
+/* מספרים שנסרקים אנכית — שעות, תאריכים, מונים — ברוחב תו אחיד.
+   אותו פונט, רק ספרות טבלאיות. אין פונט שני במערכת. */
+.u-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+  letter-spacing: 0.01em;
+}
+
+.u-eyebrow {
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+
+.u-ltr     { direction: ltr; unicode-bidi: isolate; text-align: start; }
+.u-muted   { color: var(--color-ink-2); }
+.u-faint   { color: var(--color-ink-3); }
+.u-truncate{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+
+.u-sr {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+[hidden] { display: none !important; }
+
+/* אייקונים — מוזרקים ע"י js/icons.js */
+.icon {
+  width: var(--size-icon);
+  height: var(--size-icon);
+  flex: none;
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.icon--sm { width: 16px; height: 16px; }
+.icon--lg { width: 24px; height: 24px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* ===== css/components.css ===== */
+/* =========================================================
+   קו — Components
+   כל רכיב מוגדר פעם אחת ומשמש בכל המסכים ללא שינוי מקומי.
+   ========================================================= */
+
+/* ---------- מותג ---------- */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  color: var(--color-ink);
+}
+.brand__mark {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  display: grid;
+  place-items: center;
+}
+.brand__mark .icon { width: 22px; height: 22px; stroke-width: 2; }
+.brand__name {
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-lg);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1;
+}
+.brand__sub {
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-ink-3);
+  display: block;
+  margin-top: 3px;
+}
+
+/* ---------- כפתורים ---------- */
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-ink);
+  --btn-bd: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  height: var(--size-control);
+  padding-inline: var(--sp-5);
+  border: var(--border-width) solid var(--btn-bd);
+  border-radius: var(--radius-md);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+  white-space: nowrap;
+  transition: background var(--dur-1) var(--ease),
+              border-color var(--dur-1) var(--ease),
+              color var(--dur-1) var(--ease),
+              transform var(--dur-1) var(--ease);
+}
+.btn:active { transform: translateY(1px); }
+.btn[disabled],
+.btn[aria-disabled='true'] { opacity: 0.55; pointer-events: none; }
+
+.btn--primary { --btn-bg: var(--color-accent); --btn-fg: var(--color-on-accent); box-shadow: var(--shadow-1); }
+.btn--primary:hover { --btn-bg: var(--color-accent-hover); }
+
+.btn--secondary { --btn-bg: var(--color-surface); --btn-fg: var(--color-ink); --btn-bd: var(--color-line-strong); }
+.btn--secondary:hover { --btn-bg: var(--color-surface-sunken); }
+
+.btn--ghost { --btn-fg: var(--color-ink-2); }
+.btn--ghost:hover { --btn-bg: var(--color-hover); --btn-fg: var(--color-ink); }
+
+.btn--danger { --btn-bg: var(--color-danger); --btn-fg: #FFFFFF; }
+.btn--danger:hover { --btn-bg: var(--color-danger-hover); }
+
+.btn--block { width: 100%; }
+.btn--sm { height: var(--size-control-sm); padding-inline: var(--sp-3); font-size: var(--fs-sm); }
+
+.btn--icon {
+  width: var(--size-control-sm);
+  height: var(--size-control-sm);
+  padding: 0;
+  border-radius: var(--radius-md);
+  color: var(--color-ink-2);
+}
+.btn--icon:hover { background: var(--color-hover); color: var(--color-ink); }
+
+.btn--round {
+  width: var(--size-control);
+  height: var(--size-control);
+  padding: 0;
+  border-radius: var(--radius-full);
+}
+
+/* טעינה בתוך כפתור */
+.btn__spinner { display: none; }
+.btn.is-loading { pointer-events: none; }
+.btn.is-loading .btn__label,
+.btn.is-loading .icon:not(.spinner) { opacity: 0.35; }
+.btn.is-loading .btn__spinner { display: inline-flex; }
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-full);
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  opacity: 0.9;
+  animation: kav-spin 700ms linear infinite;
+}
+.spinner--lg { width: 26px; height: 26px; border-width: 2.5px; }
+@keyframes kav-spin { to { transform: rotate(360deg); } }
+
+/* ---------- שדות טופס ---------- */
+.field { display: block; margin-bottom: var(--sp-5); }
+.field:last-child { margin-bottom: 0; }
+
+.field__label {
+  display: block;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-ink-2);
+}
+.field__wrap { position: relative; display: block; }
+
+.field__icon {
+  position: absolute;
+  inset-inline-start: var(--sp-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-ink-3);
+  pointer-events: none;
+  transition: color var(--dur-1) var(--ease);
+}
+
+.input {
+  width: 100%;
+  height: var(--size-control);
+  padding-inline: calc(var(--sp-4) + var(--size-icon) + var(--sp-3)) var(--sp-4);
+  border: var(--border-width-strong) solid var(--color-line-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: var(--fs-base);
+  transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
+}
+.input::placeholder { color: var(--color-ink-3); }
+.input:hover { border-color: var(--color-ink-3); }
+.input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+.input:focus + .field__icon,
+.field__wrap:focus-within .field__icon { color: var(--color-accent); }
+.input--plain { padding-inline-start: var(--sp-4); }
+.input--phone { font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+
+.field__hint {
+  display: block;
+  margin-top: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--color-ink-3);
+}
+
+.field__error {
+  display: none;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-danger);
+}
+.field.is-invalid .field__error { display: flex; }
+.field.is-invalid .field__hint { display: none; }
+.field.is-invalid .input { border-color: var(--color-danger); background: var(--color-danger-wash); }
+.field.is-invalid .input:focus { box-shadow: 0 0 0 3px rgba(178, 58, 47, 0.22); }
+.field.is-invalid .field__icon { color: var(--color-danger); }
+
+/* ---------- באנר הודעה ---------- */
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-sunken);
+  font-size: var(--fs-sm);
+  color: var(--color-ink-2);
+}
+.banner .icon { margin-top: 2px; }
+.banner__body { flex: 1; min-width: 0; }
+.banner__title { display: block; font-weight: var(--fw-medium); color: var(--color-ink); }
+.banner--error {
+  border-color: rgba(178, 58, 47, 0.32);
+  background: var(--color-danger-wash);
+  color: var(--color-danger);
+}
+.banner--error .banner__title { color: var(--color-danger); }
+.banner--warn { border-color: rgba(150, 105, 15, 0.3); background: var(--color-warn-wash); color: var(--color-warn); }
+.banner + .field, .banner + .form__actions { margin-top: var(--sp-5); }
+
+/* ---------- מונוגרמה ---------- */
+.avatar {
+  width: var(--size-avatar);
+  height: var(--size-avatar);
+  flex: none;
+  border-radius: var(--radius-md);
+  display: grid;
+  place-items: center;
+  background: var(--color-accent-wash);
+  color: var(--color-accent);
+  font-weight: var(--fw-semi);
+  font-size: var(--fs-base);
+  line-height: 1;
+  user-select: none;
+}
+.avatar--sm { width: var(--size-avatar-sm); height: var(--size-avatar-sm); font-size: var(--fs-sm); border-radius: var(--radius-sm); }
+.avatar--lg { width: var(--size-avatar-lg); height: var(--size-avatar-lg); font-size: var(--fs-md); border-radius: var(--radius-lg); }
+.avatar--1 { background: color-mix(in srgb, var(--avatar-1) 12%, #FFFFFF); color: var(--avatar-1); }
+.avatar--2 { background: color-mix(in srgb, var(--avatar-2) 12%, #FFFFFF); color: var(--avatar-2); }
+.avatar--3 { background: color-mix(in srgb, var(--avatar-3) 12%, #FFFFFF); color: var(--avatar-3); }
+.avatar--4 { background: color-mix(in srgb, var(--avatar-4) 12%, #FFFFFF); color: var(--avatar-4); }
+.avatar--5 { background: color-mix(in srgb, var(--avatar-5) 12%, #FFFFFF); color: var(--avatar-5); }
+
+/* ---------- תג ומונה ---------- */
+.badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding-inline: 6px;
+  border-radius: var(--radius-full);
+  background: var(--color-highlight);
+  color: #FFFFFF;
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: 26px;
+  padding-inline: var(--sp-3);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-2);
+}
+
+/* ---------- תפריט נפתח ---------- */
+.menu { position: relative; }
+.menu__panel {
+  position: absolute;
+  inset-inline-start: 0;
+  top: calc(100% + var(--sp-2));
+  min-width: 232px;
+  padding: var(--sp-2);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-2);
+  z-index: var(--z-menu);
+  animation: kav-pop var(--dur-2) var(--ease);
+}
+.menu__head {
+  padding: var(--sp-3);
+  border-bottom: var(--border-width) solid var(--color-line);
+  margin-bottom: var(--sp-2);
+}
+.menu__name { font-weight: var(--fw-medium); }
+.menu__meta { font-size: var(--fs-xs); font-variant-numeric: tabular-nums; color: var(--color-ink-3); }
+.menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  padding: var(--sp-3);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-size: var(--fs-base);
+  text-align: start;
+  color: var(--color-ink);
+}
+.menu__item:hover { background: var(--color-hover); }
+.menu__item--danger { color: var(--color-danger); }
+.menu__item--danger:hover { background: var(--color-danger-wash); }
+
+@keyframes kav-pop {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- דיאלוג ---------- */
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: var(--color-scrim);
+  backdrop-filter: blur(2px);
+  display: grid;
+  place-items: center;
+  padding: var(--sp-5);
+  z-index: var(--z-dialog);
+  animation: kav-fade var(--dur-2) var(--ease);
+}
+.dialog {
+  width: 100%;
+  max-width: 400px;
+  padding: var(--sp-6);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-pop);
+  animation: kav-rise var(--dur-3) var(--ease);
+}
+.dialog--wide { max-width: 468px; padding: var(--sp-5); }
+.dialog__title { font-size: var(--fs-md); margin-bottom: var(--sp-2); }
+.dialog__text { color: var(--color-ink-2); font-size: var(--fs-base); }
+.dialog__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-4);
+}
+.dialog__actions {
+  display: flex;
+  gap: var(--sp-3);
+  margin-top: var(--sp-6);
+}
+.dialog__actions .btn { flex: 1; }
+.dialog .banner { margin-top: var(--sp-4); }
+
+@keyframes kav-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes kav-rise {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- טוסט ---------- */
+.toasts {
+  position: fixed;
+  inset-block-start: calc(var(--size-topbar) + var(--sp-4));
+  inset-inline-start: 50%;
+  transform: translateX(50%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  z-index: var(--z-toast);
+  pointer-events: none;
+}
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-5);
+  border-radius: var(--radius-full);
+  background: var(--color-ink);
+  color: #FFFFFF;
+  font-size: var(--fs-sm);
+  box-shadow: var(--shadow-2);
+  animation: kav-rise var(--dur-3) var(--ease);
+}
+.toast--error { background: var(--color-danger); }
+
+/* ---------- שלד טעינה ---------- */
+.skeleton {
+  background: linear-gradient(90deg,
+    var(--color-canvas-deep) 25%,
+    var(--color-surface-sunken) 37%,
+    var(--color-canvas-deep) 63%);
+  background-size: 400% 100%;
+  border-radius: var(--radius-sm);
+  animation: kav-shimmer 1.4s ease infinite;
+}
+@keyframes kav-shimmer {
+  from { background-position: 100% 0; }
+  to   { background-position: 0 0; }
+}
+
+/* ---------- מצב ריק ---------- */
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-10) var(--sp-6);
+  text-align: center;
+}
+.empty__mark {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  display: grid;
+  place-items: center;
+  background: var(--color-accent-wash);
+  color: var(--color-accent);
+  margin-bottom: var(--sp-1);
+}
+.empty__title { font-size: var(--fs-md); }
+.empty__text { color: var(--color-ink-2); font-size: var(--fs-sm); max-width: 34ch; }
+.empty .btn { margin-top: var(--sp-3); }
+
+/* ---------- בורר מצבי הדגמה ---------- */
+.demo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: var(--size-control-sm);
+  padding-inline: var(--sp-3);
+  border: var(--border-width) dashed var(--color-line-strong);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-ink-3);
+}
+.demo__label {
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+.demo select {
+  border: 0;
+  background: transparent;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+.demo--floating {
+  position: fixed;
+  bottom: var(--sp-5);
+  left: var(--sp-5);
+  z-index: var(--z-menu);
+  box-shadow: var(--shadow-1);
+}
+
+/* מיכל הדיאלוג מקבל מיקוד תכנותי בלבד — בלי טבעת מיקוד מיותרת */
+.dialog[tabindex='-1']:focus,
+.dialog[tabindex='-1']:focus-visible { outline: none; }
+
+
+/* ===== css/screens.css ===== */
+/* =========================================================
+   קו — Screens
+   פריסות המסכים בלבד. אין כאן ערכי צבע/מרווח חדשים.
+   ========================================================= */
+
+/* =========================================================
+   א. מסכי כניסה — הרשמה והתחברות
+   פריסה: טופס בצד ההתחלה (ימין), פאנל שיחה חיה בצד השני.
+   ========================================================= */
+.auth {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.86fr);
+}
+
+.auth__form-side {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  padding: var(--sp-10) var(--sp-8);
+  background: var(--color-surface);
+}
+.auth__form { width: 100%; max-width: var(--size-form); }
+
+.auth__brand { margin-bottom: var(--sp-10); }
+
+.auth__title { font-size: var(--fs-xl); margin-bottom: var(--sp-2); }
+.auth__lede { color: var(--color-ink-2); margin-bottom: var(--sp-8); }
+
+.form__actions { margin-top: var(--sp-8); }
+.form__alt {
+  margin-top: var(--sp-5);
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--color-ink-2);
+}
+
+/* פאנל התצוגה — האלמנט החתימתי: פס זמן אנכי עם שעות במונו */
+.auth__panel {
+  position: relative;
+  overflow: hidden;
+  padding: var(--sp-12) var(--sp-10);
+  background: var(--color-canvas-deep);
+  display: grid;
+  align-content: center;
+  gap: var(--sp-8);
+  border-inline-start: var(--border-width) solid var(--color-line);
+}
+.auth__panel::before {
+  /* רשת עדינה בהשראת לוח חיוג */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at center, var(--color-line-strong) 1px, transparent 1.2px);
+  background-size: 26px 26px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.auth__panel > * { position: relative; }
+
+.auth__headline {
+  font-size: var(--fs-2xl);
+  line-height: 1.1;
+  max-width: 12ch;
+}
+.auth__headline em {
+  font-style: normal;
+  color: var(--color-accent);
+}
+.auth__note {
+  font-size: var(--fs-xs);
+  color: var(--color-ink-3);
+  max-width: 34ch;
+  line-height: var(--lh-snug);
+}
+
+.preview {
+  --size-gutter: 46px;
+  padding: var(--sp-5);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-2);
+  max-width: 420px;
+}
+.preview .msg { animation: kav-msg-in var(--dur-3) var(--ease) backwards; }
+.preview .msg:nth-child(1) { animation-delay: 160ms; }
+.preview .msg:nth-child(2) { animation-delay: 420ms; }
+.preview .msg:nth-child(3) { animation-delay: 700ms; }
+
+@keyframes kav-msg-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* =========================================================
+   ב. מעטפת האפליקציה — מסך ראשי, שיחה חדשה, מסך שיחה
+   ========================================================= */
+.app {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: var(--size-topbar) minmax(0, 1fr);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-inline: var(--sp-5);
+  background: var(--color-surface);
+  border-bottom: var(--border-width) solid var(--color-line);
+  z-index: var(--z-topbar);
+}
+.topbar__actions { display: flex; align-items: center; gap: var(--sp-3); }
+
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  height: var(--size-control-sm);
+  padding-inline: var(--sp-2) var(--sp-3);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+}
+.user-chip:hover { background: var(--color-surface-sunken); }
+.user-chip .icon { color: var(--color-ink-3); }
+
+.workspace {
+  display: grid;
+  grid-template-columns: var(--size-rail) minmax(0, 1fr);
+  min-height: 0;
+}
+
+/* ---------- עמודת השיחות ---------- */
+.rail {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+  background: var(--color-canvas);
+  border-inline-end: var(--border-width) solid var(--color-line);
+  z-index: var(--z-rail);
+}
+.rail__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-5) var(--sp-5) var(--sp-4);
+}
+.rail__title { font-size: var(--fs-md); }
+.rail__count { font-size: var(--fs-xs); font-variant-numeric: tabular-nums; color: var(--color-ink-3); }
+.rail__body { overflow-y: auto; padding: var(--sp-1) var(--sp-4) var(--sp-6); }
+.rail__body > .banner { margin-bottom: var(--sp-3); }
+.rail__body > ul { display: grid; gap: var(--sp-3); }
+
+.room {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-4);
+  width: 100%;
+  padding: var(--sp-4);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  text-align: start;
+  color: inherit;
+  transition: box-shadow var(--dur-2) var(--ease),
+              transform var(--dur-2) var(--ease),
+              border-color var(--dur-1) var(--ease);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+/* פס הסימון בקצה הכרטיס: כחול = השיחה הפתוחה, ענבר = יש הודעות שלא נקראו */
+.room::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--border-active);
+  background: transparent;
+  transition: background var(--dur-1) var(--ease);
+}
+.room:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-line-strong);
+  box-shadow: var(--shadow-lift);
+}
+.room:has(.badge)::before { background: var(--color-highlight); }
+.room[aria-current='true'] {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-lift);
+}
+.room[aria-current='true']::before { background: var(--color-accent); }
+.room[aria-current='true'] .room__name { color: var(--color-accent); }
+.room.is-pressing {
+  transform: scale(0.99);
+  box-shadow: var(--shadow-1);
+  border-color: var(--color-line-strong);
+}
+
+.room__main { min-width: 0; }
+.room__name {
+  display: block;
+  font-weight: var(--fw-semi);
+  font-size: var(--fs-base);
+  line-height: 1.3;
+  transition: color var(--dur-1) var(--ease);
+}
+.room__last {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-ink-2);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+.room__meta {
+  display: grid;
+  justify-items: end;
+  gap: var(--sp-2);
+  align-self: start;
+  padding-top: 2px;
+}
+.room__time {
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-3);
+  white-space: nowrap;
+}
+.room__delete { opacity: 0; }
+.room:hover .room__delete,
+.room:focus-within .room__delete { opacity: 1; }
+
+.room-skeleton {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  align-items: center;
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+.room-skeleton__avatar { width: var(--size-avatar); height: var(--size-avatar); border-radius: var(--radius-md); }
+.room-skeleton__line { height: 11px; border-radius: var(--radius-full); }
+.room-skeleton__line + .room-skeleton__line { margin-top: var(--sp-2); width: 62%; }
+
+/* ---------- אזור ראשי ---------- */
+.main {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-height: 0;
+  background: var(--color-surface);
+}
+.main--blank {
+  grid-template-rows: minmax(0, 1fr);
+  place-items: center;
+  background-image: radial-gradient(circle at center, var(--color-line-strong) 1px, transparent 1.2px);
+  background-size: 26px 26px;
+}
+.main--blank .empty {
+  padding: var(--sp-10) var(--sp-8);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.chat-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  height: var(--size-chat-head);
+  padding-inline: var(--sp-6);
+  background: var(--color-surface);
+  border-bottom: var(--border-width) solid var(--color-line);
+  box-shadow: var(--shadow-1);
+  position: relative;
+  z-index: 2;
+}
+.chat-head__main { min-width: 0; flex: 1; }
+.chat-head__delete { color: var(--color-ink-3); }
+.chat-head__delete:hover { background: var(--color-danger-wash); color: var(--color-danger); }
+.chat-head__name { font-size: var(--fs-lg); line-height: 1.25; }
+.chat-head__meta {
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-3);
+}
+.chat-head__back { display: none; }
+
+/* ---------- אזור ההודעות + פס הזמן ---------- */
+.thread {
+  overflow-y: auto;
+  padding: var(--sp-6) var(--sp-8) var(--sp-8);
+  display: flex;
+  flex-direction: column;
+}
+/* שיחה קצרה נצמדת לתחתית, כמו בכל אפליקציית הודעות */
+.thread__inner { margin-block-start: auto; }
+.thread__inner {
+  position: relative;
+  width: 100%;
+  max-width: var(--size-thread-max);
+  margin-inline: auto;
+}
+.thread__inner::before {
+  /* פס הזמן — הקו האנכי שעליו יושבות כל השעות */
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  left: calc(var(--size-gutter) / 2);
+  width: var(--border-width);
+  background: var(--color-line);
+}
+.thread__inner > * { position: relative; }
+
+.msg {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--size-gutter);
+  align-items: flex-end;
+  column-gap: var(--sp-3);
+}
+.msg + .msg { margin-top: var(--sp-3); }
+
+.msg__body { display: flex; min-width: 0; }
+/* המגבלה יושבת על פריט ה-flex עצמו: אחוזים מול אב ברוחב תוכן
+   היו מקטינים את הבועה שוב ושוב עד לשבירת שורות מיותרת. */
+.msg__body > * { max-width: min(64ch, 74%); min-width: 0; }
+.msg--in  .msg__body { justify-content: flex-start; }
+.msg--out .msg__body { justify-content: flex-end; }
+
+.msg__time {
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-xs);
+  color: var(--color-ink-3);
+  text-align: center;
+  line-height: 1;
+  padding-bottom: var(--sp-3);
+  background: var(--color-surface);
+}
+
+.bubble {
+  max-width: 100%;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  overflow-wrap: anywhere;
+}
+.msg--in .bubble {
+  background: var(--color-surface-sunken);
+  border: var(--border-width) solid var(--color-line);
+  border-start-start-radius: var(--radius-tail);
+}
+.msg--out .bubble {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  border-start-end-radius: var(--radius-tail);
+  box-shadow: var(--shadow-1);
+}
+.msg--pending .bubble { opacity: 0.6; }
+.msg--failed .bubble {
+  background: var(--color-danger-wash);
+  border: var(--border-width) solid rgba(178, 58, 47, 0.35);
+  color: var(--color-danger);
+}
+.msg--failed .msg__time { color: var(--color-danger); }
+.msg__retry {
+  display: block;
+  margin-top: var(--sp-1);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--color-danger);
+  background: none;
+  border: 0;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.day {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--size-gutter);
+  column-gap: var(--sp-3);
+  margin: var(--sp-6) 0 var(--sp-4);
+}
+.day:first-child { margin-top: 0; }
+.day__label {
+  justify-self: center;
+  padding: var(--sp-1) var(--sp-4);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-sunken);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--color-ink-2);
+}
+.day__cap {
+  justify-self: center;
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: var(--color-line-strong);
+  box-shadow: 0 0 0 4px var(--color-surface);
+}
+
+.day--start .day__label {
+  background: transparent;
+  border-style: dashed;
+  color: var(--color-ink-3);
+}
+.day--start .day__cap { background: var(--color-line); }
+
+.thread-skeleton { display: grid; gap: var(--sp-4); }
+.thread-skeleton__bubble { height: 44px; border-radius: var(--radius-lg); width: 46%; }
+.thread-skeleton__bubble--out { justify-self: end; width: 34%; }
+
+/* ---------- שורת כתיבה ---------- */
+.composer {
+  padding: var(--sp-4) var(--sp-8) var(--sp-5);
+  background: var(--color-surface);
+  border-top: var(--border-width) solid var(--color-line);
+  box-shadow: var(--shadow-bar);
+  position: relative;
+  z-index: 2;
+}
+.composer__inner { max-width: var(--size-thread-max); margin-inline: auto; }
+.composer__row { display: flex; align-items: flex-end; gap: var(--sp-3); }
+
+.composer__input {
+  flex: 1;
+  min-height: var(--size-composer);
+  max-height: 148px;
+  padding: 14px var(--sp-5);
+  border: var(--border-width-strong) solid var(--color-line-strong);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-sunken);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  resize: none;
+  transition: border-color var(--dur-1) var(--ease),
+              background var(--dur-1) var(--ease),
+              box-shadow var(--dur-1) var(--ease);
+}
+.composer__input::placeholder { color: var(--color-ink-3); }
+.composer__input:hover { border-color: var(--color-ink-3); }
+.composer__input:focus {
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+.composer.is-invalid .composer__input {
+  border-color: var(--color-danger);
+  background: var(--color-danger-wash);
+}
+
+.composer__error {
+  display: none;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+  padding-inline-start: var(--sp-5);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-danger);
+}
+.composer.is-invalid .composer__error { display: flex; }
+
+.composer__send {
+  height: var(--size-composer);
+  padding-inline: var(--sp-5);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-1);
+}
+.composer__send .icon { transform: scaleX(-1); }
+
+/* ---------- שיחה חדשה ---------- */
+.contacts {
+  display: grid;
+  gap: var(--sp-2);
+  max-height: 46vh;
+  overflow-y: auto;
+  padding: var(--sp-1);
+  margin: 0 calc(var(--sp-1) * -1);
+}
+.contact {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-4);
+  width: 100%;
+  padding: var(--sp-3) var(--sp-4);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-sunken);
+  text-align: start;
+  color: inherit;
+  transition: box-shadow var(--dur-2) var(--ease),
+              transform var(--dur-2) var(--ease),
+              border-color var(--dur-1) var(--ease),
+              background var(--dur-1) var(--ease);
+}
+.contact:hover {
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-card);
+}
+.contact__name { font-weight: var(--fw-semi); }
+.contact__hint {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--color-accent);
+  opacity: 0;
+  transition: opacity var(--dur-1) var(--ease);
+}
+.contact:hover .contact__hint, .contact:focus-visible .contact__hint { opacity: 1; }
+.contact.is-busy {
+  background: var(--color-accent-wash);
+  border-color: var(--color-accent);
+  pointer-events: none;
+}
+
+/* =========================================================
+   ג. מסך מפה (index) ומדריך העיצוב
+   ========================================================= */
+.page { max-width: 1080px; margin-inline: auto; padding: var(--sp-12) var(--sp-6) var(--sp-16); }
+.page__head { margin-bottom: var(--sp-10); }
+.page__title { font-size: var(--fs-2xl); margin: var(--sp-5) 0 var(--sp-3); }
+.page__lede { color: var(--color-ink-2); max-width: 62ch; }
+
+.section { margin-top: var(--sp-12); }
+.section__title { font-size: var(--fs-lg); margin-bottom: var(--sp-5); }
+
+.grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); }
+
+.card {
+  display: block;
+  padding: var(--sp-5);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  transition: border-color var(--dur-1) var(--ease), transform var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
+}
+a.card:hover {
+  text-decoration: none;
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+}
+.card__title { font-size: var(--fs-md); margin: var(--sp-3) 0 var(--sp-2); }
+.card__text { font-size: var(--fs-sm); color: var(--color-ink-2); }
+
+.swatch { border: var(--border-width) solid var(--color-line); border-radius: var(--radius-md); overflow: hidden; background: var(--color-surface); }
+.swatch__chip { height: 68px; }
+.swatch__body { padding: var(--sp-3); }
+.swatch__name { font-size: var(--fs-sm); font-weight: var(--fw-medium); }
+.swatch__code { font-size: var(--fs-xs); font-variant-numeric: tabular-nums; color: var(--color-ink-3); }
+
+.specimen { padding: var(--sp-5); border: var(--border-width) solid var(--color-line); border-radius: var(--radius-lg); background: var(--color-surface); }
+.specimen + .specimen { margin-top: var(--sp-3); }
+.specimen__meta { font-size: var(--fs-xs); color: var(--color-ink-3); margin-top: var(--sp-2); }
+
+.stack { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
+
+/* =========================================================
+   ד. רספונסיביות
+   ========================================================= */
+@media (max-width: 1080px) {
+  :root { --size-rail: 300px; }
+}
+
+@media (max-width: 900px) {
+  .auth { grid-template-columns: minmax(0, 1fr); }
+  .auth__panel { display: none; }
+  .auth__form-side { align-content: start; padding: var(--sp-8) var(--sp-5); }
+  .auth__brand { margin-bottom: var(--sp-8); }
+}
+
+@media (max-width: 760px) {
+  :root { --size-gutter: 48px; }
+
+  .workspace { grid-template-columns: minmax(0, 1fr); }
+
+  /* במסך צר מוצג מסך אחד בכל רגע: רשימה או שיחה */
+  body[data-screen='home'] .main,
+  body[data-screen='new-chat'] .main { display: none; }
+  body[data-screen='chat'] .rail { display: none; }
+
+  .chat-head__back { display: inline-flex; }
+  .thread { padding: var(--sp-5) var(--sp-4) var(--sp-6); }
+  .composer { padding: var(--sp-3) var(--sp-4) var(--sp-4); }
+  .composer__send { padding-inline: 0; width: var(--size-composer); justify-content: center; }
+  .composer__send .btn__label { display: none; }
+  .rail__body { padding-inline: var(--sp-3); }
+  .chat-head { padding-inline: var(--sp-4); gap: var(--sp-3); }
+  .msg__body > * { max-width: 86%; }
+
+  /* הסרגל העליון חייב להיכנס לרוחב טלפון: טקסטים משניים יורדים */
+  .topbar { padding-inline: var(--sp-3); gap: var(--sp-2); min-width: 0; }
+  .topbar__actions { gap: var(--sp-2); min-width: 0; }
+  .user-chip__name { display: none; }
+  .demo__label { display: none; }
+  .demo { padding-inline: var(--sp-2); }
+  .topbar .btn--secondary .btn__label { display: none; }
+  .topbar .btn--secondary {
+    width: var(--size-control-sm);
+    padding-inline: 0;
+    justify-content: center;
+  }
+  .demo--floating { left: var(--sp-3); bottom: var(--sp-3); }
+}
+
+/* ---------- תוספות פריסה לטפסים ולתצוגה המקדימה ---------- */
+.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+@media (max-width: 520px) { .form__row { grid-template-columns: 1fr; } }
+
+/* בתוך פאנל התצוגה הרקע לבן, ולכן המסכה של פס הזמן משתנה בהתאם */
+.preview .msg__time { background: var(--color-surface); }
+.preview .day__cap { box-shadow: 0 0 0 4px var(--color-surface); }
+.preview .bubble { font-size: var(--fs-sm); }
+
+/* כשאין הודעות, פס הזמן לא מצויר — אין למה להיאחז */
+.thread__inner:has(.empty)::before { display: none; }
+
+  </style>
+</head>
+<body data-screen="register">
+
+  <main class="auth">
+    <!-- צד הטופס -->
+    <section class="auth__form-side">
+      <div class="auth__form">
+        <a class="brand auth__brand" href="index.html">
+          <span class="brand__mark"><span data-icon="kav"></span></span>
+          <span>
+            <span class="brand__name">קו</span>
+            <span class="brand__sub">CHAT</span>
+          </span>
+        </a>
+
+        <h1 class="auth__title">פתיחת חשבון</h1>
+        <p class="auth__lede">שלושה פרטים וזהו. המספר שתזין הוא גם שם המשתמש שלך.</p>
+
+        <div class="banner banner--error" id="form-banner" role="alert" hidden>
+          <span data-icon="alert"></span>
+          <span class="banner__body">
+            <strong class="banner__title"></strong>
+            <span class="banner__text"></span>
+          </span>
+        </div>
+
+        <form id="register-form" novalidate>
+          <div class="form__row">
+            <div class="field" data-label="שם פרטי" data-validate="required name">
+              <label class="field__label" for="firstName">שם פרטי</label>
+              <span class="field__wrap">
+                <input class="input" id="firstName" name="firstName" type="text" autocomplete="given-name" placeholder="ישראל">
+                <span class="field__icon" data-icon="user"></span>
+              </span>
+              <span class="field__error"><span data-icon="alert" data-icon-size="sm"></span><span class="field__error-text"></span></span>
+            </div>
+
+            <div class="field" data-label="שם משפחה" data-validate="required name">
+              <label class="field__label" for="lastName">שם משפחה</label>
+              <span class="field__wrap">
+                <input class="input" id="lastName" name="lastName" type="text" autocomplete="family-name" placeholder="ישראלי">
+                <span class="field__icon" data-icon="users"></span>
+              </span>
+              <span class="field__error"><span data-icon="alert" data-icon-size="sm"></span><span class="field__error-text"></span></span>
+            </div>
+          </div>
+
+          <div class="field" data-label="מספר טלפון" data-validate="required phone">
+            <label class="field__label" for="phone">מספר טלפון</label>
+            <span class="field__wrap">
+              <input class="input input--phone" id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0501234567">
+              <span class="field__icon" data-icon="phone"></span>
+            </span>
+            <span class="field__hint">אליו יגיעו השיחות שלך.</span>
+            <span class="field__error"><span data-icon="alert" data-icon-size="sm"></span><span class="field__error-text"></span></span>
+          </div>
+
+          <div class="form__actions">
+            <button class="btn btn--primary btn--block" id="register-submit" type="submit">
+              <span class="btn__spinner spinner"></span>
+              <span class="btn__label">יצירת חשבון</span>
+            </button>
+            <p class="form__alt">כבר יש לך חשבון? <a href="login.html">התחברות</a></p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- פאנל התצוגה: פס הזמן, האלמנט החתימתי של המערכת -->
+    <aside class="auth__panel" aria-hidden="true">
+      <h2 class="auth__headline">כל שיחה יושבת על <em>קו זמן</em>.</h2>
+
+      <div class="preview">
+        <div class="thread__inner">
+          <div class="day"><span class="day__label">היום</span><span class="day__cap"></span></div>
+
+          <div class="msg msg--in">
+            <div class="msg__body"><div class="bubble">קבעת כבר את הפגישה של רביעי?</div></div>
+            <div class="msg__time u-num">09:14</div>
+          </div>
+          <div class="msg msg--out">
+            <div class="msg__body"><div class="bubble">כן, 10:30 אצלכם</div></div>
+            <div class="msg__time u-num">09:16</div>
+          </div>
+          <div class="msg msg--in">
+            <div class="msg__body"><div class="bubble">מצוין, נתראה</div></div>
+            <div class="msg__time u-num">09:17</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="auth__note">בכל שיחה השעות מיושרות לעמודה אחת, כך שאפשר לקרוא את קצב ההתכתבות בלי לקרוא אותה.</p>
+    </aside>
+  </main>
+  <script>
+/* ===== js/icons.js ===== */
+/* =========================================================
+   קו — Icons
+   ערכת אייקונים אחת לכל האפליקציה. קו 1.75, פינות מעוגלות,
+   ריבוע 24. שימוש: <span data-icon="send"></span>
+   ========================================================= */
+
+const ICONS = {
+  /* סימן המותג — קו אנכי עם נקודת זמן, אותו מוטיב של פס הזמן במסך שיחה */
+  kav: '<path d="M9 3.5v17"/><circle cx="9" cy="8.5" r="2.1" fill="currentColor" stroke="none"/><path d="M13.2 8.5h5"/><circle cx="9" cy="15.5" r="2.1" fill="currentColor" stroke="none"/><path d="M13.2 15.5h3.4"/>',
+
+  send:      '<path d="M4.5 12h13"/><path d="M20 12 4.6 18.4l2.4-6.4-2.4-6.4z"/>',
+  plus:      '<path d="M12 5v14M5 12h14"/>',
+  trash:     '<path d="M4 7h16"/><path d="M10 11v6M14 11v6"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
+  more:      '<circle cx="5" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.4" fill="currentColor" stroke="none"/>',
+  logout:    '<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 8l-4 4 4 4"/><path d="M6 12h10"/>',
+  back:      '<path d="M5 12h14"/><path d="M13 5l7 7-7 7"/>',
+  user:      '<circle cx="12" cy="8" r="3.6"/><path d="M5 20c.7-3.6 3.5-5.4 7-5.4s6.3 1.8 7 5.4"/>',
+  users:     '<circle cx="9" cy="8" r="3.2"/><path d="M3 19c.6-3.2 3-4.8 6-4.8s5.4 1.6 6 4.8"/><path d="M16 5.2a3.2 3.2 0 0 1 0 5.9"/><path d="M18 14.5c2 .7 3.2 2.2 3.5 4.5"/>',
+  phone:     '<path d="M7 3.8h3l1.4 3.6-2 1.5a11 11 0 0 0 5.7 5.7l1.5-2 3.6 1.4v3a2 2 0 0 1-2.2 2A16.8 16.8 0 0 1 3.8 6a2 2 0 0 1 2-2.2Z"/>',
+  alert:     '<circle cx="12" cy="12" r="9"/><path d="M12 7.6v5"/><circle cx="12" cy="16.2" r="1" fill="currentColor" stroke="none"/>',
+  chat:      '<path d="M20 14.5A2.5 2.5 0 0 1 17.5 17H8l-4 3.5v-14A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5Z"/><path d="M8.5 9.5h7M8.5 12.5h4"/>',
+  newchat:   '<path d="M20 12.4v2.1a2.5 2.5 0 0 1-2.5 2.5H8l-4 3.5v-14A2.5 2.5 0 0 1 6.5 4h5.2"/><path d="M17.5 3.5v6M14.5 6.5h6"/>',
+  check:     '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  x:         '<path d="M6 6l12 12M18 6 6 18"/>',
+  chevron:   '<path d="M6 9.5l6 6 6-6"/>',
+  refresh:   '<path d="M20 12a8 8 0 1 1-2.7-6"/><path d="M20 4.5V10h-5.5"/>',
+  clock:     '<circle cx="12" cy="12" r="9"/><path d="M12 7v5.3l3.4 2"/>',
+  shield:    '<path d="M12 3.5l7 2.7v5.3c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6.2Z"/><path d="M9 12.2l2.2 2.2 4-4.2"/>',
+  spark:     '<path d="M12 4v4M12 16v4M4 12h4M16 12h4"/><circle cx="12" cy="12" r="2.6"/>',
+};
+
+function iconMarkup(name, extraClass) {
+  const body = ICONS[name] || '';
+  const cls = extraClass ? `icon ${extraClass}` : 'icon';
+  return `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${body}</svg>`;
+}
+
+function mountIcons(root) {
+  const scope = root || document;
+  scope.querySelectorAll('[data-icon]').forEach((el) => {
+    const size = el.dataset.iconSize ? `icon--${el.dataset.iconSize}` : '';
+    const host = el.getAttribute('class') || '';
+    const holder = document.createElement('div');
+    holder.innerHTML = iconMarkup(el.dataset.icon, [host, size].filter(Boolean).join(' '));
+    const svg = holder.firstElementChild;
+    /* מחלקות ומאפיינים של האלמנט המארח נשמרים, אחרת אייקון בתוך שדה
+       היה מאבד את המיקום המוחלט שלו. */
+    if (el.getAttribute('style')) svg.setAttribute('style', el.getAttribute('style'));
+    if (el.getAttribute('aria-label')) {
+      svg.setAttribute('aria-label', el.getAttribute('aria-label'));
+      svg.setAttribute('role', 'img');
+      svg.removeAttribute('aria-hidden');
+    }
+    el.replaceWith(svg);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => mountIcons());
+
+
+/* ===== js/mock.js ===== */
+/* =========================================================
+   קו — Mock Data
+   מחליף את קריאות ה-API של האפיון לצורך הדגמת המסכים.
+   המבנה תואם למודלים User / Room / Message.
+   ========================================================= */
+
+const MOCK_USER = {
+  id: 1,
+  firstName: 'עידן',
+  lastName: 'אייש',
+  phone: '0521234567',
+};
+
+/* רשימת אנשי קשר מקומית — סעיף 9.1 באפיון */
+const MOCK_CONTACTS = [
+  { id: 2, name: 'יוסי כהן' },
+  { id: 3, name: 'דני לוי' },
+  { id: 4, name: 'משה ישראלי' },
+  { id: 5, name: 'נועה שגב' },
+  { id: 6, name: 'רון אזולאי' },
+  { id: 7, name: 'תמר פרידמן' },
+];
+
+function atToday(h, m) {
+  const d = new Date();
+  d.setHours(h, m, 0, 0);
+  return d.toISOString();
+}
+function atDaysAgo(days, h, m) {
+  const d = new Date();
+  d.setDate(d.getDate() - days);
+  d.setHours(h, m, 0, 0);
+  return d.toISOString();
+}
+
+const MOCK_ROOMS = [
+  { id: 101, otherUserId: 2, name: 'יוסי כהן',    lastMessage: 'סגור, נדבר מחר בבוקר',            lastAt: atToday(12, 45), unread: 0 },
+  { id: 102, otherUserId: 5, name: 'נועה שגב',    lastMessage: 'שלחתי לך את הקובץ, תעדכן אותי',   lastAt: atToday(9, 12),  unread: 2 },
+  { id: 103, otherUserId: 3, name: 'דני לוי',     lastMessage: 'תודה!',                            lastAt: atDaysAgo(1, 18, 30), unread: 0 },
+  { id: 104, otherUserId: 4, name: 'משה ישראלי',  lastMessage: 'אני בדרך, מגיע בעוד רבע שעה',      lastAt: atDaysAgo(3, 8, 5),  unread: 0 },
+  { id: 105, otherUserId: 6, name: 'רון אזולאי',  lastMessage: 'נשמע טוב לי',                      lastAt: atDaysAgo(9, 21, 44), unread: 0 },
+];
+
+const MOCK_MESSAGES = {
+  101: [
+    { id: 1, content: 'היי יוסי, הספקת להסתכל על ההצעה?', at: atDaysAgo(1, 17, 2), mine: true },
+    { id: 2, content: 'כן, עברתי עליה. נראה לי מדויק', at: atDaysAgo(1, 17, 40), mine: false },
+    { id: 3, content: 'מעולה. יש משהו שהיית משנה לפני שאני שולח ללקוח?', at: atToday(9, 5), mine: true },
+    { id: 4, content: 'רק את לוח הזמנים בעמוד השני, הוא קצת אופטימי', at: atToday(9, 22), mine: false },
+    { id: 5, content: 'מקבל. אעדכן ואשלח שוב', at: atToday(12, 40), mine: true },
+    { id: 6, content: 'סגור, נדבר מחר בבוקר', at: atToday(12, 45), mine: false },
+  ],
+  102: [
+    { id: 1, content: 'שלחתי לך את הקובץ, תעדכן אותי', at: atToday(9, 12), mine: false },
+  ],
+  103: [
+    { id: 1, content: 'העברתי לך את הפרטים', at: atDaysAgo(1, 18, 12), mine: true },
+    { id: 2, content: 'תודה!', at: atDaysAgo(1, 18, 30), mine: false },
+  ],
+  104: [
+    { id: 1, content: 'אני בדרך, מגיע בעוד רבע שעה', at: atDaysAgo(3, 8, 5), mine: false },
+  ],
+  105: [
+    { id: 1, content: 'נשמע טוב לי', at: atDaysAgo(9, 21, 44), mine: false },
+  ],
+};
+
+
+/* ===== js/ui.js ===== */
+/* =========================================================
+   קו — UI
+   לוגיקה משותפת לכל המסכים: ולידציה, מצבי טעינה, דיאלוג,
+   טוסט, פורמט תאריכים ובורר מצבי הדגמה.
+   ========================================================= */
+
+const $  = (sel, root) => (root || document).querySelector(sel);
+const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
+
+const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+
+/* ---------- 1. משתמש מחובר (localStorage, סעיף 4 באפיון) ---------- */
+const Session = {
+  key: 'user',
+  get() {
+    try { return JSON.parse(localStorage.getItem(this.key)); }
+    catch (e) { return null; }
+  },
+  set(user) { localStorage.setItem(this.key, JSON.stringify(user)); },
+  clear() { localStorage.removeItem(this.key); },
+  /* בפרוטוטייפ אין שרת — אם אין משתמש שמור מוצג משתמש הדגמה
+     במקום להפנות למסך התחברות, כדי שאפשר יהיה לפתוח כל מסך ישירות. */
+  ensure() {
+    const saved = this.get();
+    if (saved) return saved;
+    return MOCK_USER;
+  },
+};
+
+/* ---------- 2. פורמט תאריך ושעה (סעיף 7.2 באפיון) ---------- */
+const pad = (n) => String(n).padStart(2, '0');
+
+function formatTime(iso) {
+  const d = new Date(iso);
+  return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+function formatDate(iso) {
+  const d = new Date(iso);
+  return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
+}
+function isSameDay(a, b) {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+/* היום → שעה בלבד. אחרת → תאריך. */
+function formatRoomStamp(iso) {
+  const d = new Date(iso);
+  return isSameDay(d, new Date()) ? formatTime(iso) : formatDate(iso);
+}
+function formatDayLabel(iso) {
+  const d = new Date(iso);
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+  if (isSameDay(d, today)) return 'היום';
+  if (isSameDay(d, yesterday)) return 'אתמול';
+  return formatDate(iso);
+}
+
+/* ---------- 3. מונוגרמות ---------- */
+function initials(name) {
+  return name.trim().split(/\s+/).slice(0, 2).map((w) => w[0]).join('');
+}
+function avatarTone(id) {
+  return `avatar--${(Math.abs(Number(id) || 0) % 5) + 1}`;
+}
+
+/* ---------- 4. ולידציה ---------- */
+const RULES = {
+  required: {
+    test: (v) => v.trim().length > 0,
+    message: (label) => `יש למלא ${label}`,
+  },
+  name: {
+    test: (v) => v.trim().length >= 2,
+    message: (label) => `${label} צריך להכיל שתי אותיות לפחות`,
+  },
+  phone: {
+    test: (v) => /^0(5\d|[2-4]|[8-9]|7\d)\d{7}$/.test(v.replace(/[\s-]/g, '')),
+    message: () => 'מספר הטלפון לא תקין. הפורמט הנדרש: 0501234567',
+  },
+};
+
+function setFieldError(field, message) {
+  field.classList.add('is-invalid');
+  const holder = $('.field__error-text', field);
+  if (holder) holder.textContent = message;
+  const input = $('.input', field);
+  if (input) input.setAttribute('aria-invalid', 'true');
+}
+
+function clearFieldError(field) {
+  field.classList.remove('is-invalid');
+  const input = $('.input', field);
+  if (input) input.removeAttribute('aria-invalid');
+}
+
+function validateField(field) {
+  const input = $('.input', field);
+  if (!input) return true;
+  const label = field.dataset.label || '';
+  const rules = (field.dataset.validate || '').split(/\s+/).filter(Boolean);
+  for (const name of rules) {
+    const rule = RULES[name];
+    if (!rule) continue;
+    if (!rule.test(input.value)) {
+      setFieldError(field, rule.message(label));
+      return false;
+    }
+  }
+  clearFieldError(field);
+  return true;
+}
+
+function validateForm(form) {
+  const fields = $$('.field', form);
+  let firstInvalid = null;
+  fields.forEach((field) => {
+    const ok = validateField(field);
+    if (!ok && !firstInvalid) firstInvalid = field;
+  });
+  if (firstInvalid) $('.input', firstInvalid)?.focus();
+  return !firstInvalid;
+}
+
+/* ניקוי שגיאה תוך כדי הקלדה — אחרי שהמשתמש כבר נכשל פעם אחת */
+function bindLiveValidation(form) {
+  $$('.field', form).forEach((field) => {
+    const input = $('.input', field);
+    if (!input) return;
+    input.addEventListener('input', () => {
+      if (field.classList.contains('is-invalid')) validateField(field);
+    });
+    input.addEventListener('blur', () => {
+      if (input.value.trim()) validateField(field);
+    });
+  });
+}
+
+/* ---------- 5. באנר שגיאה ---------- */
+function showBanner(banner, title, text) {
+  if (!banner) return;
+  $('.banner__title', banner).textContent = title;
+  const body = $('.banner__text', banner);
+  if (body) body.textContent = text || '';
+  banner.hidden = false;
+}
+function hideBanner(banner) { if (banner) banner.hidden = true; }
+
+/* ---------- 6. מצב טעינה בכפתור ---------- */
+function setLoading(btn, on, loadingLabel) {
+  if (!btn) return;
+  const label = $('.btn__label', btn);
+  if (on) {
+    btn.dataset.label = label ? label.textContent : '';
+    if (label && loadingLabel) label.textContent = loadingLabel;
+    btn.classList.add('is-loading');
+    btn.setAttribute('aria-disabled', 'true');
+  } else {
+    if (label && btn.dataset.label) label.textContent = btn.dataset.label;
+    btn.classList.remove('is-loading');
+    btn.removeAttribute('aria-disabled');
+  }
+}
+
+/* ---------- 7. טוסט ---------- */
+function toast(message, variant) {
+  let host = $('.toasts');
+  if (!host) {
+    host = document.createElement('div');
+    host.className = 'toasts';
+    document.body.appendChild(host);
+  }
+  const el = document.createElement('div');
+  el.className = 'toast' + (variant === 'error' ? ' toast--error' : '');
+  el.innerHTML = `${iconMarkup(variant === 'error' ? 'alert' : 'check', 'icon--sm')}<span></span>`;
+  $('span', el).textContent = message;
+  host.appendChild(el);
+  setTimeout(() => el.remove(), 3200);
+}
+
+/* ---------- 8. דיאלוג ---------- */
+let lastFocused = null;
+
+function openDialog(scrim) {
+  lastFocused = document.activeElement;
+  scrim.hidden = false;
+  const target = $('[data-autofocus]', scrim) || $('button, [href], input, select, textarea', scrim);
+  target?.focus();
+  document.addEventListener('keydown', onDialogKey);
+}
+function closeDialog(scrim) {
+  scrim.hidden = true;
+  document.removeEventListener('keydown', onDialogKey);
+  lastFocused?.focus();
+}
+function onDialogKey(e) {
+  if (e.key !== 'Escape') return;
+  const open = $$('.scrim').find((s) => !s.hidden);
+  if (open && open.dataset.dismissible !== 'false') closeDialog(open);
+}
+function bindDialogDismiss(scrim, onClose) {
+  scrim.addEventListener('mousedown', (e) => {
+    if (e.target === scrim) { closeDialog(scrim); onClose && onClose(); }
+  });
+}
+
+/* ---------- 9. בורר מצבי הדגמה ---------- */
+const Demo = {
+  screen() { return document.body.dataset.screen || 'app'; },
+  storeKey() { return `kav:demo:${this.screen()}`; },
+  get() {
+    const fromUrl = new URLSearchParams(location.search).get('state');
+    if (fromUrl) sessionStorage.setItem(this.storeKey(), fromUrl);
+    return sessionStorage.getItem(this.storeKey()) || 'ok';
+  },
+  is(value) { return this.get() === value; },
+  set(value) {
+    sessionStorage.setItem(this.storeKey(), value);
+    const url = new URL(location.href);
+    url.searchParams.delete('state');
+    location.replace(url.toString());
+  },
+  mount(options) {
+    if (!options || !options.length) return;
+    const current = this.get();
+    const el = document.createElement('div');
+    el.className = 'demo';
+    el.innerHTML = `
+      <span class="demo__label">מצב</span>
+      <select aria-label="בחירת מצב מסך להדגמה">
+        ${options.map((o) => `<option value="${o.value}"${o.value === current ? ' selected' : ''}>${o.label}</option>`).join('')}
+      </select>`;
+    $('select', el).addEventListener('change', (e) => this.set(e.target.value));
+
+    const slot = $('#demo-slot');
+    if (slot) slot.appendChild(el);
+    else { el.classList.add('demo--floating'); document.body.appendChild(el); }
+  },
+};
+
+/* ---------- 10. סימולציית קריאת API ---------- */
+/* ה-UI לא יודע שאין שרת: כל פעולה מחזירה Promise עם השהיה,
+   ונכשלת כאשר בורר מצבי ההדגמה מבקש כישלון. */
+function apiCall({ ms = 900, fail = false, error = 'אירעה שגיאה. נסה שוב.' } = {}) {
+  return wait(ms).then(() => {
+    if (fail) throw new Error(error);
+    return true;
+  });
+}
+
+
+/* ===== js/screens.js ===== */
+/* =========================================================
+   קו — Screens logic
+   כל מסך מזוהה לפי body[data-screen] ומקבל את ההתנהגות שלו.
+   השכבה הזו מדמה את מה שיהיה ב-Redux + axios במימוש האמיתי.
+   ========================================================= */
+
+/* ---------- Store מקומי (מדמה RoomStore / MessageStore) ---------- */
+const Store = {
+  addedKey: 'kav:rooms',
+  removedKey: 'kav:removed',
+  msgKey: (id) => `kav:msgs:${id}`,
+
+  read(key, fallback) {
+    try { return JSON.parse(sessionStorage.getItem(key)) || fallback; }
+    catch (e) { return fallback; }
+  },
+
+  rooms() {
+    const added = this.read(this.addedKey, []);
+    const removed = this.read(this.removedKey, []);
+    return [...added, ...MOCK_ROOMS]
+      .filter((r) => !removed.includes(r.id))
+      .map((r) => ({ ...r, ...this.overlay(r) }))
+      .sort((a, b) => new Date(b.lastAt || 0) - new Date(a.lastAt || 0));
+  },
+
+  overlay(room) {
+    const msgs = this.read(this.msgKey(room.id), []);
+    if (!msgs.length) return {};
+    const last = msgs[msgs.length - 1];
+    return { lastMessage: last.content, lastAt: last.at, unread: 0 };
+  },
+
+  room(id) { return this.rooms().find((r) => r.id === Number(id)); },
+
+  addRoom(room) {
+    const added = this.read(this.addedKey, []);
+    added.unshift(room);
+    sessionStorage.setItem(this.addedKey, JSON.stringify(added));
+  },
+
+  removeRoom(id) {
+    const removed = this.read(this.removedKey, []);
+    removed.push(Number(id));
+    sessionStorage.setItem(this.removedKey, JSON.stringify(removed));
+    sessionStorage.removeItem(this.msgKey(id));
+  },
+
+  messages(id) {
+    return [...(MOCK_MESSAGES[id] || []), ...this.read(this.msgKey(id), [])];
+  },
+
+  addMessage(id, message) {
+    const list = this.read(this.msgKey(id), []);
+    list.push(message);
+    sessionStorage.setItem(this.msgKey(id), JSON.stringify(list));
+  },
+};
+
+/* ---------- תפריט משתמש בסרגל העליון ---------- */
+function initTopbar() {
+  const user = Session.ensure();
+  const chip = $('#user-menu-trigger');
+  if (!chip) return;
+
+  $$('[data-user-name]').forEach((el) => { el.textContent = `${user.firstName} ${user.lastName}`; });
+  $$('[data-user-phone]').forEach((el) => { el.textContent = user.phone; });
+  $$('[data-user-initials]').forEach((el) => { el.textContent = initials(`${user.firstName} ${user.lastName}`); });
+
+  const panel = $('#user-menu-panel');
+  const close = () => { panel.hidden = true; chip.setAttribute('aria-expanded', 'false'); };
+
+  chip.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = panel.hidden;
+    panel.hidden = !open;
+    chip.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('click', close);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+
+  $('#logout')?.addEventListener('click', () => {
+    Session.clear();
+    sessionStorage.clear();
+    location.href = 'login.html';
+  });
+}
+
+/* ---------- רשימת שיחות ---------- */
+function roomMarkup(room, activeId) {
+  const active = String(room.id) === String(activeId);
+  const stamp = room.lastAt ? formatRoomStamp(room.lastAt) : '';
+  const last = room.lastMessage || 'עדיין אין הודעות בשיחה';
+  return `
+    <li>
+      <div class="room" role="button" tabindex="0" data-room="${room.id}" aria-current="${active}">
+        <span class="avatar ${avatarTone(room.otherUserId)}">${initials(room.name)}</span>
+        <span class="room__main">
+          <span class="room__name u-truncate">${room.name}</span>
+          <span class="room__last u-truncate${room.lastMessage ? '' : ' u-faint'}">${last}</span>
+        </span>
+        <span class="room__meta">
+          <span class="room__time">${stamp}</span>
+          ${room.unread ? `<span class="badge">${room.unread}</span>` :
+            `<button class="btn btn--icon room__delete" data-delete="${room.id}" aria-label="מחיקת השיחה עם ${room.name}"><span data-icon="trash" data-icon-size="sm"></span></button>`}
+        </span>
+      </div>
+    </li>`;
+}
+
+function renderRooms(listEl, rooms, activeId) {
+  listEl.innerHTML = rooms.map((r) => roomMarkup(r, activeId)).join('');
+  mountIcons(listEl);
+}
+
+function renderRoomSkeleton(listEl, count) {
+  listEl.innerHTML = Array.from({ length: count }, () => `
+    <li class="room-skeleton">
+      <span class="skeleton room-skeleton__avatar"></span>
+      <span>
+        <span class="skeleton room-skeleton__line" style="display:block;width:70%"></span>
+        <span class="skeleton room-skeleton__line" style="display:block"></span>
+      </span>
+    </li>`).join('');
+}
+
+/* לחיצה ארוכה על שיחה → דיאלוג מחיקה (סעיף 8 באפיון).
+   בנוסף כפתור מחיקה גלוי ב-hover, כי במסך גדול אין "לחיצה ארוכה" טבעית. */
+function bindRoomInteractions(listEl, { onOpen, onDeleteRequest }) {
+  let timer = null;
+  let longPressed = false;
+
+  const start = (item) => {
+    longPressed = false;
+    item.classList.add('is-pressing');
+    timer = setTimeout(() => {
+      longPressed = true;
+      item.classList.remove('is-pressing');
+      onDeleteRequest(Number(item.dataset.room));
+    }, 550);
+  };
+  const stop = (item) => {
+    clearTimeout(timer);
+    item?.classList.remove('is-pressing');
+  };
+
+  listEl.addEventListener('pointerdown', (e) => {
+    const item = e.target.closest('.room');
+    if (!item || e.target.closest('[data-delete]')) return;
+    start(item);
+  });
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach((evt) => {
+    listEl.addEventListener(evt, (e) => stop(e.target.closest('.room')));
+  });
+  listEl.addEventListener('scroll', () => stop(null), true);
+
+  listEl.addEventListener('click', (e) => {
+    const del = e.target.closest('[data-delete]');
+    if (del) { onDeleteRequest(Number(del.dataset.delete)); return; }
+    const item = e.target.closest('.room');
+    if (!item || longPressed) { longPressed = false; return; }
+    onOpen(Number(item.dataset.room));
+  });
+
+  listEl.addEventListener('contextmenu', (e) => {
+    const item = e.target.closest('.room');
+    if (!item) return;
+    e.preventDefault();
+    onDeleteRequest(Number(item.dataset.room));
+  });
+
+  listEl.addEventListener('keydown', (e) => {
+    const item = e.target.closest('.room');
+    if (!item) return;
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen(Number(item.dataset.room)); }
+    if (e.key === 'Delete') { e.preventDefault(); onDeleteRequest(Number(item.dataset.room)); }
+  });
+}
+
+/* ---------- דיאלוג מחיקה ---------- */
+function initDeleteDialog(onDeleted) {
+  const scrim = $('#delete-dialog');
+  if (!scrim) return { open() {} };
+  const nameEl = $('[data-delete-name]', scrim);
+  const banner = $('.banner', scrim);
+  const confirmBtn = $('#delete-confirm');
+  const cancelBtn = $('#delete-cancel');
+  let current = null;
+
+  const close = () => { closeDialog(scrim); hideBanner(banner); setLoading(confirmBtn, false); };
+
+  bindDialogDismiss(scrim, () => hideBanner(banner));
+  cancelBtn.addEventListener('click', close);
+
+  confirmBtn.addEventListener('click', async () => {
+    hideBanner(banner);
+    setLoading(confirmBtn, true, 'מוחק…');
+    try {
+      await apiCall({ ms: 800, fail: Demo.is('delete-error') });
+      Store.removeRoom(current.id);
+      close();
+      onDeleted(current);
+    } catch (err) {
+      setLoading(confirmBtn, false);
+      showBanner(banner, 'לא ניתן למחוק את השיחה', 'השיחה נשארה ברשימה. אפשר לנסות שוב.');
+    }
+  });
+
+  return {
+    open(room) {
+      current = room;
+      nameEl.textContent = room.name;
+      hideBanner(banner);
+      openDialog(scrim);
+    },
+  };
+}
+
+/* =========================================================
+   מסך הרשמה
+   ========================================================= */
+function initRegister() {
+  Demo.mount([
+    { value: 'ok', label: 'תקין' },
+    { value: 'server-error', label: 'שגיאת שרת' },
+  ]);
+
+  const form = $('#register-form');
+  const banner = $('#form-banner');
+  const submit = $('#register-submit');
+  bindLiveValidation(form);
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    hideBanner(banner);
+    if (!validateForm(form)) return;
+
+    setLoading(submit, true, 'נרשם…');
+    try {
+      await apiCall({ ms: 1100, fail: Demo.is('server-error') });
+      Session.set({
+        id: 1,
+        firstName: $('#firstName').value.trim(),
+        lastName: $('#lastName').value.trim(),
+        phone: $('#phone').value.replace(/[\s-]/g, ''),
+      });
+      location.href = 'home.html';
+    } catch (err) {
+      setLoading(submit, false);
+      showBanner(banner, 'ההרשמה לא הושלמה', 'לא הצלחנו ליצור את החשבון. בדוק את הפרטים ונסה שוב.');
+    }
+  });
+}
+
+/* =========================================================
+   מסך התחברות
+   ========================================================= */
+function initLogin() {
+  Demo.mount([
+    { value: 'ok', label: 'תקין' },
+    { value: 'server-error', label: 'מספר לא מוכר' },
+  ]);
+
+  const form = $('#login-form');
+  const banner = $('#form-banner');
+  const submit = $('#login-submit');
+  bindLiveValidation(form);
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    hideBanner(banner);
+    if (!validateForm(form)) return;
+
+    setLoading(submit, true, 'מתחבר…');
+    try {
+      await apiCall({ ms: 1000, fail: Demo.is('server-error') });
+      Session.set({ ...MOCK_USER, phone: $('#phone').value.replace(/[\s-]/g, '') });
+      location.href = 'home.html';
+    } catch (err) {
+      setLoading(submit, false);
+      showBanner(banner, 'לא ניתן להתחבר', 'המספר הזה לא רשום אצלנו. בדוק אותו או צור חשבון חדש.');
+    }
+  });
+}
+
+/* =========================================================
+   מסך ראשי — רשימת שיחות
+   ========================================================= */
+function initHome() {
+  Demo.mount([
+    { value: 'ok', label: 'תקין' },
+    { value: 'loading', label: 'טעינה' },
+    { value: 'empty', label: 'אין שיחות' },
+    { value: 'load-error', label: 'שגיאת טעינה' },
+    { value: 'delete-error', label: 'שגיאת מחיקה' },
+  ]);
+
+  initTopbar();
+  const list = $('#room-list');
+  const banner = $('#rail-banner');
+  const empty = $('#rail-empty');
+  const count = $('#room-count');
+  const dialog = initDeleteDialog((room) => {
+    toast(`השיחה עם ${room.name} נמחקה`);
+    load(true);
+  });
+
+  bindRoomInteractions(list, {
+    onOpen: (id) => { location.href = `chat.html?room=${id}`; },
+    onDeleteRequest: (id) => {
+      const room = Store.room(id);
+      if (room) dialog.open(room);
+    },
+  });
+
+  async function load(skipLoading) {
+    hideBanner(banner);
+    empty.hidden = true;
+
+    if (Demo.is('loading')) { renderRoomSkeleton(list, 6); count.textContent = ''; return; }
+    if (!skipLoading) {
+      renderRoomSkeleton(list, 6);
+      count.textContent = '';
+      try { await apiCall({ ms: 700, fail: Demo.is('load-error') }); }
+      catch (err) {
+        list.innerHTML = '';
+        count.textContent = '';
+        showBanner(banner, 'לא ניתן לטעון את השיחות', 'בדוק את החיבור ונסה שוב.');
+        return;
+      }
+    }
+
+    const rooms = Demo.is('empty') ? [] : Store.rooms();
+    count.textContent = rooms.length ? `${rooms.length} שיחות` : '';
+    if (!rooms.length) { list.innerHTML = ''; empty.hidden = false; return; }
+    renderRooms(list, rooms, null);
+  }
+
+  $('#retry-rooms')?.addEventListener('click', () => load(false));
+  load(false);
+}
+
+/* =========================================================
+   מסך שיחה חדשה — רשימת אנשי קשר מקומית
+   ========================================================= */
+function initNewChat() {
+  Demo.mount([
+    { value: 'ok', label: 'תקין' },
+    { value: 'create-error', label: 'שגיאה ביצירה' },
+  ]);
+
+  initTopbar();
+  const list = $('#room-list');
+  renderRooms(list, Store.rooms(), null);
+  list.addEventListener('click', (e) => {
+    const item = e.target.closest('.room');
+    if (item) location.href = `chat.html?room=${item.dataset.room}`;
+  });
+
+  const scrim = $('#new-chat-dialog');
+  const banner = $('.banner', scrim);
+  const contactsEl = $('#contacts');
+  const back = () => { location.href = 'home.html'; };
+
+  contactsEl.innerHTML = MOCK_CONTACTS.map((c) => `
+    <li>
+      <button class="contact" data-contact="${c.id}" data-name="${c.name}">
+        <span class="avatar avatar--sm ${avatarTone(c.id)}">${initials(c.name)}</span>
+        <span class="contact__name u-truncate">${c.name}</span>
+        <span class="contact__hint">פתיחת שיחה</span>
+      </button>
+    </li>`).join('');
+
+  contactsEl.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-contact]');
+    if (!btn) return;
+    hideBanner(banner);
+    btn.classList.add('is-busy');
+    const hint = $('.contact__hint', btn);
+    hint.textContent = 'יוצר שיחה…';
+    hint.style.opacity = 1;
+
+    try {
+      await apiCall({ ms: 900, fail: Demo.is('create-error') });
+      const room = {
+        id: Date.now(),
+        otherUserId: Number(btn.dataset.contact),
+        name: btn.dataset.name,
+        lastMessage: '',
+        lastAt: new Date().toISOString(),
+        unread: 0,
+      };
+      Store.addRoom(room);
+      location.href = `chat.html?room=${room.id}`;
+    } catch (err) {
+      btn.classList.remove('is-busy');
+      hint.textContent = 'פתיחת שיחה';
+      hint.style.opacity = '';
+      showBanner(banner, 'לא ניתן ליצור את השיחה', 'הרשימה נשארה כמו שהיא. אפשר לנסות שוב.');
+    }
+  });
+
+  $('#new-chat-cancel').addEventListener('click', back);
+  bindDialogDismiss(scrim, back);
+  openDialog(scrim);
+}
+
+/* =========================================================
+   מסך שיחה
+   ========================================================= */
+function initChat() {
+  Demo.mount([
+    { value: 'ok', label: 'תקין' },
+    { value: 'loading', label: 'טעינת הודעות' },
+    { value: 'load-error', label: 'שגיאת טעינה' },
+    { value: 'send-error', label: 'כישלון בשליחה' },
+  ]);
+
+  initTopbar();
+
+  const rooms = Store.rooms();
+  const requested = Number(new URLSearchParams(location.search).get('room'));
+  const room = Store.room(requested) || rooms[0];
+
+  const list = $('#room-list');
+  const thread = $('#thread');
+  const inner = $('#thread-inner');
+  const composer = $('#composer');
+  const input = $('#message-input');
+  const sendBtn = $('#send');
+  const banner = $('#thread-banner');
+
+  if (!room) { location.href = 'home.html'; return; }
+
+  /* עמודת השיחות נשארת גלויה — אותה מעטפת, שיחה פעילה מסומנת */
+  renderRooms(list, rooms, room.id);
+  const dialog = initDeleteDialog((deleted) => {
+    toast(`השיחה עם ${deleted.name} נמחקה`);
+    location.href = 'home.html';
+  });
+  bindRoomInteractions(list, {
+    onOpen: (id) => { location.href = `chat.html?room=${id}`; },
+    onDeleteRequest: (id) => { const r = Store.room(id); if (r) dialog.open(r); },
+  });
+
+  $('#room-count').textContent = rooms.length ? `${rooms.length} שיחות` : '';
+  $('[data-room-name]').textContent = room.name;
+  $('[data-room-initials]').textContent = initials(room.name);
+  $('[data-room-avatar]').classList.add(avatarTone(room.otherUserId));
+  input.placeholder = `הודעה אל ${room.name}`;
+  $('#delete-current')?.addEventListener('click', () => dialog.open(room));
+
+  let messages = [];
+
+  function messageMarkup(msg) {
+    const state = msg.state ? ` msg--${msg.state}` : '';
+    const time = msg.state === 'pending' ? '···' : formatTime(msg.at);
+    return `
+      <div class="msg ${msg.mine ? 'msg--out' : 'msg--in'}${state}" data-msg="${msg.id}">
+        <div class="msg__body">
+          <div>
+            <div class="bubble">${escapeHtml(msg.content)}</div>
+            ${msg.state === 'failed' ? '<button class="msg__retry" data-retry="' + msg.id + '">לא נשלח · שליחה חוזרת</button>' : ''}
+          </div>
+        </div>
+        <div class="msg__time u-num">${time}</div>
+      </div>`;
+  }
+
+  function render() {
+    /* השיחה נטענת במלואה, ולכן יש לה התחלה מסומנת על פס הזמן */
+    let html = '<div class="day day--start"><span class="day__label">תחילת השיחה</span><span class="day__cap"></span></div>';
+    let lastDay = null;
+    messages.forEach((msg) => {
+      const day = new Date(msg.at).toDateString();
+      if (day !== lastDay) {
+        lastDay = day;
+        html += `<div class="day"><span class="day__label">${formatDayLabel(msg.at)}</span><span class="day__cap"></span></div>`;
+      }
+      html += messageMarkup(msg);
+    });
+    inner.innerHTML = html;
+    scrollToEnd();
+  }
+
+  function updateHeadMeta() {
+    const meta = $('.chat-head__meta');
+    if (!meta) return;
+    const last = messages[messages.length - 1];
+    meta.textContent = last ? `פעילות אחרונה ${formatRoomStamp(last.at)}` : 'אין עדיין הודעות';
+  }
+
+  function scrollToEnd() {
+    requestAnimationFrame(() => { thread.scrollTop = thread.scrollHeight; });
+  }
+
+  function renderSkeleton() {
+    inner.innerHTML = `
+      <div class="thread-skeleton">
+        <span class="skeleton thread-skeleton__bubble"></span>
+        <span class="skeleton thread-skeleton__bubble thread-skeleton__bubble--out"></span>
+        <span class="skeleton thread-skeleton__bubble" style="width:38%"></span>
+        <span class="skeleton thread-skeleton__bubble thread-skeleton__bubble--out" style="width:52%"></span>
+      </div>`;
+  }
+
+  async function load() {
+    hideBanner(banner);
+    if (Demo.is('loading')) { renderSkeleton(); return; }
+    renderSkeleton();
+    try {
+      await apiCall({ ms: 600, fail: Demo.is('load-error') });
+      messages = Store.messages(room.id);
+      updateHeadMeta();
+      if (!messages.length) {
+        inner.innerHTML = `
+          <div class="empty">
+            <span class="empty__mark">${iconMarkup('chat', 'icon--lg')}</span>
+            <h2 class="empty__title">השיחה עם ${room.name} ריקה</h2>
+            <p class="empty__text">ההודעה הראשונה שתשלח תופיע כאן.</p>
+          </div>`;
+        return;
+      }
+      render();
+    } catch (err) {
+      inner.innerHTML = '';
+      showBanner(banner, 'לא ניתן לטעון את ההודעות', 'ההודעות לא נטענו. נסה שוב.');
+    }
+  }
+
+  /* שליחת הודעה */
+  async function send() {
+    const content = input.value.trim();
+    if (!content) {
+      composer.classList.add('is-invalid');
+      input.focus();
+      return;
+    }
+    composer.classList.remove('is-invalid');
+
+    const msg = {
+      id: `t${Date.now()}`,
+      content,
+      at: new Date().toISOString(),
+      mine: true,
+      state: 'pending',
+    };
+    messages.push(msg);
+    render();
+    input.value = '';
+    autoGrow();
+    setLoading(sendBtn, true);
+
+    try {
+      await apiCall({ ms: 800, fail: Demo.is('send-error') });
+      msg.state = null;
+      msg.at = new Date().toISOString();
+      Store.addMessage(room.id, { id: msg.id, content: msg.content, at: msg.at, mine: true });
+      render();
+      updateHeadMeta();
+    } catch (err) {
+      msg.state = 'failed';
+      render();
+      toast('ההודעה לא נשלחה', 'error');
+    } finally {
+      setLoading(sendBtn, false);
+      input.focus();
+    }
+  }
+
+  inner.addEventListener('click', (e) => {
+    const retry = e.target.closest('[data-retry]');
+    if (!retry) return;
+    const msg = messages.find((m) => String(m.id) === retry.dataset.retry);
+    if (!msg) return;
+    messages = messages.filter((m) => m !== msg);
+    input.value = msg.content;
+    send();
+  });
+
+  sendBtn.addEventListener('click', send);
+  $('#retry-messages')?.addEventListener('click', load);
+
+  input.addEventListener('input', () => {
+    if (input.value.trim()) composer.classList.remove('is-invalid');
+    autoGrow();
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  });
+
+  function autoGrow() {
+    input.style.height = 'auto';
+    input.style.height = `${Math.min(input.scrollHeight, 140)}px`;
+  }
+
+  load();
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+/* ---------- ניתוב ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+  const screen = document.body.dataset.screen;
+  const routes = {
+    register: initRegister,
+    login: initLogin,
+    home: initHome,
+    'new-chat': initNewChat,
+    chat: initChat,
+  };
+  routes[screen]?.();
+});
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+.CourseForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.CourseForm > p {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 15px;
+  padding: 40px 0;
+}

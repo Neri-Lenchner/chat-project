@@ -1,0 +1,16 @@
+/* Spinner — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-full);
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  opacity: 0.9;
+  animation: kav-spin 700ms linear infinite;
+}
+
+.spinner--lg { width: 26px; height: 26px; border-width: 2.5px; }
+
+@keyframes kav-spin { to { transform: rotate(360deg); } }

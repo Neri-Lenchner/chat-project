@@ -1,0 +1,39 @@
+/* Brand — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* ---------- מותג ---------- */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  color: var(--color-ink);
+}
+
+.brand__mark {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  display: grid;
+  place-items: center;
+}
+
+.brand__mark .icon { width: 22px; height: 22px; stroke-width: 2; }
+
+.brand__name {
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-lg);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1;
+}
+
+.brand__sub {
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-ink-3);
+  display: block;
+  margin-top: 3px;
+}

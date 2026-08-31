@@ -1,0 +1,18 @@
+/* Icon — מערכת העיצוב של הרכיב.
+   הועבר לכאן מ-base.css לפי AD-1: העיצוב יושב לצד הרכיב.
+   הדריסות של רכיבים אחרים (.field__icon, .brand__mark .icon,
+   .composer__send .icon) כולן בספציפיות גבוהה יותר ולכן אינן תלויות בסדר. */
+
+.icon {
+  width: var(--size-icon);
+  height: var(--size-icon);
+  flex: none;
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.icon--sm { width: 16px; height: 16px; }
+.icon--lg { width: 24px; height: 24px; }

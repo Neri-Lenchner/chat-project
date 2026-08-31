@@ -1,0 +1,636 @@
+/* =========================================================
+   קו — Screens
+   פריסות המסכים בלבד. אין כאן ערכי צבע/מרווח חדשים.
+   ========================================================= */
+
+/* =========================================================
+   א. מסכי כניסה — הרשמה והתחברות
+   פריסה: טופס בצד ההתחלה (ימין), פאנל שיחה חיה בצד השני.
+   ========================================================= */
+.auth {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.86fr);
+}
+
+.auth__form-side {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  padding: var(--sp-10) var(--sp-8);
+  background: var(--color-surface);
+}
+.auth__form { width: 100%; max-width: var(--size-form); }
+
+.auth__brand { margin-bottom: var(--sp-10); }
+
+.auth__title { font-size: var(--fs-xl); margin-bottom: var(--sp-2); }
+.auth__lede { color: var(--color-ink-2); margin-bottom: var(--sp-8); }
+
+.form__actions { margin-top: var(--sp-8); }
+.form__alt {
+  margin-top: var(--sp-5);
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--color-ink-2);
+}
+
+/* פאנל התצוגה — האלמנט החתימתי: פס זמן אנכי עם שעות במונו */
+.auth__panel {
+  position: relative;
+  overflow: hidden;
+  padding: var(--sp-12) var(--sp-10);
+  background: var(--color-canvas-deep);
+  display: grid;
+  align-content: center;
+  gap: var(--sp-8);
+  border-inline-start: var(--border-width) solid var(--color-line);
+}
+.auth__panel::before {
+  /* רשת עדינה בהשראת לוח חיוג */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at center, var(--color-line-strong) 1px, transparent 1.2px);
+  background-size: 26px 26px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.auth__panel > * { position: relative; }
+
+.auth__headline {
+  font-size: var(--fs-2xl);
+  line-height: 1.1;
+  max-width: 12ch;
+}
+.auth__headline em {
+  font-style: normal;
+  color: var(--color-accent);
+}
+.auth__note {
+  font-size: var(--fs-xs);
+  color: var(--color-ink-3);
+  max-width: 34ch;
+  line-height: var(--lh-snug);
+}
+
+.preview {
+  --size-gutter: 46px;
+  padding: var(--sp-5);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-2);
+  max-width: 420px;
+}
+.preview .msg { animation: kav-msg-in var(--dur-3) var(--ease) backwards; }
+.preview .msg:nth-child(1) { animation-delay: 160ms; }
+.preview .msg:nth-child(2) { animation-delay: 420ms; }
+.preview .msg:nth-child(3) { animation-delay: 700ms; }
+
+@keyframes kav-msg-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* =========================================================
+   ב. מעטפת האפליקציה — מסך ראשי, שיחה חדשה, מסך שיחה
+   ========================================================= */
+.app {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: var(--size-topbar) minmax(0, 1fr);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-inline: var(--sp-5);
+  background: var(--color-surface);
+  border-bottom: var(--border-width) solid var(--color-line);
+  z-index: var(--z-topbar);
+}
+.topbar__actions { display: flex; align-items: center; gap: var(--sp-3); }
+
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  height: var(--size-control-sm);
+  padding-inline: var(--sp-2) var(--sp-3);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+}
+.user-chip:hover { background: var(--color-surface-sunken); }
+.user-chip .icon { color: var(--color-ink-3); }
+
+.workspace {
+  display: grid;
+  grid-template-columns: var(--size-rail) minmax(0, 1fr);
+  min-height: 0;
+}
+
+/* ---------- עמודת השיחות ---------- */
+.rail {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+  background: var(--color-canvas);
+  border-inline-end: var(--border-width) solid var(--color-line);
+  z-index: var(--z-rail);
+}
+.rail__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-5) var(--sp-5) var(--sp-4);
+}
+.rail__title { font-size: var(--fs-md); }
+.rail__count { font-size: var(--fs-xs); font-variant-numeric: tabular-nums; color: var(--color-ink-3); }
+.rail__body { overflow-y: auto; padding: var(--sp-1) var(--sp-4) var(--sp-6); }
+.rail__body > .banner { margin-bottom: var(--sp-3); }
+.rail__body > ul { display: grid; gap: var(--sp-3); }
+
+.room {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-4);
+  width: 100%;
+  padding: var(--sp-4);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  text-align: start;
+  color: inherit;
+  transition: box-shadow var(--dur-2) var(--ease),
+              transform var(--dur-2) var(--ease),
+              border-color var(--dur-1) var(--ease);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+/* פס הסימון בקצה הכרטיס: כחול = השיחה הפתוחה, ענבר = יש הודעות שלא נקראו */
+.room::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--border-active);
+  background: transparent;
+  transition: background var(--dur-1) var(--ease);
+}
+.room:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-line-strong);
+  box-shadow: var(--shadow-lift);
+}
+.room:has(.badge)::before { background: var(--color-highlight); }
+.room[aria-current='true'] {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-lift);
+}
+.room[aria-current='true']::before { background: var(--color-accent); }
+.room[aria-current='true'] .room__name { color: var(--color-accent); }
+.room.is-pressing {
+  transform: scale(0.99);
+  box-shadow: var(--shadow-1);
+  border-color: var(--color-line-strong);
+}
+
+.room__main { min-width: 0; }
+.room__name {
+  display: block;
+  font-weight: var(--fw-semi);
+  font-size: var(--fs-base);
+  line-height: 1.3;
+  transition: color var(--dur-1) var(--ease);
+}
+.room__last {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-ink-2);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+.room__meta {
+  display: grid;
+  justify-items: end;
+  gap: var(--sp-2);
+  align-self: start;
+  padding-top: 2px;
+}
+.room__time {
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-3);
+  white-space: nowrap;
+}
+.room__delete { opacity: 0; }
+.room:hover .room__delete,
+.room:focus-within .room__delete { opacity: 1; }
+
+.room-skeleton {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  align-items: center;
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+.room-skeleton__avatar { width: var(--size-avatar); height: var(--size-avatar); border-radius: var(--radius-md); }
+.room-skeleton__line { height: 11px; border-radius: var(--radius-full); }
+.room-skeleton__line + .room-skeleton__line { margin-top: var(--sp-2); width: 62%; }
+
+/* ---------- אזור ראשי ---------- */
+.main {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-height: 0;
+  background: var(--color-surface);
+}
+.main--blank {
+  grid-template-rows: minmax(0, 1fr);
+  place-items: center;
+  background-image: radial-gradient(circle at center, var(--color-line-strong) 1px, transparent 1.2px);
+  background-size: 26px 26px;
+}
+.main--blank .empty {
+  padding: var(--sp-10) var(--sp-8);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.chat-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  height: var(--size-chat-head);
+  padding-inline: var(--sp-6);
+  background: var(--color-surface);
+  border-bottom: var(--border-width) solid var(--color-line);
+  box-shadow: var(--shadow-1);
+  position: relative;
+  z-index: 2;
+}
+.chat-head__main { min-width: 0; flex: 1; }
+.chat-head__delete { color: var(--color-ink-3); }
+.chat-head__delete:hover { background: var(--color-danger-wash); color: var(--color-danger); }
+.chat-head__name { font-size: var(--fs-lg); line-height: 1.25; }
+.chat-head__meta {
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-3);
+}
+.chat-head__back { display: none; }
+
+/* ---------- אזור ההודעות + פס הזמן ---------- */
+.thread {
+  overflow-y: auto;
+  padding: var(--sp-6) var(--sp-8) var(--sp-8);
+  display: flex;
+  flex-direction: column;
+}
+/* שיחה קצרה נצמדת לתחתית, כמו בכל אפליקציית הודעות */
+.thread__inner { margin-block-start: auto; }
+.thread__inner {
+  position: relative;
+  width: 100%;
+  max-width: var(--size-thread-max);
+  margin-inline: auto;
+}
+.thread__inner::before {
+  /* פס הזמן — הקו האנכי שעליו יושבות כל השעות */
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  left: calc(var(--size-gutter) / 2);
+  width: var(--border-width);
+  background: var(--color-line);
+}
+.thread__inner > * { position: relative; }
+
+.msg {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--size-gutter);
+  align-items: flex-end;
+  column-gap: var(--sp-3);
+}
+.msg + .msg { margin-top: var(--sp-3); }
+
+.msg__body { display: flex; min-width: 0; }
+/* המגבלה יושבת על פריט ה-flex עצמו: אחוזים מול אב ברוחב תוכן
+   היו מקטינים את הבועה שוב ושוב עד לשבירת שורות מיותרת. */
+.msg__body > * { max-width: min(64ch, 74%); min-width: 0; }
+.msg--in  .msg__body { justify-content: flex-start; }
+.msg--out .msg__body { justify-content: flex-end; }
+
+.msg__time {
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-xs);
+  color: var(--color-ink-3);
+  text-align: center;
+  line-height: 1;
+  padding-bottom: var(--sp-3);
+  background: var(--color-surface);
+}
+
+.bubble {
+  max-width: 100%;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  overflow-wrap: anywhere;
+}
+.msg--in .bubble {
+  background: var(--color-surface-sunken);
+  border: var(--border-width) solid var(--color-line);
+  border-start-start-radius: var(--radius-tail);
+}
+.msg--out .bubble {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  border-start-end-radius: var(--radius-tail);
+  box-shadow: var(--shadow-1);
+}
+.msg--pending .bubble { opacity: 0.6; }
+.msg--failed .bubble {
+  background: var(--color-danger-wash);
+  border: var(--border-width) solid rgba(178, 58, 47, 0.35);
+  color: var(--color-danger);
+}
+.msg--failed .msg__time { color: var(--color-danger); }
+.msg__retry {
+  display: block;
+  margin-top: var(--sp-1);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--color-danger);
+  background: none;
+  border: 0;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.day {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--size-gutter);
+  column-gap: var(--sp-3);
+  margin: var(--sp-6) 0 var(--sp-4);
+}
+.day:first-child { margin-top: 0; }
+.day__label {
+  justify-self: center;
+  padding: var(--sp-1) var(--sp-4);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-sunken);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--color-ink-2);
+}
+.day__cap {
+  justify-self: center;
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: var(--color-line-strong);
+  box-shadow: 0 0 0 4px var(--color-surface);
+}
+
+.day--start .day__label {
+  background: transparent;
+  border-style: dashed;
+  color: var(--color-ink-3);
+}
+.day--start .day__cap { background: var(--color-line); }
+
+.thread-skeleton { display: grid; gap: var(--sp-4); }
+.thread-skeleton__bubble { height: 44px; border-radius: var(--radius-lg); width: 46%; }
+.thread-skeleton__bubble--out { justify-self: end; width: 34%; }
+
+/* ---------- שורת כתיבה ---------- */
+.composer {
+  padding: var(--sp-4) var(--sp-8) var(--sp-5);
+  background: var(--color-surface);
+  border-top: var(--border-width) solid var(--color-line);
+  box-shadow: var(--shadow-bar);
+  position: relative;
+  z-index: 2;
+}
+.composer__inner { max-width: var(--size-thread-max); margin-inline: auto; }
+.composer__row { display: flex; align-items: flex-end; gap: var(--sp-3); }
+
+.composer__input {
+  flex: 1;
+  min-height: var(--size-composer);
+  max-height: 148px;
+  padding: 14px var(--sp-5);
+  border: var(--border-width-strong) solid var(--color-line-strong);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-sunken);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  resize: none;
+  transition: border-color var(--dur-1) var(--ease),
+              background var(--dur-1) var(--ease),
+              box-shadow var(--dur-1) var(--ease);
+}
+.composer__input::placeholder { color: var(--color-ink-3); }
+.composer__input:hover { border-color: var(--color-ink-3); }
+.composer__input:focus {
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+.composer.is-invalid .composer__input {
+  border-color: var(--color-danger);
+  background: var(--color-danger-wash);
+}
+
+.composer__error {
+  display: none;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+  padding-inline-start: var(--sp-5);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-danger);
+}
+.composer.is-invalid .composer__error { display: flex; }
+
+.composer__send {
+  height: var(--size-composer);
+  padding-inline: var(--sp-5);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-1);
+}
+.composer__send .icon { transform: scaleX(-1); }
+
+/* ---------- שיחה חדשה ---------- */
+.contacts {
+  display: grid;
+  gap: var(--sp-2);
+  max-height: 46vh;
+  overflow-y: auto;
+  padding: var(--sp-1);
+  margin: 0 calc(var(--sp-1) * -1);
+}
+.contact {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-4);
+  width: 100%;
+  padding: var(--sp-3) var(--sp-4);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-sunken);
+  text-align: start;
+  color: inherit;
+  transition: box-shadow var(--dur-2) var(--ease),
+              transform var(--dur-2) var(--ease),
+              border-color var(--dur-1) var(--ease),
+              background var(--dur-1) var(--ease);
+}
+.contact:hover {
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-card);
+}
+.contact__name { font-weight: var(--fw-semi); }
+.contact__hint {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--color-accent);
+  opacity: 0;
+  transition: opacity var(--dur-1) var(--ease);
+}
+.contact:hover .contact__hint, .contact:focus-visible .contact__hint { opacity: 1; }
+.contact.is-busy {
+  background: var(--color-accent-wash);
+  border-color: var(--color-accent);
+  pointer-events: none;
+}
+
+/* =========================================================
+   ג. מסך מפה (index) ומדריך העיצוב
+   ========================================================= */
+.page { max-width: 1080px; margin-inline: auto; padding: var(--sp-12) var(--sp-6) var(--sp-16); }
+.page__head { margin-bottom: var(--sp-10); }
+.page__title { font-size: var(--fs-2xl); margin: var(--sp-5) 0 var(--sp-3); }
+.page__lede { color: var(--color-ink-2); max-width: 62ch; }
+
+.section { margin-top: var(--sp-12); }
+.section__title { font-size: var(--fs-lg); margin-bottom: var(--sp-5); }
+
+.grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); }
+
+.card {
+  display: block;
+  padding: var(--sp-5);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  transition: border-color var(--dur-1) var(--ease), transform var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
+}
+a.card:hover {
+  text-decoration: none;
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+}
+.card__title { font-size: var(--fs-md); margin: var(--sp-3) 0 var(--sp-2); }
+.card__text { font-size: var(--fs-sm); color: var(--color-ink-2); }
+
+.swatch { border: var(--border-width) solid var(--color-line); border-radius: var(--radius-md); overflow: hidden; background: var(--color-surface); }
+.swatch__chip { height: 68px; }
+.swatch__body { padding: var(--sp-3); }
+.swatch__name { font-size: var(--fs-sm); font-weight: var(--fw-medium); }
+.swatch__code { font-size: var(--fs-xs); font-variant-numeric: tabular-nums; color: var(--color-ink-3); }
+
+.specimen { padding: var(--sp-5); border: var(--border-width) solid var(--color-line); border-radius: var(--radius-lg); background: var(--color-surface); }
+.specimen + .specimen { margin-top: var(--sp-3); }
+.specimen__meta { font-size: var(--fs-xs); color: var(--color-ink-3); margin-top: var(--sp-2); }
+
+.stack { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
+
+/* =========================================================
+   ד. רספונסיביות
+   ========================================================= */
+@media (max-width: 1080px) {
+  :root { --size-rail: 300px; }
+}
+
+@media (max-width: 900px) {
+  .auth { grid-template-columns: minmax(0, 1fr); }
+  .auth__panel { display: none; }
+  .auth__form-side { align-content: start; padding: var(--sp-8) var(--sp-5); }
+  .auth__brand { margin-bottom: var(--sp-8); }
+}
+
+@media (max-width: 760px) {
+  :root { --size-gutter: 48px; }
+
+  .workspace { grid-template-columns: minmax(0, 1fr); }
+
+  /* במסך צר מוצג מסך אחד בכל רגע: רשימה או שיחה */
+  body[data-screen='home'] .main,
+  body[data-screen='new-chat'] .main { display: none; }
+  body[data-screen='chat'] .rail { display: none; }
+
+  .chat-head__back { display: inline-flex; }
+  .thread { padding: var(--sp-5) var(--sp-4) var(--sp-6); }
+  .composer { padding: var(--sp-3) var(--sp-4) var(--sp-4); }
+  .composer__send { padding-inline: 0; width: var(--size-composer); justify-content: center; }
+  .composer__send .btn__label { display: none; }
+  .rail__body { padding-inline: var(--sp-3); }
+  .chat-head { padding-inline: var(--sp-4); gap: var(--sp-3); }
+  .msg__body > * { max-width: 86%; }
+
+  /* הסרגל העליון חייב להיכנס לרוחב טלפון: טקסטים משניים יורדים */
+  .topbar { padding-inline: var(--sp-3); gap: var(--sp-2); min-width: 0; }
+  .topbar__actions { gap: var(--sp-2); min-width: 0; }
+  .user-chip__name { display: none; }
+  .demo__label { display: none; }
+  .demo { padding-inline: var(--sp-2); }
+  .topbar .btn--secondary .btn__label { display: none; }
+  .topbar .btn--secondary {
+    width: var(--size-control-sm);
+    padding-inline: 0;
+    justify-content: center;
+  }
+  .demo--floating { left: var(--sp-3); bottom: var(--sp-3); }
+}
+
+/* ---------- תוספות פריסה לטפסים ולתצוגה המקדימה ---------- */
+.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+@media (max-width: 520px) { .form__row { grid-template-columns: 1fr; } }
+
+/* בתוך פאנל התצוגה הרקע לבן, ולכן המסכה של פס הזמן משתנה בהתאם */
+.preview .msg__time { background: var(--color-surface); }
+.preview .day__cap { box-shadow: 0 0 0 4px var(--color-surface); }
+.preview .bubble { font-size: var(--fs-sm); }
+
+/* כשאין הודעות, פס הזמן לא מצויר — אין למה להיאחז */
+.thread__inner:has(.empty)::before { display: none; }

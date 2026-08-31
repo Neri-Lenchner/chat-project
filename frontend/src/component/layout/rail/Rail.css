@@ -1,0 +1,34 @@
+/* Rail — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* ---------- עמודת השיחות ---------- */
+.rail {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+  background: var(--color-canvas);
+  border-inline-end: var(--border-width) solid var(--color-line);
+  z-index: var(--z-rail);
+}
+
+.rail__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-5) var(--sp-5) var(--sp-4);
+}
+
+.rail__title { font-size: var(--fs-md); }
+
+.rail__count { font-size: var(--fs-xs); font-variant-numeric: tabular-nums; color: var(--color-ink-3); }
+
+.rail__body { overflow-y: auto; padding: var(--sp-1) var(--sp-4) var(--sp-6); }
+
+.rail__body > .banner { margin-bottom: var(--sp-3); }
+
+.rail__body > ul { display: grid; gap: var(--sp-3); }
+
+@media (max-width: 760px) {
+  .rail__body { padding-inline: var(--sp-3); }
+}

@@ -1,0 +1,23 @@
+.Main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 40px;
+  gap: 16px;
+}
+
+.Main > h1 {
+  font-size: 52px;
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  text-align: center;
+  filter: drop-shadow(0 0 24px rgba(124, 58, 237, 0.4));
+}

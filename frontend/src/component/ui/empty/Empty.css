@@ -1,0 +1,28 @@
+/* Empty — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* ---------- מצב ריק ---------- */
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-10) var(--sp-6);
+  text-align: center;
+}
+
+.empty__mark {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  display: grid;
+  place-items: center;
+  background: var(--color-accent-wash);
+  color: var(--color-accent);
+  margin-bottom: var(--sp-1);
+}
+
+.empty__title { font-size: var(--fs-md); }
+
+.empty__text { color: var(--color-ink-2); font-size: var(--fs-sm); max-width: 34ch; }
+
+.empty .btn { margin-top: var(--sp-3); }

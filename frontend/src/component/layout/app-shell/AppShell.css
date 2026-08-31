@@ -1,0 +1,46 @@
+/* AppShell — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* =========================================================
+   ב. מעטפת האפליקציה — מסך ראשי, שיחה חדשה, מסך שיחה
+   ========================================================= */
+.app {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: var(--size-topbar) minmax(0, 1fr);
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: var(--size-rail) minmax(0, 1fr);
+  min-height: 0;
+}
+
+/* ---------- אזור ראשי ---------- */
+.main {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-height: 0;
+  background: var(--color-surface);
+}
+
+.main--blank {
+  grid-template-rows: minmax(0, 1fr);
+  place-items: center;
+  background-image: radial-gradient(circle at center, var(--color-line-strong) 1px, transparent 1.2px);
+  background-size: 26px 26px;
+}
+
+.main--blank .empty {
+  padding: var(--sp-10) var(--sp-8);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+@media (max-width: 760px) {
+  .workspace { grid-template-columns: minmax(0, 1fr); }
+  body[data-screen='home'] .main, body[data-screen='new-chat'] .main { display: none; }
+  body[data-screen='chat'] .rail { display: none; }
+}

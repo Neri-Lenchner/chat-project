@@ -1,0 +1,77 @@
+/* Composer — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* סלקטורים שדורסים ערך של ui/button משורשרים ל-.btn בכוונה:
+   כך הניצחון נקבע בספציפיות ולא בסדר הייבוא בין הקבצים. */
+/* ---------- שורת כתיבה ---------- */
+.composer {
+  padding: var(--sp-4) var(--sp-8) var(--sp-5);
+  background: var(--color-surface);
+  border-top: var(--border-width) solid var(--color-line);
+  box-shadow: var(--shadow-bar);
+  position: relative;
+  z-index: 2;
+}
+
+.composer__inner { max-width: var(--size-thread-max); margin-inline: auto; }
+
+.composer__row { display: flex; align-items: flex-end; gap: var(--sp-3); }
+
+.composer__input {
+  flex: 1;
+  min-height: var(--size-composer);
+  max-height: 148px;
+  padding: 14px var(--sp-5);
+  border: var(--border-width-strong) solid var(--color-line-strong);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-sunken);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  resize: none;
+  transition: border-color var(--dur-1) var(--ease),
+              background var(--dur-1) var(--ease),
+              box-shadow var(--dur-1) var(--ease);
+}
+
+.composer__input::placeholder { color: var(--color-ink-3); }
+
+.composer__input:hover { border-color: var(--color-ink-3); }
+
+.composer__input:focus {
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.composer.is-invalid .composer__input {
+  border-color: var(--color-danger);
+  background: var(--color-danger-wash);
+}
+
+.composer__error {
+  display: none;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+  padding-inline-start: var(--sp-5);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-danger);
+}
+
+.composer.is-invalid .composer__error { display: flex; }
+
+.composer__send.btn {
+  height: var(--size-composer);
+  padding-inline: var(--sp-5);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-1);
+}
+
+.composer__send .icon { transform: scaleX(-1); }
+
+@media (max-width: 760px) {
+  .composer { padding: var(--sp-3) var(--sp-4) var(--sp-4); }
+  .composer__send.btn { padding-inline: 0; width: var(--size-composer); justify-content: center; }
+  .composer__send .btn__label { display: none; }
+}

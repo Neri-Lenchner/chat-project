@@ -1,0 +1,80 @@
+/* Field — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* ---------- שדות טופס ---------- */
+.field { display: block; margin-bottom: var(--sp-5); }
+
+.field:last-child { margin-bottom: 0; }
+
+.field__label {
+  display: block;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-ink-2);
+}
+
+.field__wrap { position: relative; display: block; }
+
+.field__icon {
+  position: absolute;
+  inset-inline-start: var(--sp-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-ink-3);
+  pointer-events: none;
+  transition: color var(--dur-1) var(--ease);
+}
+
+.input {
+  width: 100%;
+  height: var(--size-control);
+  padding-inline: calc(var(--sp-4) + var(--size-icon) + var(--sp-3)) var(--sp-4);
+  border: var(--border-width-strong) solid var(--color-line-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: var(--fs-base);
+  transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
+}
+
+.input::placeholder { color: var(--color-ink-3); }
+
+.input:hover { border-color: var(--color-ink-3); }
+
+.input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.input:focus + .field__icon, .field__wrap:focus-within .field__icon { color: var(--color-accent); }
+
+.input--plain { padding-inline-start: var(--sp-4); }
+
+.input--phone { font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+
+.field__hint {
+  display: block;
+  margin-top: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--color-ink-3);
+}
+
+.field__error {
+  display: none;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-danger);
+}
+
+.field.is-invalid .field__error { display: flex; }
+
+.field.is-invalid .field__hint { display: none; }
+
+.field.is-invalid .input { border-color: var(--color-danger); background: var(--color-danger-wash); }
+
+.field.is-invalid .input:focus { box-shadow: 0 0 0 3px rgba(178, 58, 47, 0.22); }
+
+.field.is-invalid .field__icon { color: var(--color-danger); }

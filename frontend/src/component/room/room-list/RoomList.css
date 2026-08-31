@@ -1,0 +1,29 @@
+/* RoomList — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* הסלקטורים כאן משורשרים ל-.skeleton בכוונה: הם דורסים ערך של רכיב
+   אחר (ui/skeleton), ושרשור מבטיח ניצחון בספציפיות ולא בסדר הייבוא. */
+.room-skeleton {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  align-items: center;
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.room-skeleton__avatar.skeleton { width: var(--size-avatar); height: var(--size-avatar); border-radius: var(--radius-md); }
+
+.room-skeleton__line.skeleton { height: 11px; border-radius: var(--radius-full); }
+
+.room-skeleton__line + .room-skeleton__line.skeleton { margin-top: var(--sp-2); width: 62%; }
+
+/* פריסת הרשימה עצמה. השלד והכרטיסים מעוצבים למעלה. */
+.RoomList { display: grid; gap: var(--sp-3); }
+/* בפרוטוטייפ שורות השלד קיבלו display:block ב-style inline. כאן זה כלל,
+   כי span הוא inline כברירת מחדל ואז height לא חל עליו. */
+.RoomList .room-skeleton__line { display: block; }
+/* השורה הראשונה קצרה יותר, כמו ב-renderRoomSkeleton בפרוטוטייפ */
+.RoomList__line--short { width: 70%; }

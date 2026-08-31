@@ -1,0 +1,85 @@
+/* Thread — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* הסלקטורים כאן משורשרים ל-.skeleton בכוונה: הם דורסים ערך של רכיב
+   אחר (ui/skeleton), ושרשור מבטיח ניצחון בספציפיות ולא בסדר הייבוא. */
+/* ---------- אזור ההודעות + פס הזמן ---------- */
+.thread {
+  overflow-y: auto;
+  padding: var(--sp-6) var(--sp-8) var(--sp-8);
+  display: flex;
+  flex-direction: column;
+}
+
+/* שיחה קצרה נצמדת לתחתית, כמו בכל אפליקציית הודעות */
+.thread__inner { margin-block-start: auto; }
+
+.thread__inner {
+  position: relative;
+  width: 100%;
+  max-width: var(--size-thread-max);
+  margin-inline: auto;
+}
+
+.thread__inner::before {
+  /* פס הזמן — הקו האנכי שעליו יושבות כל השעות */
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  left: calc(var(--size-gutter) / 2);
+  width: var(--border-width);
+  background: var(--color-line);
+}
+
+.thread__inner > * { position: relative; }
+
+.day {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--size-gutter);
+  column-gap: var(--sp-3);
+  margin: var(--sp-6) 0 var(--sp-4);
+}
+
+.day:first-child { margin-top: 0; }
+
+.day__label {
+  justify-self: center;
+  padding: var(--sp-1) var(--sp-4);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-sunken);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--color-ink-2);
+}
+
+.day__cap {
+  justify-self: center;
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: var(--color-line-strong);
+  box-shadow: 0 0 0 4px var(--color-surface);
+}
+
+.day--start .day__label {
+  background: transparent;
+  border-style: dashed;
+  color: var(--color-ink-3);
+}
+
+.day--start .day__cap { background: var(--color-line); }
+
+.thread-skeleton { display: grid; gap: var(--sp-4); }
+
+.thread-skeleton__bubble.skeleton { height: 44px; border-radius: var(--radius-lg); width: 46%; }
+
+.thread-skeleton__bubble--out.skeleton { justify-self: end; width: 34%; }
+
+@media (max-width: 760px) {
+  .thread { padding: var(--sp-5) var(--sp-4) var(--sp-6); }
+}
+
+/* כשאין הודעות, פס הזמן לא מצויר — אין למה להיאחז */
+.thread__inner:has(.empty)::before { display: none; }

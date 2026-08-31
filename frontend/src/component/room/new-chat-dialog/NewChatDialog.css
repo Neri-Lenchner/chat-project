@@ -1,0 +1,55 @@
+/* NewChatDialog — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* ---------- שיחה חדשה ---------- */
+.contacts {
+  display: grid;
+  gap: var(--sp-2);
+  max-height: 46vh;
+  overflow-y: auto;
+  padding: var(--sp-1);
+  margin: 0 calc(var(--sp-1) * -1);
+}
+
+.contact {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-4);
+  width: 100%;
+  padding: var(--sp-3) var(--sp-4);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-sunken);
+  text-align: start;
+  color: inherit;
+  transition: box-shadow var(--dur-2) var(--ease),
+              transform var(--dur-2) var(--ease),
+              border-color var(--dur-1) var(--ease),
+              background var(--dur-1) var(--ease);
+}
+
+.contact:hover {
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-card);
+}
+
+.contact__name { font-weight: var(--fw-semi); }
+
+.contact__hint {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--color-accent);
+  opacity: 0;
+  transition: opacity var(--dur-1) var(--ease);
+}
+
+.contact:hover .contact__hint, .contact:focus-visible .contact__hint { opacity: 1; }
+
+.contact.is-busy {
+  background: var(--color-accent-wash);
+  border-color: var(--color-accent);
+  pointer-events: none;
+}

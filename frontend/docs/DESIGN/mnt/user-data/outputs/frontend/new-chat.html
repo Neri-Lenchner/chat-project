@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>שיחה חדשה · קו</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/screens.css">
+</head>
+<body data-screen="new-chat">
+
+  <div class="app">
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <span class="brand__mark"><span data-icon="kav"></span></span>
+        <span class="brand__name">קו</span>
+      </a>
+
+      <div class="topbar__actions">
+        <span id="demo-slot"></span>
+        <div class="menu">
+          <button class="user-chip" id="user-menu-trigger" aria-expanded="false" aria-haspopup="true">
+            <span class="avatar avatar--sm avatar--1" data-user-initials></span>
+            <span class="user-chip__name" data-user-name></span>
+            <span data-icon="chevron" data-icon-size="sm"></span>
+          </button>
+          <div class="menu__panel" id="user-menu-panel" hidden>
+            <div class="menu__head">
+              <div class="menu__name" data-user-name></div>
+              <div class="menu__meta" data-user-phone></div>
+            </div>
+            <a class="menu__item" href="home.html"><span data-icon="chat"></span>השיחות שלי</a>
+            <button class="menu__item menu__item--danger" id="logout"><span data-icon="logout"></span>התנתקות</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="rail">
+        <div class="rail__head">
+          <h1 class="rail__title">השיחות שלי</h1>
+        </div>
+        <div class="rail__body"><ul id="room-list"></ul></div>
+      </aside>
+
+      <main class="main main--blank">
+        <div class="empty">
+          <span class="empty__mark"><span data-icon="users" data-icon-size="lg"></span></span>
+          <h2 class="empty__title">בחירת איש קשר</h2>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- דיאלוג בחירת איש קשר (סעיף 9) -->
+  <div class="scrim" id="new-chat-dialog" role="dialog" aria-modal="true" aria-labelledby="new-chat-title" hidden>
+    <div class="dialog dialog--wide" tabindex="-1" data-autofocus>
+      <div class="dialog__head">
+        <div>
+          <h2 class="dialog__title" id="new-chat-title">שיחה חדשה</h2>
+          <p class="dialog__text u-faint" style="font-size:var(--fs-sm)">בחר איש קשר כדי לפתוח שיחה.</p>
+        </div>
+        <button class="btn btn--icon" id="new-chat-cancel" aria-label="סגירה"><span data-icon="x"></span></button>
+      </div>
+
+      <div class="banner banner--error" role="alert" hidden>
+        <span data-icon="alert"></span>
+        <span class="banner__body">
+          <strong class="banner__title"></strong>
+          <span class="banner__text"></span>
+        </span>
+      </div>
+
+      <ul class="contacts" id="contacts"></ul>
+    </div>
+  </div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/mock.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/screens.js"></script>
+</body>
+</html>

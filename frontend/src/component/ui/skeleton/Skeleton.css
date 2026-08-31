@@ -1,0 +1,18 @@
+/* Skeleton — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* ---------- שלד טעינה ---------- */
+.skeleton {
+  background: linear-gradient(90deg,
+    var(--color-canvas-deep) 25%,
+    var(--color-surface-sunken) 37%,
+    var(--color-canvas-deep) 63%);
+  background-size: 400% 100%;
+  border-radius: var(--radius-sm);
+  animation: kav-shimmer 1.4s ease infinite;
+}
+
+@keyframes kav-shimmer {
+  from { background-position: 100% 0; }
+  to   { background-position: 0 0; }
+}

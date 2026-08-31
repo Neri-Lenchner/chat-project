@@ -1,0 +1,33 @@
+/* Banner — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* ---------- באנר הודעה ---------- */
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-sunken);
+  font-size: var(--fs-sm);
+  color: var(--color-ink-2);
+}
+
+.banner .icon { margin-top: 2px; }
+
+.banner__body { flex: 1; min-width: 0; }
+
+.banner__title { display: block; font-weight: var(--fw-medium); color: var(--color-ink); }
+
+.banner--error {
+  border-color: rgba(178, 58, 47, 0.32);
+  background: var(--color-danger-wash);
+  color: var(--color-danger);
+}
+
+.banner--error .banner__title { color: var(--color-danger); }
+
+.banner--warn { border-color: rgba(150, 105, 15, 0.3); background: var(--color-warn-wash); color: var(--color-warn); }
+
+.banner + .field, .banner + .form__actions { margin-top: var(--sp-5); }

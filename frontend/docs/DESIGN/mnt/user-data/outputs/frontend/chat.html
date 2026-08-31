@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>שיחה · קו</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/screens.css">
+</head>
+<body data-screen="chat">
+
+  <div class="app">
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <span class="brand__mark"><span data-icon="kav"></span></span>
+        <span class="brand__name">קו</span>
+      </a>
+
+      <div class="topbar__actions">
+        <span id="demo-slot"></span>
+        <a class="btn btn--secondary btn--sm" href="new-chat.html">
+          <span data-icon="newchat" data-icon-size="sm"></span>
+          <span class="btn__label">שיחה חדשה</span>
+        </a>
+        <div class="menu">
+          <button class="user-chip" id="user-menu-trigger" aria-expanded="false" aria-haspopup="true">
+            <span class="avatar avatar--sm avatar--1" data-user-initials></span>
+            <span class="user-chip__name" data-user-name></span>
+            <span data-icon="chevron" data-icon-size="sm"></span>
+          </button>
+          <div class="menu__panel" id="user-menu-panel" hidden>
+            <div class="menu__head">
+              <div class="menu__name" data-user-name></div>
+              <div class="menu__meta" data-user-phone></div>
+            </div>
+            <a class="menu__item" href="home.html"><span data-icon="chat"></span>השיחות שלי</a>
+            <button class="menu__item menu__item--danger" id="logout"><span data-icon="logout"></span>התנתקות</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="rail">
+        <div class="rail__head">
+          <h1 class="rail__title">השיחות שלי</h1>
+          <span class="rail__count u-num" id="room-count"></span>
+        </div>
+        <div class="rail__body"><ul id="room-list"></ul></div>
+      </aside>
+
+      <main class="main">
+        <!-- כותרת השיחה -->
+        <div class="chat-head">
+          <a class="btn btn--icon chat-head__back" href="home.html" aria-label="חזרה לרשימת השיחות"><span data-icon="back"></span></a>
+          <span class="avatar" data-room-avatar data-room-initials></span>
+          <div class="chat-head__main">
+            <h2 class="chat-head__name u-truncate" data-room-name></h2>
+            <span class="chat-head__meta"></span>
+          </div>
+          <button class="btn btn--icon chat-head__delete" id="delete-current" aria-label="מחיקת השיחה">
+            <span data-icon="trash"></span>
+          </button>
+        </div>
+
+        <!-- ההודעות -->
+        <div class="thread" id="thread">
+          <div class="banner banner--error" id="thread-banner" role="alert" hidden style="width:100%;max-width:var(--size-thread-max);margin-inline:auto">
+            <span data-icon="alert"></span>
+            <span class="banner__body">
+              <strong class="banner__title"></strong>
+              <span class="banner__text"></span>
+              <button class="btn btn--secondary btn--sm" id="retry-messages" style="margin-top:var(--sp-3)">
+                <span data-icon="refresh" data-icon-size="sm"></span>
+                <span class="btn__label">טעינה מחדש</span>
+              </button>
+            </span>
+          </div>
+
+          <div class="thread__inner" id="thread-inner"></div>
+        </div>
+
+        <!-- שורת כתיבה -->
+        <div class="composer" id="composer">
+          <div class="composer__inner">
+            <div class="composer__row">
+              <textarea class="composer__input" id="message-input" rows="1" placeholder="כתוב הודעה…" aria-label="תוכן ההודעה"></textarea>
+              <button class="btn btn--primary composer__send" id="send">
+                <span class="btn__spinner spinner"></span>
+                <span data-icon="send"></span>
+                <span class="btn__label">שליחה</span>
+              </button>
+            </div>
+            <p class="composer__error"><span data-icon="alert" data-icon-size="sm"></span>אי אפשר לשלוח הודעה ריקה. כתוב משהו קודם.</p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="scrim" id="delete-dialog" role="dialog" aria-modal="true" aria-labelledby="delete-title" hidden>
+    <div class="dialog">
+      <h2 class="dialog__title" id="delete-title">האם למחוק את השיחה?</h2>
+      <p class="dialog__text">השיחה עם <strong data-delete-name></strong> וכל ההודעות שבה יימחקו מהמכשיר.</p>
+
+      <div class="banner banner--error" role="alert" hidden>
+        <span data-icon="alert"></span>
+        <span class="banner__body">
+          <strong class="banner__title"></strong>
+          <span class="banner__text"></span>
+        </span>
+      </div>
+
+      <div class="dialog__actions">
+        <button class="btn btn--secondary" id="delete-cancel"><span class="btn__label">ביטול</span></button>
+        <button class="btn btn--danger" id="delete-confirm">
+          <span class="btn__spinner spinner"></span>
+          <span class="btn__label">מחיקה</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/mock.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/screens.js"></script>
+</body>
+</html>

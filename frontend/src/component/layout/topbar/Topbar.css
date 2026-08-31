@@ -1,0 +1,45 @@
+/* Topbar — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-inline: var(--sp-5);
+  background: var(--color-surface);
+  border-bottom: var(--border-width) solid var(--color-line);
+  z-index: var(--z-topbar);
+}
+
+.topbar__actions { display: flex; align-items: center; gap: var(--sp-3); }
+
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  height: var(--size-control-sm);
+  padding-inline: var(--sp-2) var(--sp-3);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+}
+
+.user-chip:hover { background: var(--color-surface-sunken); }
+
+.user-chip .icon { color: var(--color-ink-3); }
+
+@media (max-width: 760px) {
+  .topbar { padding-inline: var(--sp-3); gap: var(--sp-2); min-width: 0; }
+  .topbar__actions { gap: var(--sp-2); min-width: 0; }
+  .user-chip__name { display: none; }
+  .topbar .btn--secondary .btn__label { display: none; }
+  .topbar .btn--secondary {
+    width: var(--size-control-sm);
+    padding-inline: 0;
+    justify-content: center;
+  }
+}

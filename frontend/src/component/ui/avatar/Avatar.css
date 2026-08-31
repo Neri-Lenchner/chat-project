@@ -1,0 +1,32 @@
+/* Avatar — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* ---------- מונוגרמה ---------- */
+.avatar {
+  width: var(--size-avatar);
+  height: var(--size-avatar);
+  flex: none;
+  border-radius: var(--radius-md);
+  display: grid;
+  place-items: center;
+  background: var(--color-accent-wash);
+  color: var(--color-accent);
+  font-weight: var(--fw-semi);
+  font-size: var(--fs-base);
+  line-height: 1;
+  user-select: none;
+}
+
+.avatar--sm { width: var(--size-avatar-sm); height: var(--size-avatar-sm); font-size: var(--fs-sm); border-radius: var(--radius-sm); }
+
+.avatar--lg { width: var(--size-avatar-lg); height: var(--size-avatar-lg); font-size: var(--fs-md); border-radius: var(--radius-lg); }
+
+.avatar--1 { background: color-mix(in srgb, var(--avatar-1) 12%, #FFFFFF); color: var(--avatar-1); }
+
+.avatar--2 { background: color-mix(in srgb, var(--avatar-2) 12%, #FFFFFF); color: var(--avatar-2); }
+
+.avatar--3 { background: color-mix(in srgb, var(--avatar-3) 12%, #FFFFFF); color: var(--avatar-3); }
+
+.avatar--4 { background: color-mix(in srgb, var(--avatar-4) 12%, #FFFFFF); color: var(--avatar-4); }
+
+.avatar--5 { background: color-mix(in srgb, var(--avatar-5) 12%, #FFFFFF); color: var(--avatar-5); }

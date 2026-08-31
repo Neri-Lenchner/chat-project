@@ -1,0 +1,96 @@
+/* RoomCard — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+.room {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-4);
+  width: 100%;
+  padding: var(--sp-4);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  text-align: start;
+  color: inherit;
+  transition: box-shadow var(--dur-2) var(--ease),
+              transform var(--dur-2) var(--ease),
+              border-color var(--dur-1) var(--ease);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* פס הסימון בקצה הכרטיס: כחול = השיחה הפתוחה, ענבר = יש הודעות שלא נקראו */
+.room::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--border-active);
+  background: transparent;
+  transition: background var(--dur-1) var(--ease);
+}
+
+.room:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-line-strong);
+  box-shadow: var(--shadow-lift);
+}
+
+.room:has(.badge)::before { background: var(--color-highlight); }
+
+.room[aria-current='true'] {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-lift);
+}
+
+.room[aria-current='true']::before { background: var(--color-accent); }
+
+.room[aria-current='true'] .room__name { color: var(--color-accent); }
+
+.room.is-pressing {
+  transform: scale(0.99);
+  box-shadow: var(--shadow-1);
+  border-color: var(--color-line-strong);
+}
+
+.room__main { min-width: 0; }
+
+.room__name {
+  display: block;
+  font-weight: var(--fw-semi);
+  font-size: var(--fs-base);
+  line-height: 1.3;
+  transition: color var(--dur-1) var(--ease);
+}
+
+.room__last {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-ink-2);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.room__meta {
+  display: grid;
+  justify-items: end;
+  gap: var(--sp-2);
+  align-self: start;
+  padding-top: 2px;
+}
+
+.room__time {
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-3);
+  white-space: nowrap;
+}
+
+.room__delete { opacity: 0; }
+
+.room:hover .room__delete, .room:focus-within .room__delete { opacity: 1; }

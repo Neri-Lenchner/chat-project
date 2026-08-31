@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>מדריך העיצוב · קו</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/screens.css">
+</head>
+<body data-screen="styleguide">
+
+  <main class="page">
+    <header class="page__head">
+      <a class="brand" href="index.html">
+        <span class="brand__mark"><span data-icon="kav"></span></span>
+        <span class="brand__name">קו</span>
+      </a>
+      <h1 class="page__title">מדריך העיצוב</h1>
+      <p class="page__lede">
+        כל מה שמופיע כאן מגיע מ־<span class="u-num">tokens.css</span>. אם צריך לשנות מראה —
+        משנים טוקן, לא רכיב. המסמך המלא נמצא ב־<span class="u-num">docs/DESIGN-SYSTEM.md</span>.
+      </p>
+    </header>
+
+    <!-- צבע -->
+    <section class="section">
+      <h2 class="section__title">צבע</h2>
+      <div class="grid">
+        <div class="swatch"><div class="swatch__chip" style="background:var(--color-canvas)"></div><div class="swatch__body"><div class="swatch__name">רקע</div><div class="swatch__code u-ltr">--color-canvas · #EEF0F5</div></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--color-surface);border-bottom:1px solid var(--color-line)"></div><div class="swatch__body"><div class="swatch__name">משטח</div><div class="swatch__code u-ltr">--color-surface · #FFFFFF</div></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--color-ink)"></div><div class="swatch__body"><div class="swatch__name">דיו</div><div class="swatch__code u-ltr">--color-ink · #12151C</div></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--color-ink-2)"></div><div class="swatch__body"><div class="swatch__name">דיו משני</div><div class="swatch__code u-ltr">--color-ink-2 · #464F60</div></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--color-accent)"></div><div class="swatch__body"><div class="swatch__name">אקסנט</div><div class="swatch__code u-ltr">--color-accent · #22399E</div></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--color-accent-wash)"></div><div class="swatch__body"><div class="swatch__name">אקסנט רך</div><div class="swatch__code u-ltr">--color-accent-wash · #E8EBF7</div></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--color-danger)"></div><div class="swatch__body"><div class="swatch__name">שגיאה</div><div class="swatch__code u-ltr">--color-danger · #C0362B</div></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--color-line)"></div><div class="swatch__body"><div class="swatch__name">קו</div><div class="swatch__code u-ltr">--color-line · #DDE2EC</div></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--color-highlight)"></div><div class="swatch__body"><div class="swatch__name">הדגשה — לא נקרא</div><div class="swatch__code u-ltr">--color-highlight · #C2740A</div></div></div>
+      </div>
+    </section>
+
+    <!-- טיפוגרפיה -->
+    <section class="section">
+      <h2 class="section__title">טיפוגרפיה</h2>
+      <p class="page__lede" style="margin-bottom:var(--sp-4)">משפחה אחת — <strong>Rubik</strong>. ההיררכיה נבנית ממשקל, גודל וצבע. מספרים משתמשים באותו פונט עם ספרות טבלאיות.</p>
+      <div class="specimen">
+        <div style="font-size:var(--fs-2xl);font-weight:700;letter-spacing:var(--tracking-tight)">כל שיחה יושבת על קו זמן</div>
+        <div class="specimen__meta u-ltr">Rubik 700 · --fs-2xl 40px · כותרות</div>
+      </div>
+      <div class="specimen">
+        <div style="font-size:var(--fs-md);font-weight:600">שם שיחה וכותרת כרטיס</div>
+        <div class="specimen__meta u-ltr">Rubik 600 · --fs-md 17px</div>
+      </div>
+      <div class="specimen">
+        <div style="font-size:var(--fs-base)">גוף הטקסט של הממשק, ההודעות ותוויות השדות. גובה שורה 1.55.</div>
+        <div class="specimen__meta u-ltr">Rubik 400 · --fs-base 15px</div>
+      </div>
+      <div class="specimen">
+        <div class="u-num" style="font-size:var(--fs-xs)">12:45 · 19/08/2026 · 0501234567</div>
+        <div class="specimen__meta u-ltr">Rubik 400 + tabular-nums · --fs-xs 12px · שעות, תאריכים ומספרים</div>
+      </div>
+    </section>
+
+    <!-- כפתורים -->
+    <section class="section">
+      <h2 class="section__title">כפתורים</h2>
+      <div class="card">
+        <div class="stack">
+          <button class="btn btn--primary"><span class="btn__label">פעולה ראשית</span></button>
+          <button class="btn btn--secondary"><span class="btn__label">פעולה משנית</span></button>
+          <button class="btn btn--ghost"><span class="btn__label">שקוף</span></button>
+          <button class="btn btn--danger"><span class="btn__label">מחיקה</span></button>
+          <button class="btn btn--primary is-loading"><span class="btn__spinner spinner"></span><span class="btn__label">שולח…</span></button>
+          <button class="btn btn--primary" disabled><span class="btn__label">מנוטרל</span></button>
+          <button class="btn btn--icon" aria-label="עוד"><span data-icon="more"></span></button>
+          <button class="btn btn--primary btn--round" aria-label="שליחה"><span class="icon" data-icon="send" style="transform:scaleX(-1)"></span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- שדות -->
+    <section class="section">
+      <h2 class="section__title">שדות והודעות שגיאה</h2>
+      <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">
+        <div class="card">
+          <div class="field">
+            <label class="field__label" for="sg-1">מספר טלפון</label>
+            <span class="field__wrap">
+              <input class="input input--phone" id="sg-1" value="0501234567">
+              <span class="field__icon" data-icon="phone"></span>
+            </span>
+            <span class="field__hint">אליו יגיעו השיחות שלך.</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="field is-invalid">
+            <label class="field__label" for="sg-2">מספר טלפון</label>
+            <span class="field__wrap">
+              <input class="input input--phone" id="sg-2" value="05012" aria-invalid="true">
+              <span class="field__icon" data-icon="phone"></span>
+            </span>
+            <span class="field__error"><span data-icon="alert" data-icon-size="sm"></span><span class="field__error-text">מספר הטלפון לא תקין. הפורמט הנדרש: 0501234567</span></span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="banner banner--error">
+            <span data-icon="alert"></span>
+            <span class="banner__body">
+              <strong class="banner__title">לא ניתן להתחבר</strong>
+              <span class="banner__text">המספר הזה לא רשום אצלנו. בדוק אותו או צור חשבון חדש.</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- רכיבי תוכן -->
+    <section class="section">
+      <h2 class="section__title">כרטיס שיחה</h2>
+      <div class="card" style="padding:var(--sp-4);background:var(--color-canvas)">
+        <ul style="display:grid;gap:var(--sp-3)">
+          <li>
+            <div class="room" role="button" tabindex="0" aria-current="true">
+              <span class="avatar avatar--2">יכ</span>
+              <span class="room__main">
+                <span class="room__name u-truncate">יוסי כהן</span>
+                <span class="room__last u-truncate">סגור, נדבר מחר בבוקר</span>
+              </span>
+              <span class="room__meta">
+                <span class="room__time">12:45</span>
+              </span>
+            </div>
+          </li>
+          <li>
+            <div class="room" role="button" tabindex="0">
+              <span class="avatar avatar--5">נש</span>
+              <span class="room__main">
+                <span class="room__name u-truncate">נועה שגב</span>
+                <span class="room__last u-truncate">שלחתי לך את הקובץ, תעדכן אותי</span>
+              </span>
+              <span class="room__meta">
+                <span class="room__time">09:12</span>
+                <span class="badge">2</span>
+              </span>
+            </div>
+          </li>
+          <li>
+            <div class="room" role="button" tabindex="0">
+              <span class="avatar avatar--3">דל</span>
+              <span class="room__main">
+                <span class="room__name u-truncate">דני לוי</span>
+                <span class="room__last u-truncate">תודה!</span>
+              </span>
+              <span class="room__meta">
+                <span class="room__time">19/08/2026</span>
+              </span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">הודעות ופס הזמן</h2>
+      <div class="card" style="background:var(--color-canvas)">
+        <div class="thread__inner">
+          <div class="day"><span class="day__label">היום</span><span class="day__cap"></span></div>
+          <div class="msg msg--in">
+            <div class="msg__body"><div class="bubble">הודעה נכנסת יושבת בצד ההתחלה</div></div>
+            <div class="msg__time u-num">09:14</div>
+          </div>
+          <div class="msg msg--out">
+            <div class="msg__body"><div class="bubble">הודעה יוצאת בצד השני, צמודה לפס הזמן</div></div>
+            <div class="msg__time u-num">09:16</div>
+          </div>
+          <div class="msg msg--out msg--pending">
+            <div class="msg__body"><div class="bubble">בשליחה</div></div>
+            <div class="msg__time u-num">···</div>
+          </div>
+          <div class="msg msg--out msg--failed">
+            <div class="msg__body">
+              <div>
+                <div class="bubble">הודעה שנכשלה</div>
+                <button class="msg__retry">לא נשלח · שליחה חוזרת</button>
+              </div>
+            </div>
+            <div class="msg__time u-num">09:18</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">מונוגרמות, תגיות ומצב ריק</h2>
+      <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">
+        <div class="card">
+          <div class="stack">
+            <span class="avatar avatar--1">יכ</span>
+            <span class="avatar avatar--2">דל</span>
+            <span class="avatar avatar--3">מי</span>
+            <span class="avatar avatar--4">נש</span>
+            <span class="avatar avatar--5">רא</span>
+            <span class="avatar avatar--sm avatar--2">תפ</span>
+            <span class="badge">3</span>
+            <span class="chip">12:45</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="empty" style="padding:var(--sp-6) 0">
+            <span class="empty__mark"><span data-icon="chat" data-icon-size="lg"></span></span>
+            <h3 class="empty__title">עוד לא התחלת שיחה</h3>
+            <p class="empty__text">בחר איש קשר והשיחה תיפתח כאן.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">צללים</h2>
+      <div class="grid">
+        <div class="card" style="box-shadow:var(--shadow-1)"><div class="card__title">--shadow-1</div><p class="card__text">הרמה עדינה: כפתור ראשי, כותרת שיחה</p></div>
+        <div class="card" style="box-shadow:var(--shadow-card)"><div class="card__title">--shadow-card</div><p class="card__text">כרטיס שיחה ואיש קשר במצב מנוחה</p></div>
+        <div class="card" style="box-shadow:var(--shadow-lift)"><div class="card__title">--shadow-lift</div><p class="card__text">כרטיס ב-hover או כרטיס פעיל</p></div>
+        <div class="card" style="box-shadow:var(--shadow-pop)"><div class="card__title">--shadow-pop</div><p class="card__text">דיאלוג בלבד</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">אייקונים</h2>
+      <div class="card">
+        <div class="stack" style="gap:var(--sp-5);color:var(--color-ink-2)">
+          <span data-icon="kav"></span>
+          <span data-icon="send"></span>
+          <span data-icon="newchat"></span>
+          <span data-icon="chat"></span>
+          <span data-icon="plus"></span>
+          <span data-icon="trash"></span>
+          <span data-icon="more"></span>
+          <span data-icon="user"></span>
+          <span data-icon="users"></span>
+          <span data-icon="phone"></span>
+          <span data-icon="alert"></span>
+          <span data-icon="check"></span>
+          <span data-icon="x"></span>
+          <span data-icon="chevron"></span>
+          <span data-icon="back"></span>
+          <span data-icon="logout"></span>
+          <span data-icon="refresh"></span>
+          <span data-icon="clock"></span>
+          <span data-icon="spark"></span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/icons.js"></script>
+</body>
+</html>

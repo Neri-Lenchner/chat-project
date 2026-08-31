@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>התחברות · קו</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/screens.css">
+</head>
+<body data-screen="login">
+
+  <main class="auth">
+    <section class="auth__form-side">
+      <div class="auth__form">
+        <a class="brand auth__brand" href="index.html">
+          <span class="brand__mark"><span data-icon="kav"></span></span>
+          <span>
+            <span class="brand__name">קו</span>
+            <span class="brand__sub">CHAT</span>
+          </span>
+        </a>
+
+        <h1 class="auth__title">התחברות</h1>
+        <p class="auth__lede">הזן את המספר שאיתו נרשמת.</p>
+
+        <div class="banner banner--error" id="form-banner" role="alert" hidden>
+          <span data-icon="alert"></span>
+          <span class="banner__body">
+            <strong class="banner__title"></strong>
+            <span class="banner__text"></span>
+          </span>
+        </div>
+
+        <form id="login-form" novalidate>
+          <div class="field" data-label="מספר טלפון" data-validate="required phone">
+            <label class="field__label" for="phone">מספר טלפון</label>
+            <span class="field__wrap">
+              <input class="input input--phone" id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0501234567">
+              <span class="field__icon" data-icon="phone"></span>
+            </span>
+            <span class="field__error"><span data-icon="alert" data-icon-size="sm"></span><span class="field__error-text"></span></span>
+          </div>
+
+          <div class="form__actions">
+            <button class="btn btn--primary btn--block" id="login-submit" type="submit">
+              <span class="btn__spinner spinner"></span>
+              <span class="btn__label">כניסה</span>
+            </button>
+            <p class="form__alt">אין לך עדיין חשבון? <a href="register.html">הרשמה</a></p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <aside class="auth__panel" aria-hidden="true">
+      <h2 class="auth__headline">המספר שלך הוא <em>הכניסה</em>.</h2>
+
+      <div class="preview">
+        <div class="thread__inner">
+          <div class="day"><span class="day__label">אתמול</span><span class="day__cap"></span></div>
+          <div class="msg msg--out">
+            <div class="msg__body"><div class="bubble">שלחתי לך עכשיו את הכל</div></div>
+            <div class="msg__time u-num">18:02</div>
+          </div>
+          <div class="msg msg--in">
+            <div class="msg__body"><div class="bubble">קיבלתי, תודה</div></div>
+            <div class="msg__time u-num">18:30</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="auth__note">אין סיסמאות ואין שמות משתמש. השיחות שלך נטענות לפי המספר.</p>
+    </aside>
+  </main>
+
+  <script src="js/icons.js"></script>
+  <script src="js/mock.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/screens.js"></script>
+</body>
+</html>

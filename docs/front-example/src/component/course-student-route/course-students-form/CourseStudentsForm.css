@@ -1,0 +1,8 @@
+.search {
+    display: flex;
+    gap: 20px;
+}
+
+.CourseStudentsForm > input {
+    width: 200px;
+}

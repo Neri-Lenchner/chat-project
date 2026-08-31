@@ -1,0 +1,119 @@
+/* Styleguide — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* Styleguide — עמוד בדיקה זמני, נמחק בשלב 22.
+   כל מה שכאן הוא תרגום של ה-style ה-inline מ-docs/DESIGN/styleguide.html
+   למחלקות, כי חוק 1.2.10 אוסר style={{}} ב-TSX. ערכים מטוקנים בלבד. */
+
+.Styleguide__swatch--canvas       { background: var(--color-canvas); }
+.Styleguide__swatch--surface      { background: var(--color-surface); border-bottom: var(--border-width) solid var(--color-line); }
+.Styleguide__swatch--ink          { background: var(--color-ink); }
+.Styleguide__swatch--ink-2        { background: var(--color-ink-2); }
+.Styleguide__swatch--accent       { background: var(--color-accent); }
+.Styleguide__swatch--accent-wash  { background: var(--color-accent-wash); }
+.Styleguide__swatch--danger       { background: var(--color-danger); }
+.Styleguide__swatch--line         { background: var(--color-line); }
+.Styleguide__swatch--highlight    { background: var(--color-highlight); }
+
+.Styleguide__type--display { font-size: var(--fs-2xl); font-weight: var(--fw-bold); letter-spacing: var(--tracking-tight); }
+.Styleguide__type--title   { font-size: var(--fs-md); font-weight: var(--fw-semi); }
+.Styleguide__type--body    { font-size: var(--fs-base); }
+.Styleguide__type--num     { font-size: var(--fs-xs); }
+
+.Styleguide__lede          { margin-bottom: var(--sp-4); }
+.Styleguide__grid--wide    { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+.Styleguide__canvas        { background: var(--color-canvas); }
+.Styleguide__canvas--pad   { padding: var(--sp-4); background: var(--color-canvas); }
+.Styleguide__rooms         { display: grid; gap: var(--sp-3); }
+.Styleguide__empty         { padding-block: var(--sp-6); padding-inline: 0; }
+.Styleguide__icons         { gap: var(--sp-5); color: var(--color-ink-2); }
+
+.Styleguide__shadow--1     { box-shadow: var(--shadow-1); }
+.Styleguide__shadow--card  { box-shadow: var(--shadow-card); }
+.Styleguide__shadow--lift  { box-shadow: var(--shadow-lift); }
+.Styleguide__shadow--pop   { box-shadow: var(--shadow-pop); }
+
+/* הדגמת כפתור השליחה. באפליקציה עצמה הסיבוב מוגדר ב-screens.css
+   תחת .composer__send .icon ואין לגעת בו. */
+.Styleguide__send .icon    { transform: scaleX(-1); }
+
+/* =========================================================
+   ג. מסך מפה (index) ומדריך העיצוב
+   ========================================================= */
+.page { max-width: 1080px; margin-inline: auto; padding: var(--sp-12) var(--sp-6) var(--sp-16); }
+
+.page__head { margin-bottom: var(--sp-10); }
+
+.page__title { font-size: var(--fs-2xl); margin: var(--sp-5) 0 var(--sp-3); }
+
+.page__lede { color: var(--color-ink-2); max-width: 62ch; }
+
+.section { margin-top: var(--sp-12); }
+
+.section__title { font-size: var(--fs-lg); margin-bottom: var(--sp-5); }
+
+.grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); }
+
+.card {
+  display: block;
+  padding: var(--sp-5);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  transition: border-color var(--dur-1) var(--ease), transform var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
+}
+
+a.card:hover {
+  text-decoration: none;
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+}
+
+.card__title { font-size: var(--fs-md); margin: var(--sp-3) 0 var(--sp-2); }
+
+.card__text { font-size: var(--fs-sm); color: var(--color-ink-2); }
+
+.swatch { border: var(--border-width) solid var(--color-line); border-radius: var(--radius-md); overflow: hidden; background: var(--color-surface); }
+
+.swatch__chip { height: 68px; }
+
+.swatch__body { padding: var(--sp-3); }
+
+.swatch__name { font-size: var(--fs-sm); font-weight: var(--fw-medium); }
+
+.swatch__code { font-size: var(--fs-xs); font-variant-numeric: tabular-nums; color: var(--color-ink-3); }
+
+.specimen { padding: var(--sp-5); border: var(--border-width) solid var(--color-line); border-radius: var(--radius-lg); background: var(--color-surface); }
+
+.specimen + .specimen { margin-top: var(--sp-3); }
+
+.specimen__meta { font-size: var(--fs-xs); color: var(--color-ink-3); margin-top: var(--sp-2); }
+
+.stack { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
+
+/* גלריית האייקונים — שלב 3 */
+.Styleguide__icon-grid { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); }
+.Styleguide__icon-cell {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-2);
+  padding-block: var(--sp-3);
+  color: var(--color-ink-2);
+}
+.Styleguide__icon-name { font-size: var(--fs-micro); color: var(--color-ink-3); }
+
+/* טבלת הבדיקה של שלב 6 */
+.Styleguide__table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+.Styleguide__table th {
+  text-align: start;
+  padding-block: var(--sp-2);
+  border-bottom: var(--border-width) solid var(--color-line);
+  color: var(--color-ink-3);
+  font-weight: var(--fw-medium);
+}
+.Styleguide__table td {
+  padding-block: var(--sp-2);
+  border-bottom: var(--border-width) solid var(--color-line);
+}

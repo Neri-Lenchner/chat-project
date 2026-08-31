@@ -1,0 +1,56 @@
+/* UserMenu — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* האנימציה של פתיחת התפריט. הועברה לכאן מ-Dialog.css:
+   UserMenu הוא המשתמש היחיד בה, ו-Dialog.css לא נטען במסך הראשי. */
+@keyframes kav-pop {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- תפריט נפתח ---------- */
+.menu { position: relative; }
+
+.menu__panel {
+  position: absolute;
+  inset-inline-start: 0;
+  top: calc(100% + var(--sp-2));
+  min-width: 232px;
+  padding: var(--sp-2);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-2);
+  z-index: var(--z-menu);
+  animation: kav-pop var(--dur-2) var(--ease);
+}
+
+.menu__head {
+  padding: var(--sp-3);
+  border-bottom: var(--border-width) solid var(--color-line);
+  margin-bottom: var(--sp-2);
+}
+
+.menu__name { font-weight: var(--fw-medium); }
+
+.menu__meta { font-size: var(--fs-xs); font-variant-numeric: tabular-nums; color: var(--color-ink-3); }
+
+.menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  padding: var(--sp-3);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-size: var(--fs-base);
+  text-align: start;
+  color: var(--color-ink);
+}
+
+.menu__item:hover { background: var(--color-hover); }
+
+.menu__item--danger { color: var(--color-danger); }
+
+.menu__item--danger:hover { background: var(--color-danger-wash); }

@@ -1,0 +1,55 @@
+/* Dialog — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+
+/* ---------- דיאלוג ---------- */
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: var(--color-scrim);
+  backdrop-filter: blur(2px);
+  display: grid;
+  place-items: center;
+  padding: var(--sp-5);
+  z-index: var(--z-dialog);
+  animation: kav-fade var(--dur-2) var(--ease);
+}
+
+.dialog {
+  width: 100%;
+  max-width: 400px;
+  padding: var(--sp-6);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-pop);
+  animation: kav-rise var(--dur-3) var(--ease);
+}
+
+.dialog--wide { max-width: 468px; padding: var(--sp-5); }
+
+.dialog__title { font-size: var(--fs-md); margin-bottom: var(--sp-2); }
+
+.dialog__text { color: var(--color-ink-2); font-size: var(--fs-base); }
+
+.dialog__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-4);
+}
+
+.dialog__actions {
+  display: flex;
+  gap: var(--sp-3);
+  margin-top: var(--sp-6);
+}
+
+.dialog__actions .btn { flex: 1; }
+
+.dialog .banner { margin-top: var(--sp-4); }
+
+@keyframes kav-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* מיכל הדיאלוג מקבל מיקוד תכנותי בלבד — בלי טבעת מיקוד מיותרת */
+.dialog[tabindex='-1']:focus, .dialog[tabindex='-1']:focus-visible { outline: none; }

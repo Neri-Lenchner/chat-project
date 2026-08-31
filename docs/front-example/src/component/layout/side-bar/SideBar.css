@@ -1,0 +1,67 @@
+.SideBar {
+  height: 100%;
+  padding: 28px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.SideBar > .links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 12px;
+  align-items: stretch;
+}
+
+.SideBar > .links a {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  line-height: 1.4;
+}
+
+.SideBar > .links a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--gradient-primary);
+  border-radius: 0 2px 2px 0;
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.SideBar > .links a:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface-hover);
+  border-color: var(--border);
+}
+
+.SideBar > .links a:hover::before {
+  opacity: 1;
+}
+
+.SideBar > .links a.active {
+  color: var(--primary-light);
+  background: var(--primary-glow);
+  border-color: var(--border-accent);
+}
+
+.SideBar > .links a.active::before {
+  opacity: 1;
+}
+
+a {
+  text-decoration: none;
+}

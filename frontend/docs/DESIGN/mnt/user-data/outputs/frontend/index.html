@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>קו · מפת מסכים</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/screens.css">
+</head>
+<body data-screen="index">
+
+  <main class="page">
+    <header class="page__head">
+      <span class="brand">
+        <span class="brand__mark"><span data-icon="kav"></span></span>
+        <span>
+          <span class="brand__name">קו</span>
+          <span class="brand__sub">CHAT · UI KIT</span>
+        </span>
+      </span>
+
+      <h1 class="page__title">חמישה מסכים, שפה אחת.</h1>
+      <p class="page__lede">
+        המסכים בנויים לפי <span class="u-num">SPECV2-FRONT.md</span> — הרשמה, התחברות, רשימת שיחות,
+        שיחה חדשה ומסך שיחה. כל צבע, מרווח ופונט מגיעים מ־<span class="u-num">css/tokens.css</span>,
+        כך שאפשר לשנות את מראה כל המערכת מקובץ אחד.
+      </p>
+    </header>
+
+    <section class="section">
+      <h2 class="section__title">המסכים</h2>
+      <div class="grid">
+        <a class="card" href="register.html">
+          <span class="empty__mark" style="margin:0"><span data-icon="user" data-icon-size="lg"></span></span>
+          <h3 class="card__title">הרשמה</h3>
+          <p class="card__text">שם פרטי, שם משפחה וטלפון. ולידציה לכל שדה, מצב טעינה ושגיאת שרת.</p>
+        </a>
+
+        <a class="card" href="login.html">
+          <span class="empty__mark" style="margin:0"><span data-icon="phone" data-icon-size="lg"></span></span>
+          <h3 class="card__title">התחברות</h3>
+          <p class="card__text">מספר טלפון בלבד. כולל מצב "מספר לא מוכר".</p>
+        </a>
+
+        <a class="card" href="home.html">
+          <span class="empty__mark" style="margin:0"><span data-icon="chat" data-icon-size="lg"></span></span>
+          <h3 class="card__title">מסך ראשי</h3>
+          <p class="card__text">רשימת שיחות עם שם, הודעה אחרונה ושעה או תאריך. לחיצה ארוכה פותחת מחיקה.</p>
+        </a>
+
+        <a class="card" href="new-chat.html">
+          <span class="empty__mark" style="margin:0"><span data-icon="users" data-icon-size="lg"></span></span>
+          <h3 class="card__title">שיחה חדשה</h3>
+          <p class="card__text">רשימת אנשי קשר מקומית. בחירה יוצרת חדר ועוברת ישר לשיחה.</p>
+        </a>
+
+        <a class="card" href="chat.html">
+          <span class="empty__mark" style="margin:0"><span data-icon="send" data-icon-size="lg"></span></span>
+          <h3 class="card__title">מסך שיחה</h3>
+          <p class="card__text">ההודעות על פס הזמן, שורת כתיבה עם ולידציה ומצב כישלון בשליחה.</p>
+        </a>
+
+        <a class="card" href="styleguide.html">
+          <span class="empty__mark" style="margin:0"><span data-icon="spark" data-icon-size="lg"></span></span>
+          <h3 class="card__title">מדריך העיצוב</h3>
+          <p class="card__text">הטוקנים והרכיבים כפי שהם נראים בפועל, לצד המסמך <span class="u-num">DESIGN-SYSTEM.md</span>.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">איך בודקים מצבי שגיאה</h2>
+      <div class="card">
+        <p class="card__text" style="font-size:var(--fs-base)">
+          בכל מסך יש בורר <strong>מצב</strong> — בסרגל העליון במסכי האפליקציה, ובפינה במסכי הכניסה.
+          הוא מחליף את התשובה שמגיעה מהשרת המדומה, כך שאפשר לראות טעינה, רשימה ריקה, כישלון טעינה,
+          כישלון מחיקה וכישלון שליחה בלי לגעת בקוד.
+        </p>
+        <div class="stack" style="margin-top:var(--sp-4)">
+          <a class="chip" href="home.html?state=loading">מסך ראשי · טעינה</a>
+          <a class="chip" href="home.html?state=empty">מסך ראשי · רשימה ריקה</a>
+          <a class="chip" href="home.html?state=load-error">מסך ראשי · שגיאת טעינה</a>
+          <a class="chip" href="home.html?state=delete-error">מסך ראשי · שגיאת מחיקה</a>
+          <a class="chip" href="chat.html?state=send-error">שיחה · כישלון שליחה</a>
+          <a class="chip" href="chat.html?state=load-error">שיחה · שגיאת טעינה</a>
+          <a class="chip" href="login.html?state=server-error">התחברות · מספר לא מוכר</a>
+          <a class="chip" href="register.html?state=server-error">הרשמה · שגיאת שרת</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/icons.js"></script>
+</body>
+</html>

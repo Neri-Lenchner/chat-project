@@ -1,0 +1,38 @@
+/* ChatHead — מערכת העיצוב של הרכיב.
+   מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
+
+/* סלקטורים שדורסים ערך של ui/button משורשרים ל-.btn בכוונה:
+   כך הניצחון נקבע בספציפיות ולא בסדר הייבוא בין הקבצים. */
+.chat-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  height: var(--size-chat-head);
+  padding-inline: var(--sp-6);
+  background: var(--color-surface);
+  border-bottom: var(--border-width) solid var(--color-line);
+  box-shadow: var(--shadow-1);
+  position: relative;
+  z-index: 2;
+}
+
+.chat-head__main { min-width: 0; flex: 1; }
+
+.chat-head__delete.btn { color: var(--color-ink-3); }
+
+.chat-head__delete.btn:hover { background: var(--color-danger-wash); color: var(--color-danger); }
+
+.chat-head__name { font-size: var(--fs-lg); line-height: 1.25; }
+
+.chat-head__meta {
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-3);
+}
+
+.chat-head__back.btn { display: none; }
+
+@media (max-width: 760px) {
+  .chat-head__back.btn { display: inline-flex; }
+  .chat-head { padding-inline: var(--sp-4); gap: var(--sp-3); }
+}
