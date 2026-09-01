@@ -2,13 +2,13 @@ import {http} from "../utils/http";
 import {NewUser, User, UserDTO} from "../models/user";
 import {toNewUserDTO, toUser} from "../utils/mappers";
 
-/* TODO-1: אין endpoint להתחברות בשרת. ראה TASKS-FRONT.md §4
-   מסך ההתחברות נבנה במלואו ויזואלית, ובשליחה מציג באנר שגיאה עם קישור להרשמה. */
+/* TODO-1: there is no login endpoint on the server. See TASKS-FRONT.md §4
+   The login screen is fully built visually, and on submit shows an error banner with a link to register. */
 
 class UserService {
 
-    /* POST /api/user/ — שים לב ל-"/" בסוף.
-       בלעדיו השרת מחזיר 307 Temporary Redirect וזו קריאה מיותרת. */
+    /* POST /api/user/ — note the "/" at the end.
+       Without it, the server returns a 307 Temporary Redirect, which is a wasted call. */
     public async register(newUser: NewUser): Promise<User> {
         try {
             const response = await http.post<UserDTO>("user/", toNewUserDTO(newUser));

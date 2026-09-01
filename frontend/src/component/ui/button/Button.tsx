@@ -2,9 +2,9 @@ import {ButtonHTMLAttributes, JSX} from "react";
 import Icon, {IconName} from "../icon/Icon";
 import "./Button.css";
 
-/* המבנה מחייב לפי DESIGN-SYSTEM §4.1:
+/* The structure is required per DESIGN-SYSTEM §4.1:
    .btn > .btn__spinner.spinner + .btn__label
-   הספינר מרונדר תמיד; .btn__spinner מוסתר ב-CSS עד ש-.is-loading נדלק. */
+   The spinner is always rendered; .btn__spinner is hidden in CSS until .is-loading is turned on. */
 
 export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger" | "icon";
 

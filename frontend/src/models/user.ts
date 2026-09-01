@@ -1,6 +1,6 @@
-/* UserDTO — הצורה הגולמית שהשרת מחזיר, snake_case, לפי API SPEC §2.1.
-   הוא ומקבילותיו ב-room.ts / message.ts, יחד עם utils/mappers.ts,
-   הם המקומות היחידים בקוד שמותר להם להכיל שמות snake_case. */
+/* UserDTO — the raw shape returned by the server, snake_case, per API SPEC §2.1.
+   It and its counterparts in room.ts / message.ts, together with utils/mappers.ts,
+   are the only places in the code allowed to contain snake_case names. */
 export class UserDTO {
 
     constructor(public id: number,
@@ -10,8 +10,8 @@ export class UserDTO {
     }
 }
 
-/* גוף הבקשה של POST /api/user/ — שלושה שדות, בלי id.
-   השרת מייצר את ה-id ומחזיר אותו ב-UserDTO. */
+/* Request body of POST /api/user/ — three fields, no id.
+   The server generates the id and returns it in UserDTO. */
 export class NewUserDTO {
 
     constructor(public first_name: string,
@@ -20,7 +20,7 @@ export class NewUserDTO {
     }
 }
 
-/* מה שטופס ההרשמה אוסף. משמש כטיפוס של useForm בשלב 11. */
+/* What the registration form collects. Used as the useForm type in step 11. */
 export class NewUser {
 
     constructor(public firstName: string,
@@ -29,9 +29,9 @@ export class NewUser {
     }
 }
 
-/* מה שטופס ההתחברות אוסף. משמש כטיפוס של useForm בשלב 12.
-   TODO-1: אין endpoint להתחברות בשרת, ולכן אין DTO מקביל.
-   ראה TASKS-FRONT.md §4 */
+/* What the login form collects. Used as the useForm type in step 12.
+   TODO-1: there is no login endpoint on the server, so there is no matching DTO.
+   See TASKS-FRONT.md §4 */
 export class Credentials {
 
     constructor(public phoneNumber: string) {
@@ -46,7 +46,7 @@ export class User {
                 public phoneNumber: string) {
     }
 
-    /* נספח א': fullName הוא getter מחושב, לא שדה */
+    /* Appendix A: fullName is a computed getter, not a field */
     public get fullName(): string {
         return `${this.firstName} ${this.lastName}`.trim();
     }

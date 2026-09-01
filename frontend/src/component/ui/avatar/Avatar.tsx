@@ -2,9 +2,9 @@ import {JSX} from "react";
 import {avatarTone} from "../../../utils/avatar";
 import "./Avatar.css";
 
-/* מונוגרמה לפי DESIGN-SYSTEM §4.4: ריבוע מעוגל עם ראשי תיבות, לא עיגול ולא תמונה.
-   הגוון נגזר מהמזהה כדי שאותו איש קשר יקבל תמיד את אותו צבע.
-   הנוסחה יושבת ב-utils/avatar.ts, זהה ל-ui.js. */
+/* Monogram per DESIGN-SYSTEM §4.4: a rounded square with initials, not a circle and not an image.
+   The tone is derived from the id so the same contact always gets the same color.
+   The formula lives in utils/avatar.ts, identical to ui.js. */
 
 interface AvatarProps {
     id?: number | string;

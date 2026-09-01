@@ -1,10 +1,10 @@
 import {NewUser, NewUserDTO, User, UserDTO} from "../models/user";
-import {Room, RoomCreateDTO, RoomDTO, RoomMeta} from "../models/room";
-import {Message, MessageDTO} from "../models/message";
+import {Room, RoomCreateDTO, RoomDTO} from "../models/room";
+import {Message, MessageCreateDTO, MessageDTO} from "../models/message";
 
-/* שכבת הגבול בין השרת לאפליקציה.
-   הוא ומחלקות ה-DTO ב-models/ הם המקומות היחידים שנוגעים ב-snake_case.
-   מחוץ לשניהם אין first_name / room_id / is_read בקוד. */
+/* The boundary layer between the server and the app.
+   It and the DTO classes in models/ are the only places that touch snake_case.
+   Outside both of them, there's no first_name / room_id / is_read in the code. */
 
 export function toUser(userDto: UserDTO): User {
     return new User(
@@ -15,18 +15,25 @@ export function toUser(userDto: UserDTO): User {
     );
 }
 
-/* meta מגיע מ-roomMeta המקומי (TODO-6) ונשאר undefined עד שלב 14. */
-export function toRoom(roomDto: RoomDTO, meta?: RoomMeta): Room {
+/* The server attaches the room participants (user_list) to every response — GET/POST/DELETE are
+   all consistent. currentUserId is needed to identify who "the other" is: in a 1:1 room (2 participants)
+   it's the participant who isn't me; in a group room (more than 2) it stays undefined,
+   because there's no single "other" to pick — displayName then falls back to the server's name. */
+export function toRoom(roomDto: RoomDTO, currentUserId: number): Room {
+    const userList = roomDto.user_list.map(toUser);
+    const otherList = userList.filter(user => user.id !== currentUserId);
+    const other = otherList.length === 1 ? otherList[0] : undefined;
+
     return new Room(
         roomDto.id,
         roomDto.name,
-        0,                      // TODO-5: unread תמיד 0
-        meta?.otherUserId,
-        meta?.name
+        0,                      // TODO-5: unread is always 0
+        userList,
+        other
     );
 }
 
-/* currentUserId נדרש כדי לקבוע mine. at מגיע מ-messageTimes המקומי (TODO-4). */
+/* currentUserId is needed to determine mine. at comes from the local messageTimes (TODO-4). */
 export function toMessage(messageDto: MessageDTO, currentUserId: number, at?: string): Message {
     return new Message(
         messageDto.id,
@@ -39,8 +46,13 @@ export function toMessage(messageDto: MessageDTO, currentUserId: number, at?: st
     );
 }
 
-/* גוף הבקשה של POST /api/room/. המשתמש המחובר חייב להיכלל ברשימה
-   בעצמו — השרת לא מוסיף אותו. ראה API SPEC §3.2. */
+/* Request body of POST /api/message/user/{user_id}/other/{other_user_id}. */
+export function toMessageCreateDTO(content: string, roomId: number): MessageCreateDTO {
+    return new MessageCreateDTO(content, roomId);
+}
+
+/* Request body of POST /api/room/. The logged-in user must be included in the list
+   themselves — the server doesn't add them. See API SPEC §3.2. */
 export function toRoomCreateDTO(name: string, userList: User[]): RoomCreateDTO {
     return new RoomCreateDTO(
         name,
@@ -48,8 +60,8 @@ export function toRoomCreateDTO(name: string, userList: User[]): RoomCreateDTO {
     );
 }
 
-/* שגיאת 422 מחזירה את שם השדה של השרת ב-loc. כאן הוא מתורגם לשם
-   השדה בטופס, כדי שאפשר יהיה לסמן את השדה הנכון. ראה API SPEC §4.1. */
+/* A 422 error returns the server's field name in loc. Here it's translated to the
+   form's field name, so the correct field can be flagged. See API SPEC §4.1. */
 export function toNewUserField(serverField: string): keyof NewUser | null {
     switch (serverField) {
         case "first_name":
@@ -63,7 +75,7 @@ export function toNewUserField(serverField: string): keyof NewUser | null {
     }
 }
 
-/* גוף הבקשה של POST /api/user/ — הרשמה. */
+/* Request body of POST /api/user/ — registration. */
 export function toNewUserDTO(newUser: NewUser): NewUserDTO {
     return new NewUserDTO(
         newUser.firstName,
@@ -72,8 +84,8 @@ export function toNewUserDTO(newUser: NewUser): NewUserDTO {
     );
 }
 
-/* הכיוון ההפוך — נדרש ל-user_list ב-POST /api/room/.
-   חייב להחזיר את ארבעת השדות, אחרת השרת מחזיר 422. ראה API SPEC §3.2 */
+/* The reverse direction — needed for user_list in POST /api/room/.
+   Must return all four fields, otherwise the server returns 422. See API SPEC §3.2 */
 export function toUserDTO(user: User): UserDTO {
     return new UserDTO(
         user.id,

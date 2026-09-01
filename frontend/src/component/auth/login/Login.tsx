@@ -7,13 +7,13 @@ import Button from "../../ui/button/Button";
 import Banner from "../../ui/banner/Banner";
 import {Credentials} from "../../../models/user";
 import "../Auth.css";
-/* פאנל התצוגה מציג שיחה סטטית ולכן משתמש במחלקות של Thread ו-MessageItem.
-   כשהרכיבים עצמם ייבנו בשלב 20 אפשר יהיה לרנדר אותם כאן במקום את ה-DOM הגולמי. */
+/* The preview panel shows a static conversation and so uses the Thread and MessageItem classes.
+   Once the components themselves are built at stage 20, they can be rendered here instead of the raw DOM. */
 import "../../chat/thread/Thread.css";
 import "../../chat/message-item/MessageItem.css";
 
-/* מבנה ה-DOM מועתק מ-docs/DESIGN/login.html.
-   הודעת הוולידציה זהה מילה במילה ל-RULES ב-docs/DESIGN/ui.js. */
+/* DOM structure copied from docs/DESIGN/login.html.
+   The validation message is identical word-for-word to RULES in docs/DESIGN/ui.js. */
 
 const PHONE_PATTERN = /^0(5\d|[2-4]|[8-9]|7\d)\d{7}$/;
 
@@ -25,9 +25,9 @@ function Login(): JSX.Element {
 
     const [isBlocked, setBlocked] = useState<boolean>(false);
 
-    /* TODO-1: אין POST /api/user/login בשרת. ראה TASKS-FRONT.md §4
-       המסך נבנה במלואו, אבל בשליחה אין ולא תהיה קריאת שרת — רק הסבר
-       כן למשתמש וקישור למסך ההרשמה, שהוא הדרך היחידה להיכנס כרגע. */
+    /* TODO-1: there's no POST /api/user/login on the server. See TASKS-FRONT.md §4
+       The screen is fully built, but on submit there is no and will be no server call — only an
+       explanation to the user and a link to the registration screen, which is currently the only way in. */
     function onLogin(): void {
         setBlocked(true);
     }

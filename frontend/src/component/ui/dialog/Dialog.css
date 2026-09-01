@@ -47,6 +47,10 @@
 
 .dialog__actions .btn { flex: 1; }
 
+/* התת-כותרת ב-.dialog__head קטנה יותר מטקסט דיאלוג רגיל,
+   כמו ה-style inline ב-docs/DESIGN/new-chat.html — כאן כטוקן, לא ערך קשיח. */
+.dialog__head .dialog__text { font-size: var(--fs-sm); }
+
 .dialog .banner { margin-top: var(--sp-4); }
 
 @keyframes kav-fade { from { opacity: 0; } to { opacity: 1; } }

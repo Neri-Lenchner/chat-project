@@ -3,7 +3,7 @@ import Icon, {IconName} from "../icon/Icon";
 import Button from "../button/Button";
 import "./Empty.css";
 
-/* מצב ריק — DESIGN-SYSTEM §7. אייקון במסגרת, כותרת, הסבר וכפתור פעולה אחד. */
+/* Empty state — DESIGN-SYSTEM §7. A framed icon, title, explanation, and one action button. */
 
 interface EmptyProps {
     icon: IconName;

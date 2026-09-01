@@ -7,11 +7,15 @@ import {UserActionType, userStore} from "../../../state/user-state";
 import {initials} from "../../../utils/avatar";
 import "./UserMenu.css";
 
-/* התנהגות זהה ל-mountUserMenu ב-docs/DESIGN/screens.js:
-   לחיצה על ה-chip פותחת וסוגרת, לחיצה בכל מקום אחר סוגרת, Escape סוגר,
-   ו-aria-expanded על הטריגר משקף את המצב. */
+/* Behavior identical to mountUserMenu in docs/DESIGN/screens.js:
+   clicking the chip opens and closes it, clicking anywhere else closes it, Escape closes it,
+   and aria-expanded on the trigger reflects the state. */
 
-function UserMenu(): JSX.Element {
+interface UserMenuProps {
+    onNewChat: () => void;
+}
+
+function UserMenu(userMenuProps: UserMenuProps): JSX.Element {
 
     const navigate = useNavigate();
 
@@ -56,6 +60,11 @@ function UserMenu(): JSX.Element {
         navigate("/login", {replace: true});
     }
 
+    function onNewChat(): void {
+        setOpen(false);
+        userMenuProps.onNewChat();
+    }
+
     if (!user) return (<></>);
 
     return (
@@ -75,7 +84,10 @@ function UserMenu(): JSX.Element {
                     <div className="menu__name">{user.fullName}</div>
                     <div className="menu__meta u-num">{user.phoneNumber}</div>
                 </div>
-                {/* פריט "שיחה חדשה" נוסף כאן בשלב 18, יחד עם הדיאלוג שהוא פותח. */}
+                <button className="menu__item" type="button" onClick={onNewChat}>
+                    <Icon name="newchat"/>
+                    שיחה חדשה
+                </button>
                 <button className="menu__item menu__item--danger" type="button" onClick={onLogout}>
                     <Icon name="logout"/>
                     התנתקות

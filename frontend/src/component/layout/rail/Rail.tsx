@@ -1,8 +1,8 @@
 import {JSX, ReactNode} from "react";
 import "./Rail.css";
 
-/* עמודת השיחות. מעטפת בלבד — התוכן שלה מגיע כילדים.
-   בשלב 15 RoomList ייכנס לתוך .rail__body, והמונה יקבל את מספר החדרים. */
+/* The conversations rail. A shell only — its content comes in as children.
+   At stage 15 RoomList will go inside .rail__body, and the counter will get the number of rooms. */
 
 interface RailProps {
     count?: number;

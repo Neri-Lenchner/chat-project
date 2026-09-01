@@ -5,9 +5,8 @@ import Login from "../component/auth/login/Login";
 import HomeRoute from "../component/home/HomeRoute";
 import ChatRoute from "../component/chat/chat-route/ChatRoute";
 import PrivateRoute from "../component/private-route/PrivateRoute";
-import Styleguide from "../dev/Styleguide";
 
-/* בתבנית docs/front-example/src/utils/Routing.tsx. */
+/* Following the pattern in docs/front-example/src/utils/Routing.tsx. */
 
 function Routing(): JSX.Element {
 
@@ -17,8 +16,6 @@ function Routing(): JSX.Element {
             <Route path="/login" element={<Login/>}/>
             <Route path="/" element={<PrivateRoute child={<HomeRoute/>}/>}/>
             <Route path="/chat/:roomId" element={<PrivateRoute child={<ChatRoute/>}/>}/>
-            {/* מסלול פיתוח בלבד — נמחק בשלב 22 יחד עם src/dev/ */}
-            <Route path="/styleguide" element={<Styleguide/>}/>
             <Route path="*" element={<Navigate to="/" replace/>}/>
         </Routes>
     );

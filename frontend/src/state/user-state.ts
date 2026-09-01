@@ -2,17 +2,18 @@ import {createStore} from "redux";
 import {User} from "../models/user";
 import {session} from "../utils/storage";
 import {roomService} from "../services/room-service";
+import {messageService} from "../services/message-service";
 
-/* Redux קלאסי, בתבנית docs/front-example/src/state/auth-state.ts.
-   אין Redux Toolkit ואין react-redux — רכיבים מתחברים ב-store.subscribe(). */
+/* Classic Redux, following the docs/front-example/src/state/auth-state.ts pattern.
+   No Redux Toolkit and no react-redux — components connect via store.subscribe(). */
 
 // Step 1
 export class UserState {
 
     user: User | null = null;
 
-    /* סעיף 4 באפיון: משתמש שנשמר ב-localStorage נטען אוטומטית
-       בפתיחת האפליקציה, כך שרענון דף לא מנתק. */
+    /* Section 4 of the spec: a user saved in localStorage is loaded automatically
+       when the app opens, so a page refresh doesn't log them out. */
     constructor() {
         this.user = session.get();
     }
@@ -47,10 +48,10 @@ export function userReducer(userState: UserState = new UserState(), action: User
         case UserActionType.Logout:
             session.clear();
             newState.user = null;
-            /* סעיף 21 באפיון — איפוס מלא. אחרת המשתמש הבא יראה
-               את השיחות של הקודם, ו-isFetched ימנע טעינה מחדש. */
+            /* Section 21 of the spec — a full reset. Otherwise the next user would see
+               the previous user's conversations, and isFetched/loadedRooms would prevent reloading. */
             roomService.reset();
-            /* TODO: להשלים בשלב 19 — איפוס messageStore ו-messageService. */
+            messageService.reset();
             break;
     }
 

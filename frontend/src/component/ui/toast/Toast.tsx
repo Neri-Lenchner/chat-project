@@ -2,10 +2,10 @@ import {JSX} from "react";
 import Icon from "../icon/Icon";
 import "./Toast.css";
 
-/* המכל והפריט. הניהול עצמו — מערך ב-state של AppShell ופונקציית showToast
-   שעוברת למטה ב-props — כדי שלא תידרש ספרייה או Context.
+/* The container and the item. The management itself — an array in AppShell's state and a showToast
+   function passed down via props — so that no library or Context is required.
 
-   3.2 שניות, כמו toast() ב-docs/DESIGN/ui.js. */
+   3.2 seconds, like toast() in docs/DESIGN/ui.js. */
 
 export const TOAST_DURATION_MS = 3200;
 

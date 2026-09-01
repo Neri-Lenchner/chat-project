@@ -1,7 +1,7 @@
 import {createStore} from "redux";
 import {Room, RoomPreview} from "../models/room";
 
-/* Redux קלאסי, בתבנית docs/front-example/src/state/course-state.ts. */
+/* Classic Redux, following the docs/front-example/src/state/course-state.ts pattern. */
 
 // Step 1
 export class RoomState {
@@ -15,6 +15,7 @@ export enum RoomActionType {
     AddRoom = "AddRoom",
     RemoveRoom = "RemoveRoom",
     UpdateRoomPreview = "UpdateRoomPreview",
+    PromoteRoom = "PromoteRoom",
     Reset = "Reset",
 }
 
@@ -27,7 +28,7 @@ export interface RoomAction {
 // Step 4
 export function roomReducer(roomState: RoomState = new RoomState(), action: RoomAction): RoomState {
 
-    /* מערך חדש בכל פעולה. בלעדיו React מקבל את אותה הפניה ולא מרנדר מחדש. */
+    /* A new array on every action. Without it, React gets the same reference and doesn't re-render. */
     const newState: RoomState = {...roomState};
     newState.roomList = [...newState.roomList];
 
@@ -51,16 +52,28 @@ export function roomReducer(roomState: RoomState = new RoomState(), action: Room
             const indexToUpdate = newState.roomList.findIndex(room => room.id === preview.roomId);
             if (indexToUpdate !== -1) {
                 const room = newState.roomList[indexToUpdate];
-                /* מופע חדש ולא spread — כדי שה-getter displayName יישאר */
+                /* New instance, not spread — so the displayName getter survives */
                 newState.roomList[indexToUpdate] = new Room(
                     room.id,
                     room.name,
                     room.unread,
-                    room.otherUserId,
-                    room.metaName,
+                    room.userList,
+                    room.other,
                     preview.lastMessage,
                     preview.lastAt
                 );
+            }
+            break;
+        }
+
+        case RoomActionType.PromoteRoom: {
+            /* Moves a room to the top of the list — only on an actual send
+               (message-service.ts), not on merely entering/viewing a room. */
+            const roomId = action.payload as number;
+            const indexToPromote = newState.roomList.findIndex(room => room.id === roomId);
+            if (indexToPromote > 0) {
+                const [room] = newState.roomList.splice(indexToPromote, 1);
+                newState.roomList.unshift(room);
             }
             break;
         }

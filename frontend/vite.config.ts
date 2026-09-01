@@ -7,7 +7,7 @@ export default defineConfig({
     server: {
         port: 5173,
         proxy: {
-            // השרת אינו מגדיר CORS middleware, ולכן כל קריאה ל-/api עוברת דרך ה-proxy הזה
+            // The server doesn't set up CORS middleware, so every /api call goes through this proxy
             "/api": {
                 target: "http://127.0.0.1:8000",
                 changeOrigin: true,

@@ -2,19 +2,20 @@ import {JSX, ReactNode, useEffect, useRef, useState} from "react";
 import Topbar from "../topbar/Topbar";
 import Rail from "../rail/Rail";
 import RoomList from "../../room/room-list/RoomList";
+import NewChatDialog from "../../room/new-chat-dialog/NewChatDialog";
 import ToastList, {ToastMessage, ToastVariant, TOAST_DURATION_MS} from "../../ui/toast/Toast";
 import {roomStore} from "../../../state/room-state";
 import "./AppShell.css";
 
-/* הפריסה מסעיף 5.2 ב-DESIGN-SYSTEM:
+/* Layout from section 5.2 in DESIGN-SYSTEM:
        .app > .topbar (64px)
             > .workspace > .rail (352px) | .main
 
-   העמודה נשארת גלויה גם במסך שיחה — היא מעטפת ולא מסך.
-   רק מתחת ל-760px screens.css מסתיר אחד מהשניים, ולשם כך הוא בודק
-   את body[data-screen]. זו הסיבה שהמאפיין נכתב כאן.
+   The rail stays visible even on the chat screen — it's a shell, not a screen.
+   Only below 760px does screens.css hide one of the two, and for that it checks
+   body[data-screen]. That's why the attribute is set here.
 
-   המעטפת מחזיקה גם את תור הטוסטים ומעבירה showToast למטה ב-props. */
+   The shell also holds the toast queue and passes showToast down through props. */
 
 export type AppScreen = "home" | "chat";
 
@@ -31,6 +32,7 @@ function AppShell(appShellProps: AppShellProps): JSX.Element {
 
     const [roomCount, setRoomCount] = useState<number>(roomStore.getState().roomList.length);
     const [toastList, setToastList] = useState<ToastMessage[]>([]);
+    const [isNewChatOpen, setNewChatOpen] = useState<boolean>(false);
 
     const nextToastId = useRef<number>(1);
 
@@ -58,14 +60,17 @@ function AppShell(appShellProps: AppShellProps): JSX.Element {
 
     return (
         <div className="app">
-            <Topbar/>
+            <Topbar onNewChat={() => setNewChatOpen(true)}/>
             <div className="workspace">
                 <Rail count={roomCount > 0 ? roomCount : undefined}>
-                    <RoomList showToast={showToast}/>
+                    <RoomList showToast={showToast} onNewChat={() => setNewChatOpen(true)}/>
                 </Rail>
                 {typeof children === "function" ? children(showToast) : children}
             </div>
             <ToastList toastList={toastList}/>
+            {isNewChatOpen && (
+                <NewChatDialog onClose={() => setNewChatOpen(false)} showToast={showToast}/>
+            )}
         </div>
     );
 }

@@ -3,7 +3,7 @@ import Icon, {IconName} from "../icon/Icon";
 import Button from "../button/Button";
 import "./Banner.css";
 
-/* הודעת מצב ברמת המסך לפי DESIGN-SYSTEM §4.3. תמיד role="alert". */
+/* Screen-level status message per DESIGN-SYSTEM §4.3. Always role="alert". */
 
 export type BannerVariant = "default" | "error" | "warn";
 

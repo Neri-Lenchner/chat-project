@@ -25,6 +25,12 @@ class MessageService:
         session.add(message)
         session.commit()  # INSERT
         session.refresh(message)
+
+        room = session.get(Room, message.room_id)
+        room.last_message_id = message.id
+        session.add(room)
+        session.commit()
+
         return message
 
     def get_message_list_by_room(self, room_id: int, session: Session):

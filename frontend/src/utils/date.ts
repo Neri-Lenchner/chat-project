@@ -1,5 +1,5 @@
-/* המרה מדויקת של סעיף 2 ב-docs/DESIGN/ui.js — אותה התנהגות מילה במילה.
-   כל שינוי כאן משנה את מה שהמשתמש רואה בעמודת השעות וברשימת השיחות. */
+/* An exact port of section 2 in docs/DESIGN/ui.js — the same behavior word for word.
+   Any change here changes what the user sees in the time column and the conversation list. */
 
 function pad(value: number): string {
     return String(value).padStart(2, "0");
@@ -21,7 +21,7 @@ export function isSameDay(a: Date, b: Date): boolean {
         && a.getDate() === b.getDate();
 }
 
-/* היום → שעה בלבד. אחרת → תאריך. (סעיף 7.2 באפיון) */
+/* Today → time only. Otherwise → date. (section 7.2 of the spec) */
 export function formatRoomStamp(iso: string): string {
     const date = new Date(iso);
     return isSameDay(date, new Date()) ? formatTime(iso) : formatDate(iso);

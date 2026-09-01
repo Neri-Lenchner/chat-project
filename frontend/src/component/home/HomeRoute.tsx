@@ -3,7 +3,7 @@ import AppShell from "../layout/app-shell/AppShell";
 import Empty from "../ui/empty/Empty";
 import "../layout/app-shell/AppShell.css";
 
-/* המסך הראשי. רשימת השיחות נכנסת ל-Rail בשלב 15. */
+/* The main screen. The conversation list goes into the Rail at stage 15. */
 
 function HomeRoute(): JSX.Element {
 

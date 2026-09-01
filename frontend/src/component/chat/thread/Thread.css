@@ -77,6 +77,10 @@
 
 .thread-skeleton__bubble--out.skeleton { justify-self: end; width: 34%; }
 
+.thread-skeleton__bubble--narrow.skeleton { width: 38%; }
+
+.thread-skeleton__bubble--out.thread-skeleton__bubble--wide.skeleton { width: 52%; }
+
 @media (max-width: 760px) {
   .thread { padding: var(--sp-5) var(--sp-4) var(--sp-6); }
 }

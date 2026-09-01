@@ -1,6 +1,6 @@
-/* בתבנית של docs/front-example/src/utils/app-config.ts.
-   ב-dev הכתובת יחסית ועוברת דרך ה-proxy של Vite, כי השרת אינו מגדיר CORS middleware.
-   ב-prod הפרונט מוגש מאותו origin או פונה ישירות לשרת. */
+/* Following the docs/front-example/src/utils/app-config.ts pattern.
+   In dev, the address is relative and goes through Vite's proxy, because the server doesn't define CORS middleware.
+   In prod, the frontend is served from the same origin or talks directly to the server. */
 
 class AppConfig {
 }
@@ -14,5 +14,5 @@ class ProdAppConfig extends AppConfig {
     apiAddress: string = this.serverAddress + "/api/";
 }
 
-/* ב-Vite אין process.env — משתני הסביבה יושבים ב-import.meta.env. ראה נספח ד'. */
+/* In Vite there's no process.env — environment variables live in import.meta.env. See Appendix D. */
 export const appConfig = import.meta.env.PROD ? new ProdAppConfig() : new DevAppConfig();

@@ -1,13 +1,13 @@
 import {JSX} from "react";
 import "./Icon.css";
 
-/* ערכת האייקונים של "קו" — המרה של docs/DESIGN/icons.js.
-   אותם מפתחות ואותם path-ים בדיוק. קו 1.75, פינות מעוגלות, ריבוע 24.
-   המבנה של ה-svg נלקח מפונקציית iconMarkup ב-docs/DESIGN/icons.js:
-   רוחב, גובה, stroke ו-fill מגיעים ממחלקת .icon ב-Icon.css ולא מ-attributes. */
+/* The "Kav" icon set — a conversion of docs/DESIGN/icons.js.
+   Same keys and exactly the same paths. 1.75 stroke, rounded corners, 24 square.
+   The structure of the svg is taken from the iconMarkup function in docs/DESIGN/icons.js:
+   width, height, stroke and fill come from the .icon class in Icon.css, not from attributes. */
 
 const ICONS = {
-    /* סימן המותג — קו אנכי עם נקודת זמן, אותו מוטיב של פס הזמן במסך שיחה */
+    /* The brand mark — a vertical line with a time dot, the same timeline motif as in the conversation screen */
     kav: '<path d="M9 3.5v17"/><circle cx="9" cy="8.5" r="2.1" fill="currentColor" stroke="none"/><path d="M13.2 8.5h5"/><circle cx="9" cy="15.5" r="2.1" fill="currentColor" stroke="none"/><path d="M13.2 15.5h3.4"/>',
 
     send: '<path d="M4.5 12h13"/><path d="M20 12 4.6 18.4l2.4-6.4-2.4-6.4z"/>',
@@ -41,8 +41,8 @@ interface IconProps {
 
 function Icon(iconProps: IconProps): JSX.Element {
 
-    /* "md" הוא גודל ברירת המחדל של .icon ואין לו מחלקת מודיפייר,
-       בדיוק כמו ב-mountIcons שמוסיף מחלקה רק כשיש data-icon-size. */
+    /* "md" is the default size of .icon and has no modifier class,
+       exactly like in mountIcons, which adds a class only when data-icon-size is present. */
     const sizeClass = iconProps.size && iconProps.size !== "md" ? `icon--${iconProps.size}` : "";
     const className = ["icon", sizeClass, iconProps.className].filter(Boolean).join(" ");
 

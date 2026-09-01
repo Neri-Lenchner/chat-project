@@ -1,33 +1,38 @@
 import {JSX, MouseEvent, ReactNode, useEffect, useRef} from "react";
+import Button from "../button/Button";
 import "./Dialog.css";
 
-/* DESIGN-SYSTEM §4.7 ו-§9:
-   role="dialog", aria-modal, סגירה ב-Escape ובלחיצה על ה-scrim,
-   והחזרת מיקוד לאלמנט שפתח את הדיאלוג.
+/* DESIGN-SYSTEM §4.7 and §9:
+   role="dialog", aria-modal, closing on Escape and on clicking the scrim,
+   and returning focus to the element that opened the dialog.
 
-   סדר הכפתורים ב-.dialog__actions הוא באחריות הקורא, אבל הכלל קבוע:
-   הכפתור ההרסני אף פעם לא ראשון בסדר הקריאה. */
+   The order of the buttons in .dialog__actions is the caller's responsibility, but the rule is fixed:
+   the destructive button is never first in reading order. */
 
 interface DialogProps {
     title: string;
-    /* false מונע סגירה ב-Escape ובלחיצה על הרקע, כמו data-dismissible ב-ui.js */
+    /* Changes the structure: title + short explanation + close button (X), like .dialog__head
+       in docs/DESIGN/new-chat.html. Without it, a plain title remains. */
+    subtitle?: string;
+    showCloseButton?: boolean;
+    /* false prevents closing on Escape and on clicking the backdrop, like data-dismissible in ui.js */
     isDismissible?: boolean;
     isWide?: boolean;
     onClose: () => void;
     children: ReactNode;
-    /* .dialog__actions — הכפתורים, בסדר שהקורא קובע */
+    /* .dialog__actions — the buttons, in the order the caller decides */
     actions?: ReactNode;
 }
 
 function Dialog(dialogProps: DialogProps): JSX.Element {
 
-    const {title, isDismissible = true, isWide, onClose, children, actions} = dialogProps;
+    const {title, subtitle, showCloseButton, isDismissible = true, isWide, onClose, children, actions} = dialogProps;
 
     const dialogRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
 
-        /* האלמנט שהיה במיקוד ברגע הפתיחה — אליו המיקוד חוזר בסגירה */
+        /* The element that had focus at the moment of opening — focus returns to it on close */
         const lastFocused = document.activeElement as HTMLElement | null;
 
         const autofocusTarget = dialogRef.current?.querySelector<HTMLElement>("[data-autofocus]")
@@ -62,7 +67,17 @@ function Dialog(dialogProps: DialogProps): JSX.Element {
                  aria-label={title}
                  tabIndex={-1}
                  ref={dialogRef}>
-                <h2 className="dialog__title">{title}</h2>
+                {showCloseButton ? (
+                    <div className="dialog__head">
+                        <div>
+                            <h2 className="dialog__title">{title}</h2>
+                            {subtitle && <p className="dialog__text u-faint">{subtitle}</p>}
+                        </div>
+                        <Button variant="icon" icon="x" aria-label="סגירה" onClick={onClose}/>
+                    </div>
+                ) : (
+                    <h2 className="dialog__title">{title}</h2>
+                )}
                 {children}
                 {actions && <div className="dialog__actions">{actions}</div>}
             </div>

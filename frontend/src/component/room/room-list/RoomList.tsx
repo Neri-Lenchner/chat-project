@@ -11,13 +11,13 @@ import {roomService} from "../../../services/room-service";
 import {ShowToast} from "../../layout/app-shell/AppShell";
 import "./RoomList.css";
 
-/* חיבור לסטור בדפוס מ-docs/front-example/src/component/.../CourseList.tsx.
-   ארבעה מצבים לפי סעיף 7 ב-DESIGN-SYSTEM: טעינה, ריק, שגיאה, נתונים. */
+/* Connects to the store following the pattern in docs/front-example/src/component/.../CourseList.tsx.
+   Four states per section 7 in DESIGN-SYSTEM: loading, empty, error, data. */
 
 const SKELETON_COUNT = 5;
 
 interface RoomListProps {
-    /* נמסר בשלב 18 — פתיחת דיאלוג "שיחה חדשה" מהמצב הריק. */
+    /* Passed in at stage 18 — opens the "new chat" dialog from the empty state. */
     onNewChat?: () => void;
     showToast: ShowToast;
 }
@@ -66,27 +66,23 @@ function RoomList(roomListProps: RoomListProps): JSX.Element {
         }
     }
 
-    /* TODO-2: אין DELETE בשרת. ההסתרה מקומית, בלי שום קריאת רשת. */
-    function onConfirmDelete(room: Room): void {
-        roomService.hideRoom(room.id);
-        setRoomToDelete(null);
-        roomListProps.showToast("השיחה הוסתרה");
-        /* TODO: להשלים בשלב 19 — הסרת ההודעות של החדר מ-MessageStore. */
-        if (String(room.id) === roomId) {
-            navigate("/");
+    /* A real, irreversible deletion (DELETE /api/room/{room_id}) — not a local
+       hide. Failure is rethrown so DeleteRoomDialog keeps itself open. */
+    async function onConfirmDelete(room: Room): Promise<void> {
+        try {
+            await roomService.deleteRoom(room.id);
+            setRoomToDelete(null);
+            roomListProps.showToast("השיחה נמחקה");
+            if (String(room.id) === roomId) {
+                navigate("/");
+            }
+        } catch {
+            roomListProps.showToast("לא ניתן למחוק את השיחה. נסה שוב.", "error");
+            throw new Error("מחיקת השיחה נכשלה");
         }
     }
 
-    /* מיון לפי הזמן האחרון כשהוא ידוע. חדר בלי זמן (TODO-4) שומר על מקומו
-       בסוף הרשימה, בסדר שבו הגיע מהשרת. */
-    const sortedRoomList = [...roomList].sort((a, b) => {
-        if (a.lastAt && b.lastAt) return a.lastAt < b.lastAt ? 1 : -1;
-        if (a.lastAt) return -1;
-        if (b.lastAt) return 1;
-        return 0;
-    });
-
-    /* מצב טעינה — שלד בצורת הכרטיסים. לעולם לא ספינר על מסך ריק. */
+    /* Loading state — skeleton shaped like the cards. Never a spinner on a blank screen. */
     if (isLoading) {
         return (
             <ul className="RoomList">
@@ -113,7 +109,7 @@ function RoomList(roomListProps: RoomListProps): JSX.Element {
         );
     }
 
-    if (sortedRoomList.length === 0) {
+    if (roomList.length === 0) {
         return (
             <Empty icon="chat"
                    title="עוד לא התחלת שיחה"
@@ -126,8 +122,10 @@ function RoomList(roomListProps: RoomListProps): JSX.Element {
 
     return (
         <>
+            {/* Base order is the server's id-descending guarantee; a room jumps to
+                the top only once a message is actually sent in it — see room-state.ts */}
             <ul className="RoomList">
-                {sortedRoomList.map(room => (
+                {roomList.map(room => (
                     <li key={room.id}>
                         <RoomCard room={room}
                                   isActive={String(room.id) === roomId}

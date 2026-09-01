@@ -12,20 +12,20 @@ import {userService} from "../../../services/user-service";
 import {UserActionType, userStore} from "../../../state/user-state";
 import {toNewUserField} from "../../../utils/mappers";
 import "../Auth.css";
-/* פאנל התצוגה מציג שיחה סטטית ולכן משתמש במחלקות של Thread ו-MessageItem.
-   כשהרכיבים עצמם ייבנו בשלב 20 אפשר יהיה לרנדר אותם כאן במקום את ה-DOM הגולמי. */
+/* The preview panel shows a static conversation and so uses the Thread and MessageItem classes.
+   Once the components themselves are built at stage 20, they can be rendered here instead of the raw DOM. */
 import "../../chat/thread/Thread.css";
 import "../../chat/message-item/MessageItem.css";
 
-/* מבנה ה-DOM מועתק מ-docs/DESIGN/register.html — פריסה דו-פאנלית, סעיף 5.1.
-   הודעות הוולידציה זהות מילה במילה ל-RULES ב-docs/DESIGN/ui.js. */
+/* DOM structure copied from docs/DESIGN/register.html — two-panel layout, section 5.1.
+   The validation messages are identical word-for-word to RULES in docs/DESIGN/ui.js. */
 
-/* הרג'קס מ-ui.js, על הערך אחרי הסרת רווחים ומקפים */
+/* The regex from ui.js, applied to the value after removing spaces and hyphens */
 const PHONE_PATTERN = /^0(5\d|[2-4]|[8-9]|7\d)\d{7}$/;
 
-/* השרת מחזיר ב-422 הודעה באנגלית ("Field required"). אסור להציג אותה
-   למשתמש (DESIGN-SYSTEM §8), ואסור להמציא נוסח חדש (נספח ב'), ולכן
-   השדה מסומן עם אותה הודעה מאושרת שהוולידציה המקומית משתמשת בה. */
+/* On 422 the server returns an English message ("Field required"). It must not be shown
+   to the user (DESIGN-SYSTEM §8), and a new wording must not be invented (appendix B), so
+   the field is marked with the same approved message that local validation uses. */
 const SERVER_FIELD_MESSAGE: Record<keyof NewUser, string> = {
     firstName: "יש למלא שם פרטי",
     lastName: "יש למלא שם משפחה",
@@ -40,9 +40,9 @@ function Register(): JSX.Element {
 
     const [formError, setFormError] = useState<string>("");
 
-    /* מניעת שליחה כפולה. ה-className של הכפתור מגיע מ-formState.isSubmitting,
-       אבל הוא מתעדכן רק ברינדור הבא — שתי לחיצות מהירות מספיקות כדי לחמוק
-       בין הלחיצה לרינדור. הנעילה הזו סינכרונית ולכן אטומה. */
+    /* Prevents double submission. The button's className comes from formState.isSubmitting,
+       but it only updates on the next render — two quick clicks are enough to slip through
+       between the click and the render. This lock is synchronous and therefore atomic. */
     const isSubmittingRef = useRef<boolean>(false);
 
     async function onRegister(newUser: NewUser): Promise<void> {
@@ -56,8 +56,8 @@ function Register(): JSX.Element {
         } catch (error) {
             const err = error as AxiosError<ValidationErrorDTO>;
 
-            /* 422: detail הוא מערך. ממפים כל פריט לשדה שלו בטופס
-               לפי loc[loc.length - 1] במקום להציג את המבנה למשתמש. */
+            /* 422: detail is an array. Each item is mapped to its form field
+               using loc[loc.length - 1], instead of showing the raw structure to the user. */
             const detail = err.response?.status === 422 ? err.response.data?.detail : undefined;
             if (Array.isArray(detail)) {
                 for (const item of detail) {
@@ -68,7 +68,7 @@ function Register(): JSX.Element {
                 }
             }
 
-            /* לא נשמר דבר ב-Redux ולא ב-localStorage בכישלון. */
+            /* Nothing is saved to Redux or localStorage on failure. */
             setFormError("נסה שוב.");
         } finally {
             isSubmittingRef.current = false;
@@ -77,7 +77,7 @@ function Register(): JSX.Element {
 
     return (
         <main className="auth">
-            {/* צד הטופס */}
+            {/* Form side */}
             <section className="auth__form-side">
                 <div className="auth__form">
                     <span className="brand auth__brand">
@@ -155,7 +155,7 @@ function Register(): JSX.Element {
                 </div>
             </section>
 
-            {/* פאנל התצוגה: פס הזמן, האלמנט החתימתי של המערכת */}
+            {/* Preview panel: the timeline, the system's signature element */}
             <aside className="auth__panel" aria-hidden="true">
                 <h2 className="auth__headline">כל שיחה יושבת על <em>קו זמן</em>.</h2>
 

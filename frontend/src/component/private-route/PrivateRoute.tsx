@@ -2,12 +2,12 @@ import {JSX, ReactNode} from "react";
 import {Navigate} from "react-router-dom";
 import {userStore} from "../../state/user-state";
 
-/* בתבנית docs/front-example/src/component/private-route/PrivateRoute.tsx.
-   כאן אין תפקידים ואין הרשאות — בשרת אין אימות כלל (API SPEC §1),
-   ולכן הבדיקה היחידה היא האם קיים משתמש מחובר.
+/* Following the pattern in docs/front-example/src/component/private-route/PrivateRoute.tsx.
+   There are no roles and no permissions here — the server has no authentication at all (API SPEC §1),
+   so the only check is whether a logged-in user exists.
 
-   שלא כמו ב-front-example, הילד לא נעטף ב-<div>: מסכי האפליקציה יושבים
-   בתוך רשת CSS (.app), ואלמנט עוטף היה שובר את הפריסה. */
+   Unlike in front-example, the child isn't wrapped in a <div>: the app's screens sit
+   inside a CSS grid (.app), and a wrapping element would break the layout. */
 
 interface PrivateRouteProps {
     child: ReactNode;

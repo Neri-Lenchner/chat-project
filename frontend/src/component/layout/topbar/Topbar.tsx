@@ -5,12 +5,11 @@ import UserMenu from "../user-menu/UserMenu";
 import "../../ui/brand/Brand.css";
 import "./Topbar.css";
 
-/* סעיף 7.1 באפיון. המבנה מ-docs/DESIGN/home.html.
-   האלמנט #demo-slot מהפרוטוטייפ הוא בורר מצבי הדגמה ואין לו מקום באפליקציה. */
+/* Section 7.1 in the spec. Structure from docs/DESIGN/home.html.
+   The #demo-slot element from the prototype is a demo-state switcher and has no place in the app. */
 
 interface TopbarProps {
-    /* נמסר בשלב 18, כשדיאלוג "שיחה חדשה" נבנה. */
-    onNewChat?: () => void;
+    onNewChat: () => void;
 }
 
 function Topbar(topbarProps: TopbarProps): JSX.Element {
@@ -30,7 +29,7 @@ function Topbar(topbarProps: TopbarProps): JSX.Element {
                     שיחה חדשה
                 </Button>
 
-                <UserMenu/>
+                <UserMenu onNewChat={topbarProps.onNewChat}/>
             </div>
         </header>
     );

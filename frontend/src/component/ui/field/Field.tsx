@@ -2,10 +2,10 @@ import {forwardRef, InputHTMLAttributes, JSX, useId} from "react";
 import Icon, {IconName} from "../icon/Icon";
 import "./Field.css";
 
-/* מבנה לפי DESIGN-SYSTEM §4.2:
+/* Structure per DESIGN-SYSTEM §4.2:
    .field > .field__label + .field__wrap(.input + .field__icon) + .field__hint + .field__error
-   ה-hint וה-error מרונדרים תמיד; ה-CSS מחליף ביניהם לפי .is-invalid.
-   forwardRef נדרש כדי ש-{...register()} של react-hook-form יתחבר לקלט. */
+   The hint and error are always rendered; the CSS switches between them based on .is-invalid.
+   forwardRef is required so react-hook-form's {...register()} can connect to the input. */
 
 interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
     label: string;
@@ -21,8 +21,8 @@ const Field = forwardRef<HTMLInputElement, FieldProps>(function Field(fieldProps
     const generatedId = useId();
     const inputId = id ?? generatedId;
 
-    /* ל-.input יש padding-inline-start שמפנה מקום לאייקון.
-       בלי אייקון מוסיפים .input--plain שמאפס אותו. */
+    /* .input has a padding-inline-start that makes room for the icon.
+       Without an icon, .input--plain is added to reset it. */
     const inputClassList = ["input", icon ? "" : "input--plain", className].filter(Boolean).join(" ");
 
     return (

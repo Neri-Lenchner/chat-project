@@ -53,3 +53,6 @@
   border-color: var(--color-accent);
   pointer-events: none;
 }
+
+/* בזמן היצירה הרמז מציג "יוצר שיחה…" גם בלי hover */
+.contact.is-busy .contact__hint { opacity: 1; }

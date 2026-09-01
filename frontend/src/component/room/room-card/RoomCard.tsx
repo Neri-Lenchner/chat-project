@@ -6,10 +6,10 @@ import {initials} from "../../../utils/avatar";
 import {formatRoomStamp} from "../../../utils/date";
 import "./RoomCard.css";
 
-/* המבנה מ-roomMarkup() ב-docs/DESIGN/screens.js.
-   div ולא button — בתוך הכרטיס יש כפתור מחיקה, וכפתור בתוך כפתור פסול.
+/* Structure from roomMarkup() in docs/DESIGN/screens.js.
+   div and not button — the card contains a delete button, and a button inside a button is invalid.
 
-   לחיצה ארוכה (סעיף 8 באפיון) — אותם 550ms כמו ב-bindRoomInteractions. */
+   Long press (Section 8 in the spec) — the same 550ms as in bindRoomInteractions. */
 
 const LONG_PRESS_MS = 550;
 
@@ -27,16 +27,16 @@ function RoomCard(roomCardProps: RoomCardProps): JSX.Element {
     const [isPressing, setPressing] = useState<boolean>(false);
 
     const pressTimer = useRef<number | undefined>(undefined);
-    /* מסמן שהלחיצה הארוכה כבר פעלה, כדי שה-click שיגיע אחריה
-       לא יפתח את השיחה. אותה סמנטיקה כמו longPressed בפרוטוטייפ. */
+    /* Marks that the long press already fired, so the click event that follows it
+       doesn't open the conversation. Same semantics as longPressed in the prototype. */
     const didLongPress = useRef<boolean>(false);
 
-    /* TODO-3: אין ב-Room הודעה אחרונה מהשרת. היא מוצגת רק לחדר
-       שהודעותיו כבר נטענו ל-MessageStore. ראה TASKS-FRONT.md §4 */
+    /* TODO-3: Room has no last message from the server. It's shown only for a room
+       whose messages have already been loaded into MessageStore. See TASKS-FRONT.md §4 */
     const hasPreview = Boolean(room.lastMessage);
     const lastText = hasPreview ? room.lastMessage : "עדיין אין תצוגה מקדימה";
 
-    /* TODO-4: אין date_time בשרת. בלי זמן מקומי העמודה נשארת ריקה. */
+    /* TODO-4: there's no date_time on the server. Without a local time the column stays empty. */
     const stamp = room.lastAt ? formatRoomStamp(room.lastAt) : "";
 
     function cancelPress(): void {
@@ -87,7 +87,7 @@ function RoomCard(roomCardProps: RoomCardProps): JSX.Element {
              onPointerLeave={cancelPress}
              onPointerCancel={cancelPress}>
 
-            <Avatar id={room.otherUserId} initials={initials(room.displayName)}/>
+            <Avatar id={room.other?.id} initials={initials(room.displayName)}/>
 
             <span className="room__main">
                 <span className="room__name u-truncate">{room.displayName}</span>
@@ -98,8 +98,8 @@ function RoomCard(roomCardProps: RoomCardProps): JSX.Element {
 
             <span className="room__meta">
                 <span className="room__time u-num">{stamp}</span>
-                {/* TODO-5: אין ספירת "לא נקרא" בשרת. unread תמיד 0 ולכן ה-badge
-                    נבנה כאן אך לעולם לא מוצג. ראה TASKS-FRONT.md §4 */}
+                {/* TODO-5: there's no "unread" count on the server. unread is always 0, so the badge
+                    is built here but never actually shown. See TASKS-FRONT.md §4 */}
                 {room.unread > 0 ? (
                     <span className="badge">{room.unread}</span>
                 ) : (

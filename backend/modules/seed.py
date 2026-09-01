@@ -16,7 +16,7 @@ from pathlib import Path
 # allow running the file directly (modules/ is the import root of the app)
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from sqlmodel import Session, select, delete
+from sqlmodel import Session, select, delete, func
 
 from app_config.database import engine, create_db_and_tables
 from user.user import User
@@ -205,6 +205,20 @@ def seed_messages(session: Session, room_members: dict[int, list[int]]) -> None:
         session.commit()
 
 
+def update_room_last_message(session: Session) -> None:
+    """Set each room's last_message_id after the bulk message insert (add_massage does this
+    one row at a time via the API; seeding bypasses that, so it's redone here in bulk)."""
+    print("Updating last_message_id on rooms...")
+    last_ids = session.exec(
+        select(Message.room_id, func.max(Message.id)).group_by(Message.room_id)
+    ).all()
+    for room_id, last_message_id in last_ids:
+        room = session.get(Room, room_id)
+        room.last_message_id = last_message_id
+        session.add(room)
+    session.commit()
+
+
 # ---------- Seed ----------
 
 def seed() -> None:
@@ -216,6 +230,7 @@ def seed() -> None:
         rooms = seed_rooms(session)
         room_members = seed_room_users(session, user_ids, rooms)
         seed_messages(session, room_members)
+        update_room_last_message(session)
 
     print("Done! Database seeded successfully.")
 
