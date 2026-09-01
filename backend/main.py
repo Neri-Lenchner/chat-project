@@ -1,4 +1,11 @@
 
+import sys
+from pathlib import Path
+
+# PyCharm marks backend/modules as a source root and adds it to PYTHONPATH for run
+# configs; running via `uvicorn main:app` or a plain shell doesn't, so do it here too.
+sys.path.insert(0, str(Path(__file__).resolve().parent / "modules"))
+
 import uvicorn
 from fastapi import FastAPI
 
