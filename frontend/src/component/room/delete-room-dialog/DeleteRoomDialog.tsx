@@ -3,8 +3,8 @@ import Dialog from "../../ui/dialog/Dialog";
 import Button from "../../ui/button/Button";
 import {Room} from "../../../models/room";
 
-/* DELETE /api/room/{room_id} deletes the room, all its messages, and the
-   membership of both participants — permanently, for both of them. See ARCHITECTURE-DECISIONS.md §AD-8. */
+/* DELETE /api/room/{room_id}/user/{user_id} removes the logged-in user's membership.
+   The room and its messages are only actually deleted once every participant has left. */
 
 interface DeleteRoomDialogProps {
     room: Room;

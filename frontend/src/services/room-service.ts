@@ -74,12 +74,15 @@ class RoomService {
         }
     }
 
-    /* DELETE /api/room/{room_id} — a real, irreversible deletion on the server:
-       deletes the room_user rows, all messages in the room, and the room itself,
-       for both sides. See ARCHITECTURE-DECISIONS.md §AD-8. */
+    /* DELETE /api/room/{room_id}/user/{user_id} — removes the logged-in user's membership;
+       the room and its messages are only actually deleted once every participant has left. */
     public async deleteRoom(roomId: number): Promise<void> {
+        const me = userStore.getState().user;
+        if (!me) {
+            throw new Error("אין משתמש מחובר");
+        }
         try {
-            await http.delete("room/" + roomId);
+            await http.delete("room/" + roomId + "/user/" + me.id);
             roomStore.dispatch({type: RoomActionType.RemoveRoom, payload: roomId});
             messageService.clearRoom(roomId);
         } catch (err) {

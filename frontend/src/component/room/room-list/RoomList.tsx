@@ -66,8 +66,9 @@ function RoomList(roomListProps: RoomListProps): JSX.Element {
         }
     }
 
-    /* A real, irreversible deletion (DELETE /api/room/{room_id}) — not a local
-       hide. Failure is rethrown so DeleteRoomDialog keeps itself open. */
+    /* A real, irreversible removal of the logged-in user's own membership
+       (DELETE /api/room/{room_id}/user/{user_id}) — not a local hide.
+       Failure is rethrown so DeleteRoomDialog keeps itself open. */
     async function onConfirmDelete(room: Room): Promise<void> {
         try {
             await roomService.deleteRoom(room.id);

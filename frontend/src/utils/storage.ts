@@ -64,33 +64,26 @@ class SessionStorage {
     }
 }
 
-/* ---------- 2. Message times ---------- */
-/* TODO-4: there is no date_time on Message on the server. The time is stored here for messages sent
-   from this browser. A message without a record shows "··". See TASKS-FRONT.md §4 */
+/* ---------- 2. The JWT issued alongside registration (models/user.ts — AuthResponseDTO) ---------- */
 
-class MessageTimesStorage {
+class TokenStorage {
 
-    private readonly key = "messageTimes";
+    private readonly key = "token";
 
-    public getAll(): Record<number, string> {
-        const raw = readJson(this.key);
-        const result: Record<number, string> = {};
-        if (!isRecord(raw)) return result;
-        for (const [messageId, value] of Object.entries(raw)) {
-            if (typeof value !== "string") continue;
-            result[Number(messageId)] = value;
+    public get(): string | null {
+        try {
+            return localStorage.getItem(this.key);
+        } catch {
+            return null;
         }
-        return result;
     }
 
-    public get(messageId: number): string | undefined {
-        return this.getAll()[messageId];
-    }
-
-    public set(messageId: number, iso: string): void {
-        const all = this.getAll();
-        all[messageId] = iso;
-        writeJson(this.key, all);
+    public set(token: string): void {
+        try {
+            localStorage.setItem(this.key, token);
+        } catch {
+            /* Storage quota full or localStorage blocked — continue without saving */
+        }
     }
 
     public clear(): void {
@@ -99,4 +92,4 @@ class MessageTimesStorage {
 }
 
 export const session = new SessionStorage();
-export const messageTimes = new MessageTimesStorage();
+export const authToken = new TokenStorage();

@@ -1,6 +1,17 @@
-import {NewUser, NewUserDTO, User, UserDTO} from "../models/user";
+import {
+    AuthResponseDTO,
+    AuthResult,
+    Credentials,
+    LoginDTO,
+    NewUser,
+    NewUserDTO,
+    TokenPayloadDTO,
+    User,
+    UserDTO,
+} from "../models/user";
 import {Room, RoomCreateDTO, RoomDTO} from "../models/room";
 import {Message, MessageCreateDTO, MessageDTO} from "../models/message";
+import {decodeJwtPayload} from "./jwt";
 
 /* The boundary layer between the server and the app.
    It and the DTO classes in models/ are the only places that touch snake_case.
@@ -13,6 +24,17 @@ export function toUser(userDto: UserDTO): User {
         userDto.last_name,
         userDto.phone_number
     );
+}
+
+/* Response of POST /api/user/ — the user is decoded from the token's own payload
+   (see auth/token_service.py) rather than sent again alongside it. */
+export function toAuthResult(authResponseDto: AuthResponseDTO): AuthResult {
+    const payload = decodeJwtPayload<TokenPayloadDTO>(authResponseDto.token);
+    const userDto = new UserDTO(Number(payload.sub), payload.first_name, payload.last_name, payload.phone_number);
+    return {
+        user: toUser(userDto),
+        token: authResponseDto.token,
+    };
 }
 
 /* The server attaches the room participants (user_list) to every response — GET/POST/DELETE are
@@ -33,8 +55,16 @@ export function toRoom(roomDto: RoomDTO, currentUserId: number): Room {
     );
 }
 
-/* currentUserId is needed to determine mine. at comes from the local messageTimes (TODO-4). */
-export function toMessage(messageDto: MessageDTO, currentUserId: number, at?: string): Message {
+/* The server's date_time has no timezone marker (MySQL's DATETIME has none of its own), but is
+   always the UTC wall-clock value (see message.py) — marked explicitly here so `new Date(...)`
+   parses it as UTC instead of local time. */
+function toUtcIso(dateTime: string): string {
+    return /[Zz]|[+-]\d\d:\d\d$/.test(dateTime) ? dateTime : dateTime + "Z";
+}
+
+/* currentUserId is needed to determine mine. at is undefined only for a message from before
+   date_time existed on the server. */
+export function toMessage(messageDto: MessageDTO, currentUserId: number): Message {
     return new Message(
         messageDto.id,
         messageDto.content,
@@ -42,7 +72,7 @@ export function toMessage(messageDto: MessageDTO, currentUserId: number, at?: st
         messageDto.user_id,
         messageDto.is_read,
         messageDto.user_id === currentUserId,
-        at
+        messageDto.date_time ? toUtcIso(messageDto.date_time) : undefined
     );
 }
 
@@ -82,6 +112,11 @@ export function toNewUserDTO(newUser: NewUser): NewUserDTO {
         newUser.lastName,
         newUser.phoneNumber
     );
+}
+
+/* Request body of POST /api/user/login. */
+export function toLoginDTO(credentials: Credentials): LoginDTO {
+    return new LoginDTO(credentials.phoneNumber);
 }
 
 /* The reverse direction — needed for user_list in POST /api/room/.

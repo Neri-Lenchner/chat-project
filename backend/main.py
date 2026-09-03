@@ -15,8 +15,11 @@ from user.user_router import router as user_router
 from room_user.room_user_router import router as room_user_router
 from message.message_router import router as message_router
 from room_user.room_user import RoomUser
+from ws.ws_router import router as ws_router
+from utils.error_handler import ErrorHandler
 
 app = FastAPI()
+ErrorHandler.register(app)
 
 if __name__ == "__main__":
     uvicorn.run("main:app",
@@ -31,6 +34,7 @@ app.include_router(room_router)
 app.include_router(user_router)
 app.include_router(room_user_router)
 app.include_router(message_router)
+app.include_router(ws_router)
 # app.include_router(address_router)
 # app.include_router(task_router)
 # app.include_router(project_router)

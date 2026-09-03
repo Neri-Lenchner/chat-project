@@ -21,9 +21,9 @@ function MessageItem(messageItemProps: MessageItemProps): JSX.Element {
         message.status ? `msg--${message.status}` : "",
     ].filter(Boolean).join(" ");
 
-    /* TODO-4: there's no date_time on the server. A historical message without an entry in messageTimes
-       has no `at`, and shows "··" with an explanation in the title. A pending/failed message hasn't
-       reached the server (yet), so it also has no `at` — but the label there speaks for itself. */
+    /* A message from before the server had a date_time column has no `at`, and shows "··" with
+       an explanation in the title. A pending/failed message hasn't reached the server (yet), so
+       it also has no `at` — but the label there speaks for itself. */
     const time = message.status === "pending" ? "···" : (message.at ? formatTime(message.at) : "··");
     const timeTitle = !message.status && !message.at ? "השרת אינו מחזיר זמן הודעה" : undefined;
 

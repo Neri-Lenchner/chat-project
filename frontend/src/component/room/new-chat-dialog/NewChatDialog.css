@@ -1,6 +1,14 @@
 /* NewChatDialog — מערכת העיצוב של הרכיב.
    מקור: docs/DESIGN/. ערכים מטוקנים בלבד. */
 
+/* ---------- חיפוש לפי מספר טלפון ---------- */
+/* אין mockup מעוצב לחלק הזה — נבנה מרכיבי Field/Button/Banner הקיימים כדי להישאר עקבי. */
+
+.new-chat-search { margin-bottom: var(--sp-4); }
+.new-chat-search .field { margin-bottom: var(--sp-2); }
+
+.new-chat-search + .banner { margin-bottom: var(--sp-4); }
+
 /* ---------- שיחה חדשה ---------- */
 .contacts {
   display: grid;

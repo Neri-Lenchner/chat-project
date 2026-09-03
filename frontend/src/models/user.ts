@@ -20,6 +20,43 @@ export class NewUserDTO {
     }
 }
 
+/* Response of POST /api/user/ — just the JWT (valid one month). It's not paired with a
+   separate user object because the token payload already carries the full user record
+   (see TokenPayloadDTO) — that's what utils/jwt.ts decodes it into on the client.
+   The token is stored in localStorage (see utils/storage.ts); the app doesn't send it as
+   an Authorization header anywhere yet. */
+export class AuthResponseDTO {
+
+    constructor(public token: string) {
+    }
+}
+
+/* Decoded JWT payload, per auth/token_service.py on the server — snake_case, since this
+   is server-shaped data like UserDTO. sub is the user id, kept as a string per JWT convention. */
+export class TokenPayloadDTO {
+
+    constructor(public sub: string,
+                public first_name: string,
+                public last_name: string,
+                public phone_number: string,
+                public iat: number,
+                public exp: number) {
+    }
+}
+
+/* The user plus token decoded from AuthResponseDTO — what userService.register()/login() return. */
+export interface AuthResult {
+    user: User;
+    token: string;
+}
+
+/* Request body of POST /api/user/login — matches UserLoginDTO on the server. */
+export class LoginDTO {
+
+    constructor(public phone_number: string) {
+    }
+}
+
 /* What the registration form collects. Used as the useForm type in step 11. */
 export class NewUser {
 
@@ -29,9 +66,7 @@ export class NewUser {
     }
 }
 
-/* What the login form collects. Used as the useForm type in step 12.
-   TODO-1: there is no login endpoint on the server, so there is no matching DTO.
-   See TASKS-FRONT.md §4 */
+/* What the login form collects. Used as the useForm type in step 12. */
 export class Credentials {
 
     constructor(public phoneNumber: string) {

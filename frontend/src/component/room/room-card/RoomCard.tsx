@@ -36,7 +36,7 @@ function RoomCard(roomCardProps: RoomCardProps): JSX.Element {
     const hasPreview = Boolean(room.lastMessage);
     const lastText = hasPreview ? room.lastMessage : "עדיין אין תצוגה מקדימה";
 
-    /* TODO-4: there's no date_time on the server. Without a local time the column stays empty. */
+    /* Empty only for a room whose last loaded message predates the server's date_time column. */
     const stamp = room.lastAt ? formatRoomStamp(room.lastAt) : "";
 
     function cancelPress(): void {

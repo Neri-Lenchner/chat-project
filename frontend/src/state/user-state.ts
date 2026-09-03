@@ -1,6 +1,6 @@
 import {createStore} from "redux";
-import {User} from "../models/user";
-import {session} from "../utils/storage";
+import {AuthResult, User} from "../models/user";
+import {authToken, session} from "../utils/storage";
 import {roomService} from "../services/room-service";
 import {messageService} from "../services/message-service";
 
@@ -11,11 +11,14 @@ import {messageService} from "../services/message-service";
 export class UserState {
 
     user: User | null = null;
+    token: string | null = null;
 
     /* Section 4 of the spec: a user saved in localStorage is loaded automatically
-       when the app opens, so a page refresh doesn't log them out. */
+       when the app opens, so a page refresh doesn't log them out. The JWT is restored
+       alongside it (models/user.ts — AuthResponseDTO). */
     constructor() {
         this.user = session.get();
+        this.token = authToken.get();
     }
 }
 
@@ -29,7 +32,7 @@ export enum UserActionType {
 // Step 3
 export interface UserAction {
     type: UserActionType,
-    payload: User | null,
+    payload: AuthResult | null,
 }
 
 // Step 4
@@ -40,14 +43,18 @@ export function userReducer(userState: UserState = new UserState(), action: User
     switch (action.type) {
         case UserActionType.Register:
         case UserActionType.Login:
-            newState.user = action.payload;
+            newState.user = action.payload?.user ?? null;
+            newState.token = action.payload?.token ?? null;
             if (action.payload) {
-                session.set(action.payload);
+                session.set(action.payload.user);
+                authToken.set(action.payload.token);
             }
             break;
         case UserActionType.Logout:
             session.clear();
+            authToken.clear();
             newState.user = null;
+            newState.token = null;
             /* Section 21 of the spec — a full reset. Otherwise the next user would see
                the previous user's conversations, and isFetched/loadedRooms would prevent reloading. */
             roomService.reset();

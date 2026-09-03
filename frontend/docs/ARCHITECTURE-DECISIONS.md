@@ -500,3 +500,51 @@ AD-11). `PromoteRoom` נשלחת **רק** מ-`message-service.ts#deliver` אחר
 - כניסה לשיחה קיימת **בלי** לשלוח → **לא** קופצת לראש (רק תצוגה מקדימה מתעדכנת אם יש הודעות).
 - `npm run build` — 0 שגיאות. גרפ ל-Hebrew regex על `src/` אחרי המעבר — אפס תוצאות
   מחוץ למחרוזות פונות-למשתמש.
+
+---
+
+## AD-12 · TODO-4 נסגר: `date_time` על Message בשרת, `messageTimes` הוסר
+
+**תאריך:** 2026-09-03 · **שלב:** אחרי שלב 22 · **סטטוס:** מיושם
+
+### מה קרה
+
+הנחיה מפורשת של המשתמש: זמן ההודעה יעבור מ-mechanism מקומי (`utils/storage.ts` —
+`messageTimes`, מפתח `messageId → ISO string`, נשמר רק במכשיר ששלח) לשדה אמיתי בשרת.
+
+### מה השתנה — שרת
+
+`backend/modules/message/message.py`: הוסר ה-comment שחסם את `date_time`, ונוסף בפועל —
+`datetime | None`, עם `default_factory` שמייצר UTC נאיבי (`datetime.now(timezone.utc)` עם
+`tzinfo` מוסר — ל-MySQL `DATETIME` אין tz משלו, וה-driver מוריד `tzinfo` בכל מקרה בדרך חזרה).
+`Nullable` — כי לטבלה כבר יש שורות ישנות בלי העמודה. `MessageReadDTO` קיבל את השדה, ו-
+`_broadcast_new_message` שולח אותו ב-payload של ה-WebSocket (`model_dump(mode="json")`
+ולא הרירת המחדל `model_dump()` — אחרת `datetime` גולמי לא ניתן לסריאליזציה ל-JSON וה-push
+היה קורס).
+
+**מיגרציה ידנית:** `ALTER TABLE message ADD COLUMN date_time DATETIME NULL;` — הורצה ישירות
+מול `chat_db`. `create_db_and_tables()` (`SQLModel.metadata.create_all`) לא משנה טבלה קיימת,
+אז בלי השורה הזו כל שאילתה על `message` הייתה נכשלת. שורות ישנות נשארות `NULL` — הצד לקוח
+כבר יודע להתמודד עם `at` חסר (מוצג "··").
+
+### מה השתנה — לקוח
+
+- `models/message.ts` — `MessageDTO.date_time: string | null`.
+- `utils/mappers.ts#toMessage` — הפרמטר החיצוני `at?` הוסר; `at` נגזר עכשיו מ-`date_time`.
+  מכיוון שהערך מהשרת חסר סימון אזור זמן, `toUtcIso` מוסיפה `Z` אם חסר, כדי ש-`new Date(...)`
+  יפרש אותו כ-UTC ולא כשעון מקומי.
+- `services/message-service.ts` — הוסרו כל הקריאות ל-`messageTimes` (גם ב-`getMessagesByRoom`
+  וגם ב-`deliver`); `toMessage` נקרא עכשיו בלי הפרמטר `at`.
+- `utils/storage.ts` — `MessageTimesStorage` והייצוא `messageTimes` הוסרו לגמרי.
+- הערות `TODO-4` שהתייחסו ל-"אין `date_time` בשרת" עודכנו במקומות שנגעתי בהם
+  (`models/message.ts`, `models/room.ts`, `MessageItem.tsx`, `RoomCard.tsx`).
+
+### אימות שבוצע
+
+מול שרת אמיתי (לא סימולציה), בין שני משתמשי בדיקה:
+- הודעה שנשלחה **לפני** המיגרציה (ב-DB בלי `date_time`) ממשיכה להציג "··" — לא נשברה.
+- הודעה חדשה שנשלחה **אחרי** המיגרציה מציגה שעה אמיתית (`20:19`), תואמת לשעון המקומי
+  (IDT, UTC+3) מול השעה שנבדקה ב-`date` על השרת — כלומר נורמליזציית ה-UTC עובדת נכון.
+- `Object.keys(localStorage)` אחרי הכל — `["user", "token"]` בלבד. אין `messageTimes`.
+- `npx tsc -b --force` — 0 שגיאות, גם בשרת (ריסטארט `--reload` נקלט, `openapi.json` מציג
+  `date_time` על `MessageReadDTO`) וגם בלקוח.

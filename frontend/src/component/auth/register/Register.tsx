@@ -32,13 +32,21 @@ const SERVER_FIELD_MESSAGE: Record<keyof NewUser, string> = {
     phoneNumber: "מספר הטלפון לא תקין. הפורמט הנדרש: 0501234567",
 };
 
+/* Screen-level banner shown on submit failure. Mirrors Login.tsx's LoginBanner: a 409
+   (phone already registered) links to the login screen; anything else is a plain "try again". */
+interface RegisterBanner {
+    title: string;
+    text: string;
+    withLoginAction: boolean;
+}
+
 function Register(): JSX.Element {
 
     const navigate = useNavigate();
 
     const {register, handleSubmit, formState, setError} = useForm<NewUser>({mode: "onBlur"});
 
-    const [formError, setFormError] = useState<string>("");
+    const [banner, setBanner] = useState<RegisterBanner | null>(null);
 
     /* Prevents double submission. The button's className comes from formState.isSubmitting,
        but it only updates on the next render — two quick clicks are enough to slip through
@@ -48,28 +56,38 @@ function Register(): JSX.Element {
     async function onRegister(newUser: NewUser): Promise<void> {
         if (isSubmittingRef.current) return;
         isSubmittingRef.current = true;
-        setFormError("");
+        setBanner(null);
         try {
-            const user = await userService.register(newUser);
-            userStore.dispatch({type: UserActionType.Register, payload: user});
+            const authResult = await userService.register(newUser);
+            userStore.dispatch({type: UserActionType.Register, payload: authResult});
             navigate("/");
         } catch (error) {
             const err = error as AxiosError<ValidationErrorDTO>;
 
-            /* 422: detail is an array. Each item is mapped to its form field
-               using loc[loc.length - 1], instead of showing the raw structure to the user. */
-            const detail = err.response?.status === 422 ? err.response.data?.detail : undefined;
-            if (Array.isArray(detail)) {
-                for (const item of detail) {
-                    const fieldName = toNewUserField(String(item.loc[item.loc.length - 1]));
-                    if (fieldName) {
-                        setError(fieldName, {message: SERVER_FIELD_MESSAGE[fieldName]});
+            if (err.response?.status === 409) {
+                /* The server's detail is an English sentence — not shown directly (DESIGN-SYSTEM §8). */
+                setBanner({
+                    title: "מספר הטלפון כבר רשום",
+                    text: "כבר קיים חשבון עם המספר הזה. אפשר להתחבר איתו.",
+                    withLoginAction: true,
+                });
+            } else {
+                /* 422: detail is an array. Each item is mapped to its form field
+                   using loc[loc.length - 1], instead of showing the raw structure to the user. */
+                const detail = err.response?.status === 422 ? err.response.data?.detail : undefined;
+                if (Array.isArray(detail)) {
+                    for (const item of detail) {
+                        const fieldName = toNewUserField(String(item.loc[item.loc.length - 1]));
+                        if (fieldName) {
+                            setError(fieldName, {message: SERVER_FIELD_MESSAGE[fieldName]});
+                        }
                     }
                 }
+
+                setBanner({title: "לא ניתן להשלים את ההרשמה", text: "נסה שוב.", withLoginAction: false});
             }
 
             /* Nothing is saved to Redux or localStorage on failure. */
-            setFormError("נסה שוב.");
         } finally {
             isSubmittingRef.current = false;
         }
@@ -91,7 +109,13 @@ function Register(): JSX.Element {
                     <h1 className="auth__title">פתיחת חשבון</h1>
                     <p className="auth__lede">שלושה פרטים וזהו. המספר שתזין הוא גם שם המשתמש שלך.</p>
 
-                    {formError && <Banner variant="error" title="לא ניתן להשלים את ההרשמה" text={formError}/>}
+                    {banner && (
+                        <Banner variant="error"
+                                title={banner.title}
+                                text={banner.text}
+                                actionLabel={banner.withLoginAction ? "מעבר להתחברות" : undefined}
+                                onAction={banner.withLoginAction ? () => navigate("/login") : undefined}/>
+                    )}
 
                     <form onSubmit={handleSubmit(onRegister)} noValidate>
                         <div className="form__row">

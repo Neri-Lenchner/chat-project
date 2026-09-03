@@ -3,6 +3,7 @@ from sqlmodel import Session, select
 from message.message import Message
 from room.room import Room, RoomReadDTO
 from room_user.room_user_service import room_user_service
+from utils.app_errors import NotFoundError
 
 
 class RoomService:
@@ -21,7 +22,7 @@ class RoomService:
     def leave_room(self, room_id: int, user_id: int, session: Session):
         room = session.get(Room, room_id)
         if room is None:
-            return None
+            raise NotFoundError(f"room {room_id} not found")
         room_dto = RoomReadDTO(
             id=room.id,
             name=room.name,

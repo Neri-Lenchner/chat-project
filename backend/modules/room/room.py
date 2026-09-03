@@ -1,7 +1,9 @@
+from pydantic import field_validator
 from sqlmodel import SQLModel, Field
 
 from user.user import User, UserReadDTO
 from utils.dto_mixin import DTOMixin
+from utils.validators import not_blank, not_empty_list
 
 
 class Room(DTOMixin, SQLModel, table=True):
@@ -15,6 +17,9 @@ class Room(DTOMixin, SQLModel, table=True):
 class RoomCreateDTO(SQLModel):
   name: str
   user_list: list[UserReadDTO]
+
+  _validate_name = field_validator("name")(not_blank)
+  _validate_user_list = field_validator("user_list")(not_empty_list)
 
 
 class RoomReadDTO(SQLModel):

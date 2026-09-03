@@ -1,11 +1,14 @@
-import {JSX, useState} from "react";
+import {JSX, useRef, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
+import {AxiosError} from "axios";
 import Icon from "../../ui/icon/Icon";
 import Field from "../../ui/field/Field";
 import Button from "../../ui/button/Button";
 import Banner from "../../ui/banner/Banner";
 import {Credentials} from "../../../models/user";
+import {userService} from "../../../services/user-service";
+import {UserActionType, userStore} from "../../../state/user-state";
 import "../Auth.css";
 /* The preview panel shows a static conversation and so uses the Thread and MessageItem classes.
    Once the components themselves are built at stage 20, they can be rendered here instead of the raw DOM. */
@@ -17,19 +20,50 @@ import "../../chat/message-item/MessageItem.css";
 
 const PHONE_PATTERN = /^0(5\d|[2-4]|[8-9]|7\d)\d{7}$/;
 
+/* Screen-level banner shown on submit failure. Two shapes: a 404 (phone not registered) links
+   to the registration screen; anything else (network/5xx) is a plain "try again". */
+interface LoginBanner {
+    title: string;
+    text: string;
+    withRegisterAction: boolean;
+}
+
 function Login(): JSX.Element {
 
     const navigate = useNavigate();
 
-    const {register, handleSubmit, formState} = useForm<Credentials>({mode: "onBlur"});
+    const {register, handleSubmit, formState, setError} = useForm<Credentials>({mode: "onBlur"});
 
-    const [isBlocked, setBlocked] = useState<boolean>(false);
+    const [banner, setBanner] = useState<LoginBanner | null>(null);
 
-    /* TODO-1: there's no POST /api/user/login on the server. See TASKS-FRONT.md §4
-       The screen is fully built, but on submit there is no and will be no server call — only an
-       explanation to the user and a link to the registration screen, which is currently the only way in. */
-    function onLogin(): void {
-        setBlocked(true);
+    /* Same double-submission guard as Register.tsx — see the comment there. */
+    const isSubmittingRef = useRef<boolean>(false);
+
+    async function onLogin(credentials: Credentials): Promise<void> {
+        if (isSubmittingRef.current) return;
+        isSubmittingRef.current = true;
+        setBanner(null);
+        try {
+            const authResult = await userService.login(credentials);
+            userStore.dispatch({type: UserActionType.Login, payload: authResult});
+            navigate("/");
+        } catch (error) {
+            const err = error as AxiosError;
+            if (err.response?.status === 404) {
+                setBanner({
+                    title: "מספר הטלפון לא נמצא",
+                    text: "לא קיים חשבון עם המספר הזה. אפשר להירשם איתו במסך ההרשמה.",
+                    withRegisterAction: true,
+                });
+            } else if (err.response?.status === 422) {
+                /* Same approved wording as Register.tsx's SERVER_FIELD_MESSAGE.phoneNumber. */
+                setError("phoneNumber", {message: "מספר הטלפון לא תקין. הפורמט הנדרש: 0501234567"});
+            } else {
+                setBanner({title: "לא ניתן להתחבר", text: "נסה שוב.", withRegisterAction: false});
+            }
+        } finally {
+            isSubmittingRef.current = false;
+        }
     }
 
     return (
@@ -47,12 +81,12 @@ function Login(): JSX.Element {
                     <h1 className="auth__title">התחברות</h1>
                     <p className="auth__lede">הזן את המספר שאיתו נרשמת.</p>
 
-                    {isBlocked && (
+                    {banner && (
                         <Banner variant="error"
-                                title="התחברות אינה זמינה כרגע"
-                                text="השרת עדיין לא תומך בהתחברות לפי מספר טלפון. אפשר להיכנס דרך מסך ההרשמה."
-                                actionLabel="מעבר להרשמה"
-                                onAction={() => navigate("/register")}/>
+                                title={banner.title}
+                                text={banner.text}
+                                actionLabel={banner.withRegisterAction ? "מעבר להרשמה" : undefined}
+                                onAction={banner.withRegisterAction ? () => navigate("/register") : undefined}/>
                     )}
 
                     <form onSubmit={handleSubmit(onLogin)} noValidate>
@@ -74,7 +108,12 @@ function Login(): JSX.Element {
                                })}/>
 
                         <div className="form__actions">
-                            <Button variant="primary" block type="submit">כניסה</Button>
+                            <Button variant="primary"
+                                    block
+                                    type="submit"
+                                    loading={formState.isSubmitting}>
+                                כניסה
+                            </Button>
                             <p className="form__alt">אין לך עדיין חשבון? <Link to="/register">הרשמה</Link></p>
                         </div>
                     </form>

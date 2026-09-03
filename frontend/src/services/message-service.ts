@@ -5,7 +5,6 @@ import {toMessage, toMessageCreateDTO} from "../utils/mappers";
 import {MessageActionType, messageStore} from "../state/message-state";
 import {RoomActionType, roomStore} from "../state/room-state";
 import {userStore} from "../state/user-state";
-import {messageTimes} from "../utils/storage";
 
 /* Following the docs/front-example/src/services/course-service.ts pattern.
    One-time load — not for the whole app like roomService.isFetched, but
@@ -30,11 +29,7 @@ class MessageService {
                 /* The actual order is by ascending id; sorted anyway just to be safe (API SPEC §3.4). */
                 const sortedDtoList = [...response.data].sort((a, b) => a.id - b.id);
 
-                /* TODO-4: there is no date_time on the server. A historical message with no record in messageTimes
-                   has no at, and that's what causes the "··" in the time column. See TASKS-FRONT.md §4 */
-                const messages = sortedDtoList.map(dto =>
-                    toMessage(dto, currentUser.id, messageTimes.get(dto.id))
-                );
+                const messages = sortedDtoList.map(dto => toMessage(dto, currentUser.id));
 
                 messageStore.dispatch({
                     type: MessageActionType.GetMessages,
@@ -92,11 +87,7 @@ class MessageService {
                 toMessageCreateDTO(content, roomId)
             );
 
-            // TODO-4: there is no date_time on the server. The time is stored locally, only at send time.
-            const at = new Date().toISOString();
-            messageTimes.set(response.data.id, at);
-
-            const message = toMessage(response.data, currentUserId, at);
+            const message = toMessage(response.data, currentUserId);
             messageStore.dispatch({
                 type: MessageActionType.ReplaceMessage,
                 payload: {roomId, messageId, message},

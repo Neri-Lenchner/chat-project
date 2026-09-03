@@ -1,12 +1,16 @@
 /* MessageDTO — the raw shape returned by the server, per API SPEC §2.3.
-   Note: there is no date_time field. It's commented out in the server code (message.py). */
+   date_time is nullable: a message sent before the column existed has none. It's also not
+   timezone-marked — the server always writes/reads UTC wall-clock values (see message.py),
+   just without a 'Z'/offset suffix, since MySQL's DATETIME has no tz of its own. toMessage
+   (utils/mappers.ts) is where that gets normalized into a proper UTC ISO string. */
 export class MessageDTO {
 
     constructor(public id: number,
                 public content: string,
                 public room_id: number,
                 public user_id: number,
-                public is_read: boolean) {
+                public is_read: boolean,
+                public date_time: string | null) {
     }
 }
 
@@ -33,7 +37,8 @@ export class Message {
                 /* Appendix A: userId === currentUser.id. Set during mapping and not in a getter,
                    so the model doesn't depend on userStore. */
                 public mine: boolean,
-                // TODO-4: there is no date_time on the server. The time is stored locally. See TASKS-FRONT.md §4
+                /* From the server's date_time (utils/mappers.ts#toMessage), normalized to a UTC
+                   ISO string. undefined only for a message from before the column existed. */
                 public at?: string,
                 /* Local state only while sending. Doesn't come from the server and isn't sent to it. */
                 public status?: MessageStatus) {

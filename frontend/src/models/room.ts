@@ -34,19 +34,24 @@ export class Room {
                 public other?: User,
                 // TODO-3: Room has no last message from the server. It comes from MessageStore
                 public lastMessage?: string,
-                // TODO-3 + TODO-4: there is no time on the server. It comes from the local messageTimes
+                // TODO-3: Room itself has no lastAt on the server — it comes from the loaded
+                // message's own at (models/message.ts), which is server-provided.
                 public lastAt?: string) {
     }
 
-    /* name ← other.fullName ← "Conversation #{id}".
-       name can come back from the server as an empty string in a room created by sending a message. */
+    /* other.fullName ← name ← "Conversation #{id}". other is only set for a 1:1 room (exactly
+       two participants — see toRoom in utils/mappers.ts), so this always shows "who I'm talking
+       to" from each viewer's own side there, regardless of what name (if any) got stored on the
+       room itself. name is shared across every participant, so it's used only when there's no
+       single other — i.e. an actual group room, or the fallback while user_list hasn't loaded. */
     public get displayName(): string {
-        return this.name || this.other?.fullName || `שיחה #${this.id}`;
+        return this.other?.fullName || this.name || `שיחה #${this.id}`;
     }
 }
 
 /* Preview of a room in the list: the last message and its time.
-   TODO-3 + TODO-4: neither comes from the server; both are composed locally. */
+   TODO-3: there's no single call that returns this — it's composed locally from whichever
+   message-fetching path last touched the room (send, socket push, or opening the thread). */
 export class RoomPreview {
 
     constructor(public roomId: number,
