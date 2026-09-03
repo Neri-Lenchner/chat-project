@@ -17,6 +17,8 @@ export interface SocketPayload {
 
 type SocketListener = (payload: SocketPayload) => void;
 
+const RECONNECT_DELAY_MS = 2000;
+
 function toWebSocketUrl(token: string): string {
     const url = new URL(appConfig.apiAddress + "ws/", window.location.href);
     url.protocol = url.protocol === "https:" ? "wss:" : "ws:";
@@ -28,6 +30,7 @@ class SocketService {
 
     private _socket: WebSocket | null = null;
     private lastToken: string | null = null;
+    private reconnectTimer: number | undefined;
     private readonly listeners: SocketListener[] = [];
 
     constructor() {
@@ -40,14 +43,30 @@ class SocketService {
         if (token === this.lastToken) return;
         this.lastToken = token;
 
+        window.clearTimeout(this.reconnectTimer);
         this._socket?.close();
         this._socket = null;
         if (!token) return;
 
+        this.openSocket(token);
+    }
+
+    /* A dropped connection (server restart, network blip, laptop sleep/wake) otherwise
+       stays dead until the user's token changes or they refresh — every domain socket
+       service (message/presence/typing/read) would silently stop updating. onclose here
+       reopens it automatically, as long as it's still the socket syncConnection last opened
+       for the still-current token — a deliberate close (logout/token change) already
+       replaced/nulled _socket before this fires, so it's skipped there. */
+    private openSocket(token: string): void {
         const socket = new WebSocket(toWebSocketUrl(token));
         socket.onmessage = event => {
             const payload = JSON.parse(event.data) as SocketPayload;
             this.listeners.forEach(listener => listener(payload));
+        };
+        socket.onclose = () => {
+            if (this._socket !== socket || this.lastToken !== token) return;
+            this._socket = null;
+            this.reconnectTimer = window.setTimeout(() => this.openSocket(token), RECONNECT_DELAY_MS);
         };
         this._socket = socket;
     }
