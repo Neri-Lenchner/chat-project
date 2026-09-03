@@ -4,6 +4,7 @@ from message.message import Message
 from room.room import Room, RoomReadDTO
 from room_user.room_user_service import room_user_service
 from utils.app_errors import NotFoundError
+from ws.connection_manager import connection_manager
 
 
 class RoomService:
@@ -17,7 +18,17 @@ class RoomService:
         session.commit()  # INSERT
         session.refresh(room)
         room_user_service.add_user_list_to_room(room.id, user_list, session)
+        self._sync_presence_for_new_room(user_list)
         return RoomReadDTO(id=room.id, name=room.name, user_list=user_list)
+
+    def _sync_presence_for_new_room(self, user_list) -> None:
+        """A brand-new room's members were never each other's "contacts" before now, so
+        neither one's earlier connect-time presence broadcast (ws_router.py) ever reached
+        the other. Tell each member about every already-online member, right now."""
+        for user in user_list:
+            for other in user_list:
+                if other.id != user.id and connection_manager.is_online(other.id):
+                    connection_manager.send_to_user(user.id, {"type": "presence", "user_id": other.id, "online": True})
 
     def leave_room(self, room_id: int, user_id: int, session: Session):
         room = session.get(Room, room_id)

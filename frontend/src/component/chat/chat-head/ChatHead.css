@@ -25,6 +25,7 @@
 .chat-head__name { font-size: var(--fs-lg); line-height: 1.25; }
 
 .chat-head__meta {
+  margin-top: 2px;
   font-size: var(--fs-xs);
   font-variant-numeric: tabular-nums;
   color: var(--color-ink-3);

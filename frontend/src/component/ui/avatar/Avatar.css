@@ -3,6 +3,7 @@
 
 /* ---------- מונוגרמה ---------- */
 .avatar {
+  position: relative;
   width: var(--size-avatar);
   height: var(--size-avatar);
   flex: none;
@@ -16,6 +17,19 @@
   line-height: 1;
   user-select: none;
 }
+
+.avatar__status {
+  position: absolute;
+  inset-inline-end: -2px;
+  inset-block-end: -2px;
+  width: 11px;
+  height: 11px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-surface);
+  background: var(--color-ink-3);
+}
+
+.avatar__status--online { background: var(--color-online); }
 
 .avatar--sm { width: var(--size-avatar-sm); height: var(--size-avatar-sm); font-size: var(--fs-sm); border-radius: var(--radius-sm); }
 

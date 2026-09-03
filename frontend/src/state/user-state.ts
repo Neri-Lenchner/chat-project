@@ -3,6 +3,8 @@ import {AuthResult, User} from "../models/user";
 import {authToken, session} from "../utils/storage";
 import {roomService} from "../services/room-service";
 import {messageService} from "../services/message-service";
+import {presenceStore, PresenceActionType} from "./presence-state";
+import {typingStore, TypingActionType} from "./typing-state";
 
 /* Classic Redux, following the docs/front-example/src/state/auth-state.ts pattern.
    No Redux Toolkit and no react-redux — components connect via store.subscribe(). */
@@ -59,6 +61,8 @@ export function userReducer(userState: UserState = new UserState(), action: User
                the previous user's conversations, and isFetched/loadedRooms would prevent reloading. */
             roomService.reset();
             messageService.reset();
+            presenceStore.dispatch({type: PresenceActionType.Reset, payload: null});
+            typingStore.dispatch({type: TypingActionType.Reset, payload: null});
             break;
     }
 

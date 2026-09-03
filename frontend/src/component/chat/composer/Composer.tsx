@@ -1,10 +1,16 @@
-import {JSX, KeyboardEvent, useRef, useState} from "react";
+import {JSX, KeyboardEvent, useEffect, useRef, useState} from "react";
 import Button from "../../ui/button/Button";
 import Icon from "../../ui/icon/Icon";
 import {Room} from "../../../models/room";
 import {messageService} from "../../../services/message-service";
+import {socketService} from "../../../services/socket-service";
 import {ShowToast} from "../../layout/app-shell/AppShell";
 import "./Composer.css";
+
+/* How often a "still typing" event is re-sent while the user keeps typing —
+   matches TYPING_TTL_MS in typing-socket-service.ts (well under it, so the
+   receiving side's indicator never has a chance to expire mid-type). */
+const TYPING_RESEND_MS = 2000;
 
 /* Section 21 in the spec. The Store (messageService.sendMessage) is responsible for the
    pending/failed cycle and updating RoomStore — here it's just UI: field, button, keyboard. */
@@ -30,6 +36,19 @@ function Composer(composerProps: ComposerProps): JSX.Element {
     const otherUserId = room.other?.id;
     const isDisabled = !otherUserId;
 
+    /* Throttled typing emission — at most one "is_typing: true" per TYPING_RESEND_MS while
+       the user keeps typing; "false" is sent immediately (empty field, send, unmount/room
+       change) so the other side's indicator clears right away instead of waiting out its TTL. */
+    const lastTypingSentAt = useRef<number>(0);
+
+    function sendTyping(isTyping: boolean): void {
+        socketService.send({type: "typing", room_id: room.id, is_typing: isTyping});
+    }
+
+    useEffect(() => {
+        return () => sendTyping(false);
+    }, [room.id]);
+
     function autoGrow(): void {
         const el = textareaRef.current;
         if (!el) return;
@@ -47,6 +66,7 @@ function Composer(composerProps: ComposerProps): JSX.Element {
         if (textareaRef.current) {
             textareaRef.current.style.height = "auto";
         }
+        sendTyping(false);
 
         isSendingRef.current = true;
         setSending(true);
@@ -79,8 +99,16 @@ function Composer(composerProps: ComposerProps): JSX.Element {
                               disabled={isDisabled}
                               value={content}
                               onChange={event => {
-                                  setContent(event.target.value);
+                                  const value = event.target.value;
+                                  setContent(value);
                                   autoGrow();
+
+                                  if (!value.trim()) {
+                                      sendTyping(false);
+                                  } else if (Date.now() - lastTypingSentAt.current > TYPING_RESEND_MS) {
+                                      lastTypingSentAt.current = Date.now();
+                                      sendTyping(true);
+                                  }
                               }}
                               onKeyDown={onKeyDown}/>
 

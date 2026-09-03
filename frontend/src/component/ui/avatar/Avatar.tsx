@@ -11,18 +11,26 @@ interface AvatarProps {
     initials: string;
     size?: "sm" | "md" | "lg";
     className?: string;
+    /* Online/offline dot in the corner. undefined (the default) renders no dot at all —
+       group avatars and any place presence isn't tracked stay exactly as before. */
+    online?: boolean;
 }
 
 function Avatar(avatarProps: AvatarProps): JSX.Element {
 
-    const {id, initials, size, className} = avatarProps;
+    const {id, initials, size, className, online} = avatarProps;
 
     const tone = avatarTone(id);
     const sizeClass = size && size !== "md" ? `avatar--${size}` : "";
     const classList = ["avatar", sizeClass, tone, className].filter(Boolean).join(" ");
 
     return (
-        <span className={classList} aria-hidden="true">{initials}</span>
+        <span className={classList} aria-hidden="true">
+            {initials}
+            {online !== undefined && (
+                <span className={online ? "avatar__status avatar__status--online" : "avatar__status"}/>
+            )}
+        </span>
     );
 }
 

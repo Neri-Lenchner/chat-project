@@ -1,4 +1,5 @@
 import {JSX} from "react";
+import Icon from "../../ui/icon/Icon";
 import {Message} from "../../../models/message";
 import {formatTime} from "../../../utils/date";
 import "./MessageItem.css";
@@ -27,6 +28,10 @@ function MessageItem(messageItemProps: MessageItemProps): JSX.Element {
     const time = message.status === "pending" ? "···" : (message.at ? formatTime(message.at) : "··");
     const timeTitle = !message.status && !message.at ? "השרת אינו מחזיר זמן הודעה" : undefined;
 
+    /* Read ticks only make sense for a message that actually reached the server (mine,
+       not pending/failed) — the other side can't have read something still in flight. */
+    const showTicks = message.mine && !message.status;
+
     return (
         <div className={classList}>
             <div className="msg__body">
@@ -39,7 +44,14 @@ function MessageItem(messageItemProps: MessageItemProps): JSX.Element {
                     )}
                 </div>
             </div>
-            <div className="msg__time u-num" title={timeTitle}>{time}</div>
+            <div className="msg__time u-num" title={timeTitle}>
+                {time}
+                {showTicks && (
+                    <Icon name={message.isRead ? "checkDouble" : "check"}
+                          size="sm"
+                          className={message.isRead ? "msg__ticks msg__ticks--read" : "msg__ticks"}/>
+                )}
+            </div>
         </div>
     );
 }

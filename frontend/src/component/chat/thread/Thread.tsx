@@ -59,19 +59,32 @@ function Thread(threadProps: ThreadProps): JSX.Element {
 
     const bottomRef = useRef<HTMLDivElement>(null);
 
+    /* Marks the room read whenever it has a received-and-unread message in view — covers
+       both "just opened this room" and "a new message arrived while it's open". Re-marking
+       an already-read room is a harmless no-op server-side (message_service.mark_room_read),
+       so this doesn't need to track what it already sent. */
+    function markReadIfNeeded(list: Message[]): void {
+        if (list.some(message => !message.mine && !message.isRead)) {
+            void messageService.markRoomRead(room.id);
+        }
+    }
+
     useEffect(() => {
 
         setLoading(!messageStore.getState().loadedRooms[room.id]);
         setError(false);
 
         const subscription = messageStore.subscribe(() => {
-            setMessages(messageStore.getState().messagesByRoom[room.id] ?? []);
+            const list = messageStore.getState().messagesByRoom[room.id] ?? [];
+            setMessages(list);
+            markReadIfNeeded(list);
         });
 
         (async function load() {
             try {
                 const list = await messageService.getMessagesByRoom(room.id);
                 setMessages(list);
+                markReadIfNeeded(list);
                 /* TODO-3: this is the only way the last message appears in the
                    room list. See TASKS-FRONT.md §4 and RoomCard.tsx */
                 const last = list[list.length - 1];

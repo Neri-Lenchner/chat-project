@@ -7,9 +7,12 @@ import {userStore} from "../state/user-state";
    connection if the token is missing or invalid (WS_1008_POLICY_VIOLATION), so this only opens
    once a token exists, and reopens whenever it changes (login/register/logout). */
 
+/* type is the only field every payload shares — message/user_id/room_id/online/is_typing/...
+   vary per event kind (see message-socket-service.ts, presence-socket-service.ts,
+   typing-socket-service.ts, read-socket-service.ts), so each listener casts what it needs. */
 export interface SocketPayload {
     type: string;
-    message: unknown;
+    [key: string]: unknown;
 }
 
 type SocketListener = (payload: SocketPayload) => void;
@@ -53,6 +56,14 @@ class SocketService {
        every listener sees every payload and filters by payload.type itself. */
     public on(listener: SocketListener): void {
         this.listeners.push(listener);
+    }
+
+    /* Client → server push (currently just typing-service.ts). Silently dropped while the
+       socket isn't open — typing is best-effort, not worth queueing or retrying. */
+    public send(payload: object): void {
+        if (this._socket?.readyState === WebSocket.OPEN) {
+            this._socket.send(JSON.stringify(payload));
+        }
     }
 }
 

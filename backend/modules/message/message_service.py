@@ -63,6 +63,24 @@ class MessageService:
         message_list = session.exec(select(Message).where(Message.room_id == room_id)).all()
         return message_list
 
+    def mark_room_read(self, room_id: int, reader_id: int, session: Session) -> None:
+        """Marks every message in room_id NOT sent by reader_id as read — i.e. reader_id
+        just read everything the other side(s) sent them — and tells those senders."""
+        room_messages = session.exec(select(Message).where(Message.room_id == room_id)).all()
+        unread = [message for message in room_messages if message.user_id != reader_id and not message.is_read]
+        if not unread:
+            return
+
+        for message in unread:
+            message.is_read = True
+            session.add(message)
+        session.commit()
+
+        payload = {"type": "read", "room_id": room_id, "reader_id": reader_id}
+        sender_ids = {message.user_id for message in unread}
+        for sender_id in sender_ids:
+            connection_manager.send_to_user(sender_id, payload)
+
 
 message_service = MessageService()
 

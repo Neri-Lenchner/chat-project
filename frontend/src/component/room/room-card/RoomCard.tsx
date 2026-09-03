@@ -1,9 +1,10 @@
-import {JSX, KeyboardEvent, useRef, useState} from "react";
+import {JSX, KeyboardEvent, useEffect, useRef, useState} from "react";
 import Avatar from "../../ui/avatar/Avatar";
 import Button from "../../ui/button/Button";
 import {Room} from "../../../models/room";
 import {initials} from "../../../utils/avatar";
 import {formatRoomStamp} from "../../../utils/date";
+import {presenceStore} from "../../../state/presence-state";
 import "./RoomCard.css";
 
 /* Structure from roomMarkup() in docs/DESIGN/screens.js.
@@ -23,6 +24,20 @@ interface RoomCardProps {
 function RoomCard(roomCardProps: RoomCardProps): JSX.Element {
 
     const {room, isActive, onOpen, onDelete} = roomCardProps;
+    const otherId = room.other?.id;
+
+    const [isOnline, setOnline] = useState<boolean>(
+        otherId !== undefined && Boolean(presenceStore.getState().onlineUserIds[otherId])
+    );
+
+    useEffect(() => {
+        if (otherId === undefined) return;
+        setOnline(Boolean(presenceStore.getState().onlineUserIds[otherId]));
+        const subscription = presenceStore.subscribe(() => {
+            setOnline(Boolean(presenceStore.getState().onlineUserIds[otherId]));
+        });
+        return () => subscription();
+    }, [otherId]);
 
     const [isPressing, setPressing] = useState<boolean>(false);
 
@@ -87,7 +102,9 @@ function RoomCard(roomCardProps: RoomCardProps): JSX.Element {
              onPointerLeave={cancelPress}
              onPointerCancel={cancelPress}>
 
-            <Avatar id={room.other?.id} initials={initials(room.displayName)}/>
+            <Avatar id={room.other?.id}
+                    initials={initials(room.displayName)}
+                    online={otherId !== undefined ? isOnline : undefined}/>
 
             <span className="room__main">
                 <span className="room__name u-truncate">{room.displayName}</span>

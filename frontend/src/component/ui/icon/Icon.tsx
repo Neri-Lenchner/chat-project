@@ -23,6 +23,7 @@ const ICONS = {
     chat: '<path d="M20 14.5A2.5 2.5 0 0 1 17.5 17H8l-4 3.5v-14A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5Z"/><path d="M8.5 9.5h7M8.5 12.5h4"/>',
     newchat: '<path d="M20 12.4v2.1a2.5 2.5 0 0 1-2.5 2.5H8l-4 3.5v-14A2.5 2.5 0 0 1 6.5 4h5.2"/><path d="M17.5 3.5v6M14.5 6.5h6"/>',
     check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+    checkDouble: '<path d="M2 12.5l4.5 4.5L15 8"/><path d="M8 12.5l4.5 4.5L22 8"/>',
     x: '<path d="M6 6l12 12M18 6 6 18"/>',
     chevron: '<path d="M6 9.5l6 6 6-6"/>',
     refresh: '<path d="M20 12a8 8 0 1 1-2.7-6"/><path d="M20 4.5V10h-5.5"/>',

@@ -21,3 +21,9 @@ def add_message(message_create_dto: MessageCreateDTO, user_id : int, other_user_
 @router.get("/room/{room_id}", response_model=list[MessageReadDTO])
 def get_message_list_by_room(room_id : int, session: Session = Depends(get_session)):
     return message_service.get_message_list_by_room(room_id, session)
+
+
+@router.post("/room/{room_id}/user/{user_id}/read")
+def mark_room_read(room_id: int, user_id: int, session: Session = Depends(get_session)):
+    message_service.mark_room_read(room_id, user_id, session)
+    return {"ok": True}

@@ -115,6 +115,20 @@ class MessageService {
         }
     }
 
+    /* Called from Thread.tsx whenever the room has an unread received message in view.
+       Best-effort: a failure here shouldn't surface as a UI error, it just means the
+       tick doesn't update this time — the next call (next message/re-render) retries it. */
+    public async markRoomRead(roomId: number): Promise<void> {
+        const currentUser = userStore.getState().user;
+        if (!currentUser) return;
+        try {
+            await http.post(`message/room/${roomId}/user/${currentUser.id}/read`);
+            messageStore.dispatch({type: MessageActionType.MarkRoomRead, payload: roomId});
+        } catch {
+            console.error("Error from markRoomRead");
+        }
+    }
+
     /* Called from roomService.deleteRoom — a deleted room shouldn't keep
        loaded messages in the Store. */
     public clearRoom(roomId: number): void {

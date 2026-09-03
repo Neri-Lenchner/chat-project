@@ -17,6 +17,10 @@ export enum MessageActionType {
     GetMessages = "GetMessages",
     AddMessage = "AddMessage",
     ReplaceMessage = "ReplaceMessage",
+    /* I (the viewer) just read this room — flips isRead on the messages I received. */
+    MarkRoomRead = "MarkRoomRead",
+    /* The other side just read this room — flips isRead on the messages I sent. */
+    MarkMessagesReadByOther = "MarkMessagesReadByOther",
     ClearRoom = "ClearRoom",
     Reset = "Reset",
 }
@@ -29,6 +33,14 @@ export interface MessageAction {
         | { roomId: number; messageId: number; message: Message }
         | number
         | null,
+}
+
+function markRead(messages: Message[], matches: (message: Message) => boolean): Message[] {
+    return messages.map(message =>
+        matches(message) && !message.isRead
+            ? new Message(message.id, message.content, message.roomId, message.userId, true, message.mine, message.at, message.status)
+            : message
+    );
 }
 
 // Step 4
@@ -61,6 +73,20 @@ export function messageReducer(messageState: MessageState = new MessageState(), 
             const {roomId, messageId, message} = action.payload as { roomId: number; messageId: number; message: Message };
             const existing = newState.messagesByRoom[roomId] ?? [];
             newState.messagesByRoom[roomId] = existing.map(current => current.id === messageId ? message : current);
+            break;
+        }
+
+        case MessageActionType.MarkRoomRead: {
+            const roomId = action.payload as number;
+            const existing = newState.messagesByRoom[roomId] ?? [];
+            newState.messagesByRoom[roomId] = markRead(existing, message => !message.mine);
+            break;
+        }
+
+        case MessageActionType.MarkMessagesReadByOther: {
+            const roomId = action.payload as number;
+            const existing = newState.messagesByRoom[roomId] ?? [];
+            newState.messagesByRoom[roomId] = markRead(existing, message => message.mine);
             break;
         }
 

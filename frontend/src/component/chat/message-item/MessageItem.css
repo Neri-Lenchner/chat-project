@@ -22,6 +22,10 @@
 .msg--out .msg__body { justify-content: flex-end; }
 
 .msg__time {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
   font-variant-numeric: tabular-nums;
   font-size: var(--fs-xs);
   color: var(--color-ink-3);
@@ -30,6 +34,10 @@
   padding-bottom: var(--sp-3);
   background: var(--color-surface);
 }
+
+.msg__ticks { color: var(--color-ink-3); }
+
+.msg__ticks--read { color: var(--color-accent); }
 
 .bubble {
   max-width: 100%;

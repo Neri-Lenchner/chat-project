@@ -26,6 +26,19 @@ class RoomUserService:
             select(User).join(RoomUser, RoomUser.user_id == User.id).where(RoomUser.room_id == room_id)
         ).all()
 
+    def get_contact_ids(self, user_id: int, session: Session) -> list[int]:
+        """Every other user who shares at least one room with user_id — used for presence
+        broadcasts (ws_router), not for anything message/room related."""
+        room_ids = session.exec(select(RoomUser.room_id).where(RoomUser.user_id == user_id)).all()
+        if not room_ids:
+            return []
+        other_user_ids = session.exec(
+            select(RoomUser.user_id)
+            .where(RoomUser.room_id.in_(room_ids), RoomUser.user_id != user_id)
+            .distinct()
+        ).all()
+        return list(other_user_ids)
+
     def get_user_list_by_rooms(self, room_ids: list[int], session: Session):
         if not room_ids:
             return {}
