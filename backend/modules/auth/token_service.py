@@ -5,8 +5,9 @@ import jwt
 
 from user.user import User
 
-# override locally with the JWT_SECRET environment variable
-jwt_secret = os.getenv("JWT_SECRET", "dev-secret-change-me")
+jwt_secret = os.getenv("JWT_SECRET")
+if not jwt_secret:
+    raise RuntimeError("JWT_SECRET environment variable is not set")
 
 JWT_ALGORITHM = "HS256"
 TOKEN_LIFETIME = timedelta(days=30)
