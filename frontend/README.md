@@ -8,14 +8,16 @@
 
 - **Node.js** (לפי `package.json` — Vite 8, React 19).
 - **MySQL** רץ, עם סכימה `chat_db` קיימת. פרטי חיבור: `backend/modules/app_config/database.py`.
-- **השרת (FastAPI)** רץ על `127.0.0.1:8000` — ראו `backend/docs/API SPEC.md`. הרצה מתוך `backend/`:
+- **השרת (FastAPI)** רץ על `127.0.0.1:8000` — ראו `backend/docs/API SPEC.md`. הרצה מתוך `backend/`
+  (עם venv מותקן לפי `requirements.txt` ו-`.env` מוגדר):
 
   ```bash
-  PYTHONPATH=modules uvicorn main:app --reload --host 127.0.0.1 --port 8000
+  python main.py
+  # או: uvicorn main:app --reload --host 127.0.0.1 --port 8000
   ```
 
-  `PYTHONPATH=modules` נדרש כי `main.py` מייבא מודולים (`app_config`, `room`, `user`...)
-  יחסית לתיקיית `backend/modules/`, לא לתיקיית `backend/` עצמה.
+  `main.py` מוסיף בעצמו את `backend/modules/` ל-`sys.path` בתחילת הקובץ, כך שאין
+  צורך יותר להגדיר `PYTHONPATH` ידנית כדי שהייבוא של `app_config`, `room`, `user` וכו' יעבוד.
 
 - **שישה משתמשי דמו** קיימים כבר ב-DB (מזהי ה-IDs נמצאים ב-`docs/DEMO-USERS.md` ומקודדים
   ב-`src/data/contacts.ts` — רשימת "אנשי הקשר" היא Mock מקומי, ראה TODO-7 ב-`TODO.md`).
@@ -55,3 +57,20 @@ URL יחסי, ולעולם לא בכתובת מלאה לשרת.
 
 ראו `docs/TASKS-FRONT.md` §5 למבנה התיקיות המלא ולהסבר הקונבנציות (CSS דו-שכבתי,
 Redux קלאסי, DTO↔Model, מזהי TODO-N בקוד).
+
+## תכונות בזמן-אמת (WebSocket)
+
+מעל ה-REST API נוסף ערוץ WebSocket אחד (`src/services/socket-service.ts`, מתחבר עם
+`?token=<jwt>` ומתחדש אוטומטית אחרי ניתוק — `RECONNECT_DELAY_MS = 2000`). עליו בנויים:
+
+- **נוכחות (מחובר/לא מחובר)** — `state/presence-state.ts` + `services/presence-socket-service.ts`.
+  מוצג כנקודת סטטוס על `Avatar` ובטקסט "מחובר/ת" / "לא מחובר/ת" ב-`ChatHead`.
+- **מקליד/ה עכשיו** — `state/typing-state.ts` + `services/typing-socket-service.ts`.
+  `Composer` שולח אירועי typing מוגבלים בקצב (`TYPING_RESEND_MS = 2000`, נעצר מיד
+  בשליחה/ריקון/עזיבת הרכיב); מוצג כ-"מקליד/ה…" ב-`ChatHead`.
+- **אישורי קריאה** — `services/read-socket-service.ts` מול
+  `POST /api/message/room/{room_id}/user/{user_id}/read`. מוצג כ-✓ (נשלח) / ✓✓ כחול
+  (נקרא) ב-`MessageItem`.
+
+שלושת אלה נוספו אחרי סנכרון ה-dev האחרון ואינם מתועדים ב-`docs/TASKS-FRONT.md` —
+עדכנו את המקום הרלוונטי שם אם עובדים על תיעוד רחב יותר.
